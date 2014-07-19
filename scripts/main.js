@@ -51,7 +51,7 @@ var setup = function() {
     var html = null;
     if (location.hash) {
     	var dataString = window.atob(location.hash.substr(1));
-    	data = JSON.parse(dataString);
+    	data = JSON.parse(decodeURI(dataString));
     	html = data.html;
     }
     else {
@@ -111,7 +111,7 @@ var run = function() {
 
 var save = function() {
     var html = editor.getValue();
-    var dataString = JSON.stringify(data);
+    var dataString = encodeURI(JSON.stringify(data));
 
 	location.hash = window.btoa(dataString);
 };
@@ -124,4 +124,8 @@ var getType = function(key) {
 		'js': 'javascript',
 	}[key];
 };
+
+
+
+
 
