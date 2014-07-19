@@ -30,10 +30,15 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="./usage.html">run</a></li>
-                        <li><a href="./example.html">save</a></li>
+                        <li><a href="#">run</a></li>
+                        <li><a href="#">save</a></li>
                         <li><a href="https://twitter.com/phi_jp" target="_blank">contact</a></li>
                     </ul>
+                    <div class="navbar-right nav navbar-nav">
+                        <li><a class="code-button" href="#">html</a></li>
+                        <li><a class="code-button" href="#">css</a></li>
+                        <li><a class="code-button" href="#">js</a></li>
+		        	</div>
                 </div>
             </div>
         </div>
@@ -58,30 +63,36 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
  
         <title>tmlib.js template</title>
- 
+
+        <style>{style}</style>
+        
         <__script__ src="http://rawgithub.com/phi-jp/tmlib.js/78e05ce0f8d5b39f23acc0825fd5c8438d1a2b4d/build/tmlib.js"></__script__>
+		<__script__>{script}</__script__>
     </head>
     <body>
         <canvas id="world"></canvas>
     </body>
 </html>
 
-<__script__>
-
-tm.main(function() {
-    var app = tm.display.CanvasApp("#world");
-
-//    app.replaceScene(MainScene());
-
-    app.run();
-});
-
-</__script__>
 
 
 </script>
 
 
+<script type="text/template" id="template-css">
+body {
+	background: #eee;
+}
+</script>
+
+
+<script type="text/template" id="template-js">
+tm.main(function() {
+    var app = tm.display.CanvasApp("#world");
+
+    app.run();
+});
+</script>
 
 
 
