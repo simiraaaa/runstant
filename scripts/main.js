@@ -82,6 +82,7 @@ var setup = function() {
     // $("#btn-save").onclick = function() { save(); return false; };
 
     setupSetting();
+    setupShare();
 };
 
 
@@ -102,6 +103,24 @@ var setupSetting = function() {
 		data.title  = $('#input-title').val();
 		data.detail = $('#input-detail').val();
 		save();
+	});
+};
+
+var setupShare = function() {
+    document.querySelector(".share").onclick = function() {
+    	$('#shareModal').modal('show');
+    };
+
+	$('#shareModal').on('hidden.bs.modal', function (e) {
+		console.dir(e);
+		console.log("hoge");
+	});
+
+	$('#btn-twitter').on('click', function() {
+		var url = "https://twitter.com/intent/tweet?";
+		url = url + "text=" + data.title + "&";
+		url = url + "url=" + location.href;
+		window.open(url);
 	});
 };
 
