@@ -124,6 +124,21 @@ var setupShare = function() {
 		url = url + "url=" + encodeURIComponent(location.href);
 		window.open(url);
 	});
+
+	$('#btn-facebook').on('click', function() {
+		var url = "https://www.facebook.com/sharer/sharer.php?u={url}";
+		url = url.replace("{url}", encodeURIComponent(location.href));
+		window.open(url);
+	});
+
+
+	$('#btn-google').on('click', function() {
+		var url = "https://plus.google.com/share?url={url}";
+		url = url.replace("{url}", encodeURIComponent(location.href));
+		window.open(url);
+	});
+
+	
 };
 
 var run = function() {
