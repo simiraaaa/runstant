@@ -104,19 +104,24 @@ var run = function() {
 var save = function() {
 	// object -> string -> encode uri -> btoa -> zip
 	// ↓こっちにする
-	// object -> json stringify -> btoa -> zip -> encode uri
-    var html = editor.getValue();
-    var dataString = encodeURI(JSON.stringify(data));
+	// object -> json stringify -> zip -> encode uri
+	var d = data;
+	d = JSON.stringify(d);
+	d = zip(d);
+	d = encodeURI(d);
 
-	location.hash = window.btoa(dataString);
+	location.hash = encodeURI(d);
 };
 
 var load = function() {
-	// decode uri -> unzip -> atob -> json parse -> object
+	// decode uri -> unzip -> json parse -> object
     if (location.hash) {
-    	var dataString = window.atob(location.hash.substr(1));
-    	data = JSON.parse(decodeURI(dataString));
-    	html = data.html;
+    	var d = location.hash.substr(1);
+    	d = decodeURI(d);
+    	d = unzip(d);
+    	d = JSON.parse(d);
+
+    	data = d;
     }
     else {
     	data = {
