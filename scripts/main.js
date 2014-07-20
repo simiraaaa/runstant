@@ -92,6 +92,7 @@ var setupSetting = function() {
 
     document.querySelector(".setting").onclick = function() {
     	$('#settingModal').modal('show');
+    	return false;
     };
 
 	$('#settingModal').on('hidden.bs.modal', function (e) {
@@ -109,6 +110,7 @@ var setupSetting = function() {
 var setupShare = function() {
     document.querySelector(".share").onclick = function() {
     	$('#shareModal').modal('show');
+    	return false;
     };
 
 	$('#shareModal').on('hidden.bs.modal', function (e) {
