@@ -1,4 +1,5 @@
 
+var $ = function(q) { return document.querySelector(q) };
 var data = {};
 var editor = null;
 
@@ -49,20 +50,8 @@ var setup = function() {
 
     // デフォルト
     var html = null;
-    if (location.hash) {
-    	var dataString = window.atob(location.hash.substr(1));
-    	data = JSON.parse(decodeURI(dataString));
-    	html = data.html;
-    }
-    else {
-    	data = {
-			version: '0.0.1',
-			current: 'js',
-    		html: document.querySelector("#template").innerHTML.replace(/__script__/g, 'script'),
-    		css: document.querySelector("#template-css").innerHTML,
-    		js: document.querySelector("#template-js").innerHTML,
-    	};
-    }
+
+    load();
 
     var txt = data[data.current];
     editor.setValue(txt);
@@ -85,6 +74,9 @@ var setup = function() {
 		    return false;
 	    };
     });
+
+    $("#btn-run").onclick  = function() { run(); return false; };
+    $("#btn-save").onclick = function() { save(); return false; };
 };
 
 
@@ -101,7 +93,7 @@ var run = function() {
     html = html.replace("{script}", data.js);
     html = html.replace("{style}", data.css);
 
-    console.log(html);
+    // console.log(html);
 
     idoc.open();
     idoc.write(html);
@@ -110,12 +102,50 @@ var run = function() {
 
 
 var save = function() {
+	// object -> string -> encode uri -> btoa -> zip
+	// ↓こっちにする
+	// object -> json stringify -> btoa -> zip -> encode uri
     var html = editor.getValue();
     var dataString = encodeURI(JSON.stringify(data));
 
 	location.hash = window.btoa(dataString);
 };
 
+var load = function() {
+	// decode uri -> unzip -> atob -> json parse -> object
+    if (location.hash) {
+    	var dataString = window.atob(location.hash.substr(1));
+    	data = JSON.parse(decodeURI(dataString));
+    	html = data.html;
+    }
+    else {
+    	data = {
+			version: '0.0.1',
+			current: 'js',
+    		html: document.querySelector("#template").innerHTML.replace(/__script__/g, 'script'),
+    		css: document.querySelector("#template-css").innerHTML,
+    		js: document.querySelector("#template-js").innerHTML,
+    	};
+    }
+};
+
+
+var zip = function(data) {
+	var zip = new JSZip();
+	zip.file('data', data);
+
+	return zip.generate();
+};
+
+
+var unzip = function(data) {
+	var zip = new JSZip();
+	var files = zip.load(data, {
+		base64: true
+	});
+
+	return files.file('data').asText();
+};
 
 var getType = function(key) {
 	return {
