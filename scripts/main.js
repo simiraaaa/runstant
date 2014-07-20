@@ -120,8 +120,8 @@ var setupShare = function() {
 
 	$('#btn-twitter').on('click', function() {
 		var url = "https://twitter.com/intent/tweet?";
-		url = url + "text=" + data.title + "&";
-		url = url + "url=" + location.href;
+		url = url + "text=" + encodeURIComponent(data.title) + "&";
+		url = url + "url=" + encodeURIComponent(location.href);
 		window.open(url);
 	});
 };
