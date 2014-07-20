@@ -6,8 +6,11 @@
 
         <title>runstant</title>
 
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <!-- bootstrap -->
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
         <!-- anguler -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
         <!-- ace -->
@@ -58,6 +61,40 @@
 
 
 
+
+<!-- Modal -->
+<div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Setting</h4>
+      </div>
+
+      <div class="modal-body">
+		<form role="form">
+		  <div class="form-group">
+		    <label for="input-title">title</label>
+		    <input type="text" class="form-control" id="input-title" placeholder="title">
+		  </div>
+		  <div class="form-group">
+		    <label for="input-detail">detail</label>
+		    <textarea class="form-control" id="input-detail" rows=4 placeholder="detail"></textarea>
+		  </div>
+		</form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button id="btn-setting-save" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <script type="text/template" id="template">
 <!DOCTYPE html>
  
@@ -94,7 +131,7 @@
 <script type="text/template" id="template-js">
 tm.main(function() {
     var app = tm.display.CanvasApp("#world");
-
+    
     app.run();
 });
 </script>

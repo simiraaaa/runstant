@@ -1,7 +1,8 @@
 
-var $ = function(q) { return document.querySelector(q) };
+//var $ = function(q) { return document.querySelector(q) };
 var data = {};
 var editor = null;
+var cache = null;
 
 window.onload = function() {
 	setup();
@@ -12,6 +13,8 @@ window.onload = function() {
 var setup = function() {
     editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
+    editor.getSession().setTabSize(4);
+    editor.getSession().setUseSoftTabs(true);
 
     var command = {
         name: "run",
@@ -75,10 +78,32 @@ var setup = function() {
 	    };
     });
 
-    $("#btn-run").onclick  = function() { run(); return false; };
-    $("#btn-save").onclick = function() { save(); return false; };
+    // $("#btn-run").onclick  = function() { run(); return false; };
+    // $("#btn-save").onclick = function() { save(); return false; };
+
+    setupSetting();
 };
 
+
+var setupSetting = function() {
+	$('#input-title').val(data.title);
+	$('#input-detail').val(data.detail);
+
+    document.querySelector(".setting").onclick = function() {
+    	$('#settingModal').modal('show');
+    };
+
+	$('#settingModal').on('hidden.bs.modal', function (e) {
+		console.dir(e);
+		console.log("hoge");
+	});
+
+	$('#btn-setting-save').on("click", function() {
+		data.title  = $('#input-title').val();
+		data.detail = $('#input-detail').val();
+		save();
+	});
+};
 
 var run = function() {
     var preview = document.querySelector("#preview");
@@ -107,10 +132,15 @@ var save = function() {
 	// object -> json stringify -> zip -> encode uri
 	var d = data;
 	d = JSON.stringify(d);
-	d = zip(d);
-	d = encodeURI(d);
 
-	location.hash = encodeURI(d);
+	if (cache != d) {
+		cache = d;
+
+		d = zip(d);
+		d = encodeURI(d);
+
+		location.hash = encodeURI(d);
+	}
 };
 
 var load = function() {
@@ -126,6 +156,8 @@ var load = function() {
     else {
     	data = {
 			version: '0.0.1',
+			title: "tmlib.js template",
+			detail: "tmlib.js 用公式エディタ. ですが色々と使えますよ♪",
 			current: 'js',
     		html: document.querySelector("#template").innerHTML.replace(/__script__/g, 'script'),
     		css: document.querySelector("#template-css").innerHTML,
