@@ -52,13 +52,9 @@ var setup = function() {
 
 
     // デフォルト
-    var html = null;
-
     load();
-
     var txt = data[data.current];
     editor.setValue(txt);
-
     editor.getSession().setMode("ace/mode/" + getType(data.current));
 
     // ボタンの設定
@@ -87,15 +83,27 @@ var setup = function() {
 
     setupSetting();
     setupShare();
+
+
+    // 
+    $(window).on('popstate', function(e) {
+    	load();
+	    var txt = data[data.current];
+	    editor.setValue(txt);
+	    editor.getSession().setMode("ace/mode/" + getType(data.current));
+	    
+	    run();
+    });
 };
 
 
 var setupSetting = function() {
-	$('#input-title').val(data.title);
-	$('#input-detail').val(data.detail);
-
     document.querySelector(".setting").onclick = function() {
+		$('#input-title').val(data.title);
+		$('#input-detail').val(data.detail);
+
     	$('#settingModal').modal('show');
+
     	return false;
     };
 
@@ -185,7 +193,8 @@ var save = function() {
 		d = zip(d);
 		d = encodeURI(d);
 
-		location.hash = encodeURI(d);
+		// location.hash = encodeURI(d);
+		history.pushState(null, 'runstant', '#' + encodeURI(d));
 	}
 
 	// タイトル更新
