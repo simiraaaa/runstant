@@ -91,7 +91,7 @@ var setup = function() {
 	    var txt = data[data.current];
 	    editor.setValue(txt);
 	    editor.getSession().setMode("ace/mode/" + getType(data.current));
-	    
+
 	    run();
     });
 };
@@ -121,8 +121,20 @@ var setupSetting = function() {
 };
 
 var setupShare = function() {
+	var shortURL = this.location.href;
+
     document.querySelector(".share").onclick = function() {
-    	$('#shareModal').modal('show');
+    	if (location.protocol == "file:") {
+	    	$('#shareModal').modal('show');
+    	}
+    	else {
+	    	getShortURL(location.href, function(url) {
+	    		shortURL = url;
+		    	$('#short-url').val(url);
+		    	$('#shareModal').modal('show');
+	    	});
+    	}
+
     	return false;
     };
 
@@ -135,20 +147,19 @@ var setupShare = function() {
 		var url = "https://twitter.com/intent/tweet?text={text}&hashtags=runstant&via={via}&url={url}";
 		url = url.replace("{text}", encodeURIComponent(data.title));
 		url = url.replace("{via}", "runstant");
-		url = url.replace("{url}", encodeURIComponent(location.href));
+		url = url.replace("{url}", encodeURIComponent(shortURL));
 		window.open(url, 'share', 'width=640, height=480');
 	});
 
 	$('#btn-facebook').on('click', function() {
 		var url = "https://www.facebook.com/sharer/sharer.php?u={url}";
-		url = url.replace("{url}", encodeURIComponent(location.href));
+		url = url.replace("{url}", encodeURIComponent(shortURL));
 		window.open(url, 'share', 'width=640, height=480');
 	});
 
-
 	$('#btn-google').on('click', function() {
 		var url = "https://plus.google.com/share?url={url}";
-		url = url.replace("{url}", encodeURIComponent(location.href));
+		url = url.replace("{url}", encodeURIComponent(shortURL));
 		window.open(url, 'share', 'width=640, height=480');
 	});
 
@@ -254,3 +265,20 @@ var getType = function(key) {
 };
 
 
+var getShortURL = function(url, callback) {
+	return $.ajax({
+		url: "https://www.googleapis.com/urlshortener/v1/url",
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		data: JSON.stringify({
+			longUrl: url,
+		}),
+		dataType: "json",
+		success: function(res) {
+			return callback(res.id);
+		},
+		error: function(err) {
+			return console.error(err);
+		},
+	});
+};

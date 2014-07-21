@@ -103,11 +103,17 @@
       </div>
 
       <div class="modal-body">
-		<form role="form" style="text-align:center;">
-			<button type="button" class="btn btn-info" id="btn-twitter">Twitter</button>
-			<button type="button" class="btn btn-primary" id="btn-facebook">Facebook</button>
-			<button type="button" class="btn btn-danger" id="btn-google">Google+</button>
-			<button type="button" class="btn btn-healing" id="btn-pocket">Pocket</button>
+		<form role="form">
+			<div class="form-group">
+			    <label for="short-url">short url</label>
+			    <input type="text" class="form-control" id="short-url" placeholder="short url" onclick="this.select();" value="loading...">
+			</div>
+			<div style="text-align:center;">
+				<button type="button" class="btn btn-info" id="btn-twitter">Twitter</button>
+				<button type="button" class="btn btn-primary" id="btn-facebook">Facebook</button>
+				<button type="button" class="btn btn-danger" id="btn-google">Google+</button>
+				<button type="button" class="btn btn-healing" id="btn-pocket">Pocket</button>
+			</div>
 		</form>
       </div>
 
@@ -154,11 +160,50 @@
 
 
 <script type="text/template" id="template-js">
+
+// constant
+var SCREEN_WIDTH    = 640;              // スクリーン幅
+var SCREEN_HEIGHT   = 960;              // スクリーン高さ
+var SCREEN_CENTER_X = SCREEN_WIDTH/2;   // スクリーン幅の半分
+var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;  // スクリーン高さの半分
+
+// main
 tm.main(function() {
     var app = tm.display.CanvasApp("#world");
+    app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    app.fitWindow();
+    
+    app.replaceScene(MainScene());
     
     app.run();
 });
+
+// main scene
+tm.define("MainScene", {
+    superClass: "tm.app.Scene",
+    
+    init: function() {
+        this.superInit();
+        
+        this.star = tm.display.StarShape().addChildTo(this);
+        
+        var label = tm.display.Label("tmlib.js のテンプレートだよ♪");
+        label.setPosition(SCREEN_CENTER_X, SCREEN_CENTER_Y);
+        label.setAlign("center").setBaseline("middle");
+        this.addChild(label);
+    },
+    
+    update: function(app) {
+        var p = app.pointing;
+        this.star.x = p.x;
+        this.star.y = p.y;
+        
+        if (p.getPointing()) {
+            this.star.rotation += 32;
+        }
+    },
+});
+
 </script>
 
 
