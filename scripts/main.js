@@ -78,8 +78,12 @@ var setup = function() {
 	    };
     });
 
-    // $("#btn-run").onclick  = function() { run(); return false; };
-    // $("#btn-save").onclick = function() { save(); return false; };
+	$('#btn-run').on('click', function() {
+		run(); return false;
+	});
+	$('#btn-save').on('click', function() {
+		save(); return false;
+	});
 
     setupSetting();
     setupShare();
@@ -103,6 +107,7 @@ var setupSetting = function() {
 	$('#btn-setting-save').on("click", function() {
 		data.title  = $('#input-title').val();
 		data.detail = $('#input-detail').val();
+
 		save();
 	});
 };
@@ -119,8 +124,9 @@ var setupShare = function() {
 	});
 
 	$('#btn-twitter').on('click', function() {
-		var url = "https://twitter.com/intent/tweet?text={text}&hashtags=runstant&url={url}";
+		var url = "https://twitter.com/intent/tweet?text={text}&hashtags=runstant&via={via}&url={url}";
 		url = url.replace("{text}", encodeURIComponent(data.title));
+		url = url.replace("{via}", "runstant");
 		url = url.replace("{url}", encodeURIComponent(location.href));
 		window.open(url, 'share', 'width=640, height=480');
 	});
@@ -181,6 +187,9 @@ var save = function() {
 
 		location.hash = encodeURI(d);
 	}
+
+	// タイトル更新
+	document.title = data.title + " | runstant";
 };
 
 var load = function() {
@@ -204,6 +213,9 @@ var load = function() {
     		js: document.querySelector("#template-js").innerHTML,
     	};
     }
+
+	// タイトル更新
+	document.title = data.title + " | runstant";
 };
 
 
@@ -231,8 +243,5 @@ var getType = function(key) {
 		'js': 'javascript',
 	}[key];
 };
-
-
-
 
 

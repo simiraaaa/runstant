@@ -48,3 +48,26 @@ body {
     width: 100%;
     height: 100%;
 }
+
+
+
+.btn-healing {
+	color: hsl(0, 100%, 100%);
+	background-color: hsl(340, 70%, 60%);
+	border-color: hsl(350, 70%, 56%);
+}
+
+.btn-healing:hover, .btn-healing:focus, .btn-healing:active, .btn-healing.active, .open .dropdown-toggle.btn-healing {
+	color: hsl(0, 100%, 100%);
+	background-color: hsl(350, 65%, 50%);
+	border-color: hsl(350, 65%, 41%);
+}
+
+
+
+
+
+
+
+
+
