@@ -44,6 +44,7 @@ var run = function() {
 
 var save = function() {
     rs.data.save();
+    run();
 };
 
 var load = function() {
@@ -159,7 +160,10 @@ var setupShare = function() {
 	});
 
 	$('#btn-pocket').on('click', function() {
-        rs.share.pocket();
+        rs.share.pocket({
+            text: rs.data.getTitle(),
+            url: shortURL,
+        });
 	});
 
 	$('#btn-fullscreen').on('click', function() {
