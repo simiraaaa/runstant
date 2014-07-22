@@ -34,6 +34,7 @@ var setup = function() {
     });
 
     setupEditor();
+    setupAbout();
     setupSetting();
     setupShare();
 };
@@ -49,7 +50,6 @@ var save = function() {
 var load = function() {
     rs.data.load();
 };
-
 
 
 var setupEditor = function() {
@@ -89,6 +89,15 @@ var setupEditor = function() {
     });
 };
 
+
+
+var setupAbout = function() {
+    document.querySelector("#btn-about").onclick = function() {
+        $('#aboutModal').modal('show');
+
+        return false;
+    };
+};
 
 
 var setupSetting = function() {

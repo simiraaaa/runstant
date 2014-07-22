@@ -19,6 +19,7 @@
   "author": "phi",
   "license": "MIT",
   "readmeFilename": "README.md",
+  "phase": "alpha",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-watch": "~0.3.1",

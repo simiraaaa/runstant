@@ -60,7 +60,7 @@ var rs = {
 
 		    		setting: {
 		    			title: "tmlib.js template",
-						detail: "tmlib.js 用公式エディタ. ですが色々と使えますよ♪",
+						detail: "tmlib.js 用公式エディタ. 色々と使えますよ♪",
 		    		},
 		    		code: {
 
@@ -129,7 +129,7 @@ var rs = {
 			var code = data.code;
 			var html = code.html.value
 		    	.replace("${title}", setting.title)
-		    	.replace("${description}", setting.description)
+		    	.replace("${description}", setting.detail)
 		    	.replace("${style}", code.style.value)
 		    	.replace("${script}", code.script.value)
 		    	;

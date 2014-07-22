@@ -16,7 +16,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'release/alpha/index.html': 'index.html',
+                    'release/<%= pkg.phase %>/index.html': 'index.html',
                 },
             },
         },
@@ -30,7 +30,7 @@ module.exports = function(grunt) {
                     minifyCSS: true,
                 },
                 files: {
-                    'release/alpha/index.html': 'release/alpha/index.html',
+                    'release/<%= pkg.phase %>/index.html': 'release/<%= pkg.phase %>/index.html',
                 }
             }
         }
