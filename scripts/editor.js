@@ -53,17 +53,9 @@
 			return this.editor.getValue();
 		},
 
-		setMode: function(key) {
-			this.editor.getSession().setMode("ace/mode/" + this.keyToType(key));
+		setMode: function(type) {
+			this.editor.getSession().setMode("ace/mode/" + type);
 			return this;
-		},
-
-		keyToType: function(key) {
-			return {
-				'html': 'html',
-				'css': 'css',
-				'js': 'javascript',
-			}[key];
 		},
 	};
 

@@ -56,37 +56,27 @@ var rs = {
 		    else {
 		    	data = {
 		    		version: '0.0.1',
+	    			current: "script",
 
 		    		setting: {
 		    			title: "tmlib.js template",
 						detail: "tmlib.js 用公式エディタ. ですが色々と使えますよ♪",
 		    		},
-
 		    		code: {
-		    			current: "script",
+
 		    			html: {
 		    				type: "html",
-		    				value: "hogehogehoge",
+		    				value: document.querySelector("#template").innerHTML.replace(/__script__/g, 'script'),
 		    			},
 		    			style: {
 		    				type: "css",
-		    				value: "hogehogehoge",
+		    				value: document.querySelector("#template-css").innerHTML,
 		    			},
 		    			script: {
 		    				type: "javascript",
-		    				value: "hogehogehoge",
+		    				value: document.querySelector("#template-js").innerHTML,
 		    			},
 		    		},
-		    	};
-
-		    	data = {
-					version: '0.0.1',
-					title: "tmlib.js template",
-					detail: "tmlib.js 用公式エディタ. ですが色々と使えますよ♪",
-					current: 'js',
-		    		html: document.querySelector("#template").innerHTML.replace(/__script__/g, 'script'),
-		    		css: document.querySelector("#template-css").innerHTML,
-		    		js: document.querySelector("#template-js").innerHTML,
 		    	};
 		    }
 		    this.data = data;
@@ -96,17 +86,17 @@ var rs = {
 		},
 
 		getTitle: function() {
-			return this.data.title;
+			return this.data.setting.title;
 		},
 		setTitle: function(v) {
-			this.data.title = v;
+			this.data.setting.title = v;
 		},
 
 		getDetail: function() {
-			return this.data.detail;
+			return this.data.setting.detail;
 		},
 		setDetail: function(v) {
-			this.data.detail = v;
+			this.data.setting.detail = v;
 		},
 
 		getCurrent: function() {
@@ -119,23 +109,29 @@ var rs = {
 		},
 
 		setCurrentValue: function(value) {
-			var data = this.data;
-	    	data[data.current] = value;
+	    	var data = this.data;
+	    	data.code[data.current].value = value;
 	    	return this;
 	    },
-
 	    getCurrentValue: function() {
-	    	return this.data[this.data.current];
+	    	var data = this.data;
+	    	return data.code[data.current].value;
+	    },
+
+	    getCurrentType: function() {
+	    	var data = this.data;
+	    	return data.code[data.current].type;
 	    },
 
 		toCode: function() {
 			var data = this.data;
-			var code = data.html
-		    	.replace("{script}", data.js)
-		    	.replace("{style}", data.css)
+			var code = data.code;
+			var html = code.html.value
+		    	.replace("${style}", code.style.value)
+		    	.replace("${script}", code.script.value)
 		    	;
 
-		    return code;
+		    return html;
 		}
 	};
 

@@ -28,7 +28,7 @@ var setup = function() {
     $(window).on('popstate', function(e) {
         rs.data.load();
         rs.editor.setValue(rs.data.getCurrentValue());
-        rs.editor.setMode(rs.data.getCurrent());
+        rs.editor.setMode(rs.data.getCurrentType());
 
         run();
     });
@@ -56,8 +56,7 @@ var load = function() {
 var setupEditor = function() {
     // デフォルト
     rs.editor.setValue(rs.data.getCurrentValue());
-    rs.editor.setMode(rs.data.getCurrent());
-
+    rs.editor.setMode(rs.data.getCurrentType());
 
     // 編集の度
     editor = rs.editor.editor;
@@ -78,7 +77,7 @@ var setupEditor = function() {
             rs.data.setCurrent(key);
             
             rs.editor.setValue(rs.data.getCurrentValue());
-            rs.editor.setMode(rs.data.getCurrent());
+            rs.editor.setMode(rs.data.getCurrentType());
 
             return false;
         };
