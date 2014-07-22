@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
 
         <title>runstant</title>
 
@@ -39,7 +40,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="./index.html"><b>runstant</b></a>
+                    <a class="navbar-brand" href="./index.html" style='color:orange;'>
+                        <img src="images/logo.png" />
+                        <b>runstant</b>
+                    </a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -206,6 +210,7 @@ tm.define("MainScene", {
         label.setPosition(SCREEN_CENTER_X, SCREEN_CENTER_Y);
         label.setAlign("center").setBaseline("middle");
         this.addChild(label);
+
     },
     
     update: function(app) {
