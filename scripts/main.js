@@ -37,6 +37,17 @@ var setup = function() {
     setupAbout();
     setupSetting();
     setupShare();
+
+    // support mobile
+    var isMobile = (function() {
+        var ua = navigator.userAgent;
+        return (ua.indexOf("iPhone") > 0 || ua.indexOf("iPad") > 0 || ua.indexOf("Android") > 0);
+    })();
+
+    if (isMobile) {
+        document.getElementById("editor").style.display = "none";
+        document.getElementById("preview").style.width = "100%";
+    }
 };
 
 var run = function() {
