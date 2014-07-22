@@ -125,8 +125,11 @@ var rs = {
 
 		toCode: function() {
 			var data = this.data;
+			var setting = data.setting;
 			var code = data.code;
 			var html = code.html.value
+		    	.replace("${title}", setting.title)
+		    	.replace("${description}", setting.description)
 		    	.replace("${style}", code.style.value)
 		    	.replace("${script}", code.script.value)
 		    	;

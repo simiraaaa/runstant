@@ -155,7 +155,8 @@
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
  
-        <title>tmlib.js template</title>
+        <title>${title}</title>
+        <meta name="description" content="${description}" />
 
         <style>${style}</style>
 
@@ -170,56 +171,52 @@
 
 
 <script type="text/template" id="template-css">
-* {
-    box-sizing: border-box;
+body {
+    background-color: "#eee";
 }
 </script>
 
 <!-- htmlmin:ignore -->
-<script type="text/template" id="template-js">
-
-// constant
-var SCREEN_WIDTH    = 640;              // スクリーン幅
-var SCREEN_HEIGHT   = 960;              // スクリーン高さ
-var SCREEN_CENTER_X = SCREEN_WIDTH/2;   // スクリーン幅の半分
-var SCREEN_CENTER_Y = SCREEN_HEIGHT/2;  // スクリーン高さの半分
+<script type="text/template" id="template-js">/*
+ * # runstant
+ * さぁ, 一緒にゲームプログラミングを始めよう!!
+ * ってことで tmlib.js の公式エディタツール runstant です(tmlibのステマ)
+ *
+ * ログイン不要, サーバー通信不要, 世界で一番簡単に
+ * プログラミングを体験, 始められるツールです(多分...)
+ * 
+ * こっちのコードを書いて上の `save` ボタン(Command+S)を押すと
+ * 画面左側でコードを実行 & 状態を URL に保存します. はっきり言って便利です!!
+ */
 
 // main
 tm.main(function() {
     var app = tm.display.CanvasApp("#world");
-    app.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    app.resize(640, 960);
     app.fitWindow();
     
-    app.replaceScene(MainScene());
+    // スターを生成
+    var star = tm.display.StarShape().addChildTo(app.currentScene);
+    // 真ん中にセット    
+    star.setPosition(320, 480);
+    // クルクル回す
+    star.tweener.by({ rotation:360 }, 1000).setLoop(true);
     
-    app.run();
-});
-
-// main scene
-tm.define("MainScene", {
-    superClass: "tm.app.Scene",
+    // ラベル
+    var label = tm.display.Label("touch screen!").addChildTo(app.currentScene);
+    label.setPosition(320, 800);
     
-    init: function() {
-        this.superInit();
-        
-        this.star = tm.display.StarShape().addChildTo(this);
-        
-        var label = tm.display.Label("tmlib.js のテンプレートだよ♪");
-        label.setPosition(SCREEN_CENTER_X, SCREEN_CENTER_Y);
-        label.setAlign("center").setBaseline("middle");
-        this.addChild(label);
-
-    },
-    
-    update: function(app) {
-        var p = app.pointing;
-        this.star.x = p.x;
-        this.star.y = p.y;
-        
-        if (p.getPointing()) {
-            this.star.rotation += 32;
+    // 更新処理
+    app.currentScene.update = function(app) {
+        var pointing = app.pointing;
+        if (pointing.getPointing()) {
+            star.x += (pointing.x-star.x)*0.1;
+            star.y += (pointing.y-star.y)*0.1;
         }
-    },
+    };
+    
+    // 実行
+    app.run();
 });
 
 </script>

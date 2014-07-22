@@ -61,7 +61,6 @@ var setupEditor = function() {
     editor = rs.editor.editor;
     editor.getSession().on('change', function(e) {
         var value = rs.editor.getValue();
-        console.log(value);
         rs.data.setCurrentValue(value);
     });
 
