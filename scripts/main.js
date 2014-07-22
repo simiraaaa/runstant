@@ -44,7 +44,6 @@ var run = function() {
 
 var save = function() {
     rs.data.save();
-    run();
 };
 
 var load = function() {
