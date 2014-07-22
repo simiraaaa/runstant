@@ -165,12 +165,19 @@ var setupShare = function() {
         });
 	});
 
-	$('#btn-pocket').on('click', function() {
+    $('#btn-pocket').on('click', function() {
         rs.share.pocket({
             text: rs.data.getTitle(),
             url: shortURL,
         });
-	});
+    });
+
+    $('#btn-hatebu').on('click', function() {
+        rs.share.hatebu({
+            text: rs.data.getTitle(),
+            url: shortURL,
+        });
+    });
 
 	$('#btn-fullscreen').on('click', function() {
         var html = rs.data.toCode();

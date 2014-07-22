@@ -23,6 +23,11 @@
             url = url.replace("{url}", encodeURIComponent(param.url));
             window.open(url, 'share', 'width=640, height=480');
         },
+        hatebu: function(param) {
+        	var url = "http://b.hatena.ne.jp/entry/{url}";
+            url = url.replace("{url}", encodeURIComponent(param.url));
+            window.open(url, 'share', 'width=640, height=480');
+        },
         fullscreen: function(param) {
             var html = data.html;
             html = html.replace("{script}", data.js);
