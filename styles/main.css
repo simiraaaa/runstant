@@ -74,4 +74,10 @@ body {
     margin-top: -5px;
 }
 
+.nav .caret {
+    border-top-color: #444;
+}
+.nav .active .caret {
+    border-top-color: #428bca;
+}
 

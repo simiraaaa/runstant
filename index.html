@@ -50,10 +50,54 @@
                         <li><a id="btn-about" href="#">about</a></li>
                     </ul>
                     <div class="navbar-right nav navbar-nav">
-                        <li><a class="code-button" href="#">html</a></li>
-                        <li><a class="code-button" href="#">style</a></li>
-                        <li><a class="code-button" href="#">script</a></li>
+                        <li class="code-button" data-mode="html">
+                            <a class="" href="#">
+                                html<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a data-type='html' href="">html</a></li>
+                                <li><a data-type='jade' href="">jade</a></li>
+                                <li><a data-type='haml' href="">haml</a></li>
+                                <li><a data-type='haml' href="">markdown</a></li>
+                            </ul>
+                        </li>
+                        <li class="code-button" data-mode="style">
+                            <a class="" href="#">
+                                style<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a data-type='css' href="">css</a></li>
+                                <li><a data-type='stylus' href="">stylus</a></li>
+                                <li><a data-type='less' href="">less</a></li>
+                                <li><a data-type='sass' href="">sass</a></li>
+                            </ul>
+                        </li>
+                        <li class="code-button" data-mode="script">
+                            <a class="" href="#">
+                                script<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a data-type='javascript' href="">JavaScript</a></li>
+                                <li><a data-type='typescript' href="">TypeScript</a></li>
+                                <li><a data-type='coffee' href="">CoffeeScript</a></li>
+                            </ul>
+                        </li>
                         <li><a>|</a></li>
+
+<!--                         <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick='_toggleOpen(this);'>Dropdown 
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="">Action</a></li>
+                                <li><a href="">Another action</a></li>
+                                <li class="active"><a href="">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Nav header</li>
+                                <li><a href="" onclick='return false;'>Separated link</a></li>
+                                <li><a href="">One more separated link</a></li>
+                            </ul>
+                        </li>
+ -->
                         <li><a class="setting" href="#">setting</a></li>
                         <li><a class="share" href="#">share</a></li>
 		        	</div>

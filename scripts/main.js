@@ -80,16 +80,79 @@ var setupEditor = function() {
     var each = Array.prototype.forEach;
 
     each.call(buttons, function(button) {
-        button.onclick = function(e) {
-            var key = this.innerHTML;
+        var mode = button.dataset.mode;
 
-            rs.data.setCurrent(key);
-            
-            rs.editor.setValue(rs.data.getCurrentValue());
-            rs.editor.setMode(rs.data.getCurrentType());
+        if (rs.data.getCurrent() == mode) {
+            button.classList.add("active");
+            console.log(mode);
+        }
+
+        button.onclick = function(e) {
+            if (button.classList.contains('active') === false) {
+
+                // 一旦すべて無効化する
+                each.call(buttons, function(button) {
+                    // アクティブ化
+                    button.classList.remove('active');
+                    // トグルを無効
+                    delete button.querySelector('a').dataset.toggle;
+                });
+
+                // アクティブ化
+                button.classList.add('active');
+                // トグルを有効にする
+                var a = button.querySelector('a');
+                // a.dataset.toggle="dropdown";
+
+                // 
+                var key = this.dataset.mode;
+
+                rs.data.setCurrent(key);
+                
+                rs.editor.setValue(rs.data.getCurrentValue());
+                rs.editor.setMode(rs.data.getCurrentType());
+                console.log("hoge2");
+            }
+            else {
+                var a = button.querySelector('a');
+                a.dataset.toggle="dropdown";
+            }
+            // else {
+            //     var a = button.querySelector('a');
+            //     a.dataset.toggle="dropdown";
+            //     // トグルを有効にする
+            //     console.log("hoge");
+            // }
 
             return false;
         };
+
+        // アクティブをセット
+        var liList = button.querySelectorAll("li");
+        var each = Array.prototype.forEach;
+
+        each.call(liList, function(li) {
+            var a = li.querySelector('a');
+            var type = a.dataset.type;
+
+            if (type === rs.data.data.code[mode].type) {
+                li.classList.add('active');
+            }
+
+            a.onclick = function() {
+                each.call(liList, function(li) {
+                    li.classList.remove('active');
+                });
+
+                a.parentNode.classList.add('active');
+
+                // データ更新
+                rs.data.data.code[mode].type = a.dataset.type;
+                rs.editor.setMode(rs.data.getCurrentType());
+
+                return false;
+            };
+        });
     });
 
     $('#btn-run').on('click', function() {
