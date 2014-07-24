@@ -4,7 +4,7 @@ var zip = function(data) {
 	var zip = new JSZip();
 	zip.file('data', data);
 
-	return zip.generate();
+	return zip.generate({type:"base64"});
 };
 
 

@@ -45,7 +45,8 @@
 		},
 
 		setValue: function(v) {
-			this.editor.setValue(v);
+			this.editor.setValue(v, -1);
+			// this.editor.setValue(v, 1);
 			return this;
 		},
 
