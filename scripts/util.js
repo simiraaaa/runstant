@@ -35,3 +35,49 @@ var getShortURL = function(url, callback) {
 		},
 	});
 };
+
+var coffeescript2js = function(code) {
+	var source = CoffeeScript.compile(code);
+
+	return '// Compiled CoffeeScript\n\n' + source;
+};
+// // test
+// var code = coffeescript2js('console.log "coffee だよ!"');
+// console.log(code);
+
+
+
+var typescript2js = function(code) {
+	var outfile = {
+		source: '',
+		Write: function(s) {
+			this.source += s;
+		},
+		WriteLine: function(s) {
+			this.source += s + '\n';
+		},
+		Close: function() {
+
+		},
+	};
+	var outerror = {
+		source: '',
+		Write: function(s) { },
+		WriteLine: function(s) { },
+		Close: function() { },
+	};
+
+	var compiler = new TypeScript.TypeScriptCompiler(outfile, outerror);
+
+	compiler.addUnit(code, '');
+	compiler.emit(false, function createFile(fileName) {
+	    return outfile;
+	});
+
+	return '// Compiled TypeScript\n\n' + outfile.source;
+};
+
+// // test
+// var code = typescript2js('var isDone: boolean = false;');
+// console.log(code);
+
