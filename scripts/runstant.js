@@ -59,7 +59,7 @@ var rs = {
 	    			current: "script",
 
 		    		setting: {
-		    			title: "tmlib.js template",
+		    			title: "template - tmlib.js",
 						detail: "tmlib.js 用公式エディタ. 色々と使えますよ♪",
 		    		},
 		    		code: {

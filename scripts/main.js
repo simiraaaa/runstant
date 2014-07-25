@@ -79,11 +79,20 @@ var setupEditor = function() {
     var buttons = document.querySelectorAll(".code-button");
     var each = Array.prototype.forEach;
 
-    each.call(buttons, function(button) {
-        button.onclick = function(e) {
-            var key = this.innerHTML;
+    each.call(buttons, function(li) {
+        var a = li.querySelector('a');
 
-            rs.data.setCurrent(key);
+        if (a.dataset.type === rs.data.getCurrent()) {
+            li.classList.add("active");
+        }
+
+        a.onclick = function(e) {
+            each.call(buttons, function(li) { li.classList.remove("active"); });
+            a.parentNode.classList.add("active");
+
+            var type = this.dataset.type;
+
+            rs.data.setCurrent(type);
             
             rs.editor.setValue(rs.data.getCurrentValue());
             rs.editor.setMode(rs.data.getCurrentType());
