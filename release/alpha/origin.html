@@ -157,7 +157,7 @@ var rs = {
 	    			current: "script",
 
 		    		setting: {
-		    			title: "tmlib.js template",
+		    			title: "template - tmlib.js",
 						detail: "tmlib.js 用公式エディタ. 色々と使えますよ♪",
 		    		},
 		    		code: {
@@ -477,11 +477,20 @@ var setupEditor = function() {
     var buttons = document.querySelectorAll(".code-button");
     var each = Array.prototype.forEach;
 
-    each.call(buttons, function(button) {
-        button.onclick = function(e) {
-            var key = this.innerHTML;
+    each.call(buttons, function(li) {
+        var a = li.querySelector('a');
 
-            rs.data.setCurrent(key);
+        if (a.dataset.type === rs.data.getCurrent()) {
+            li.classList.add("active");
+        }
+
+        a.onclick = function(e) {
+            each.call(buttons, function(li) { li.classList.remove("active"); });
+            a.parentNode.classList.add("active");
+
+            var type = this.dataset.type;
+
+            rs.data.setCurrent(type);
             
             rs.editor.setValue(rs.data.getCurrentValue());
             rs.editor.setMode(rs.data.getCurrentType());
@@ -633,9 +642,9 @@ var setupShare = function() {
                         <li><a id="btn-about" href="#">about</a></li>
                     </ul>
                     <div class="navbar-right nav navbar-nav">
-                        <li><a class="code-button" href="#">html</a></li>
-                        <li><a class="code-button" href="#">style</a></li>
-                        <li><a class="code-button" href="#">script</a></li>
+                        <li class="code-button"><a href="#" data-type='html'>html</a></li>
+                        <li class="code-button"><a href="#" data-type='style'>style</a></li>
+                        <li class="code-button"><a href="#" data-type='script'>script</a></li>
                         <li><a>|</a></li>
                         <li><a class="setting" href="#">setting</a></li>
                         <li><a class="share" href="#">share</a></li>
