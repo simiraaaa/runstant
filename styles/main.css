@@ -25,7 +25,7 @@ body {
 
 #editor {
     float: right;
-    width: 50%;
+    width: 61.5%;
     height: 100%;
     border-left: 1px solid #aaa;
     box-shadow: 0px 0px 4px 0px #444;
@@ -36,7 +36,7 @@ body {
 
 #preview {
     float: left;
-    width: 50%;
+    width: 38.5%;
     height: 100%;
     border: 0px;
     box-shadow: 0px 0px 4px 0px #444;
