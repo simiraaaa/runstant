@@ -77,6 +77,9 @@ var rs = {
 		    }
 		    this.data = data;
 
+		    // 一回キャッシュしておく
+		    this.cache = JSON.stringify(this.data);
+
 			// タイトル更新
 			document.title = this.getTitle() + " | runstant";
 		},

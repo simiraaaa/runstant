@@ -166,11 +166,15 @@ var setupUserSetting = function() {
     // theme
     var elmTheme = $("#input-theme");
 
-    rs.Editor.themes.forEach(function(theme) {
+    rs.Editor.themes.forEach(function(data) {
         var option = $('<option>');
+        var name = data.name;
+        var theme = data.theme;
 
-        option.html(theme.name);
-        option.val(theme.theme);
+        if (name == 'monokai') { name += '(default)'; }
+
+        option.html(name);
+        option.val(theme);
         elmTheme.append(option);
     });
 

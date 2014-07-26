@@ -13,8 +13,6 @@ var _decode = function(data) {
 	data = unzip(data);
 	data = JSON.parse(data);
 
-	console.log("hoge");
-
 	return data;
 };
 
