@@ -35,7 +35,7 @@ var rs = {
 				d = encodeURI(d);
 
 				// location.hash = encodeURI(d);
-				history.pushState(null, 'runstant', '#' + encodeURI(d));
+				history.pushState(null, 'runstant', '#' + d);
 			}
 
 			// タイトル更新
@@ -46,12 +46,8 @@ var rs = {
 			var data = null;
 			// decode uri -> unzip -> json parse -> object
 		    if (location.hash) {
-		    	var d = location.hash.substr(1);
-		    	d = decodeURI(d);
-		    	d = unzip(d);
-		    	d = JSON.parse(d);
-
-		    	data = d;
+		    	var hash = location.hash.substr(1);
+		    	data = _decode(hash);
 		    }
 		    else {
 		    	data = {

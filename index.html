@@ -23,6 +23,7 @@
         <!-- mine -->
         <link rel="stylesheet" href="styles/main.css" inline="true">
         <script src="scripts/runstant.js" inline="true"></script>
+        <script src="scripts/user.js" inline="true"></script>
         <script src="scripts/util.js" inline="true"></script>
         <script src="scripts/preview.js" inline="true"></script>
         <script src="scripts/editor.js" inline="true"></script>
@@ -125,16 +126,56 @@
       </div>
 
       <div class="modal-body">
-		<form role="form">
-		  <div class="form-group">
-		    <label for="input-title">title</label>
-		    <input type="text" class="form-control" id="input-title" placeholder="title">
-		  </div>
-		  <div class="form-group">
-		    <label for="input-detail">detail</label>
-		    <textarea class="form-control" id="input-detail" rows=4 placeholder="detail"></textarea>
-		  </div>
-		</form>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active">
+                <a href="#setting-project" role="tab" data-toggle="tab">Project</a>
+            </li>
+            <li>
+                <a href="#setting-user" role="tab" data-toggle="tab">User</a>
+            </li>
+        </ul>
+        <br />
+
+        <div class="tab-content">
+            <!-- project -->
+            <div class="tab-pane active" id="setting-project">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="input-title">title</label>
+                    <input type="text" class="form-control" id="input-title" placeholder="title">
+                  </div>
+                  <div class="form-group">
+                    <label for="input-detail">detail</label>
+                    <textarea class="form-control" id="input-detail" rows=4 placeholder="detail"></textarea>
+                  </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="setting-user">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="input-username">user name</label>
+					<div class="input-group">
+	                    <span class="input-group-addon">@</span>
+	                    <input type="text" class="form-control" id="input-username" placeholder="username" value="runstant" onclick="this.select();" />
+					</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-theme">theme</label>
+					<select class="form-control" id="input-theme">
+					</select>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-key-binding">key binding</label>
+					<select class="form-control" id="input-key-binding">
+					</select>
+                  </div>
+                  <!--
+                  <button>to default</button>
+              -->
+                </form>
+            </div>
+        </div>
+
       </div>
 
       <div class="modal-footer">

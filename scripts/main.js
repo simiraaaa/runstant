@@ -11,10 +11,13 @@ window.onload = function() {
 
 var setup = function() {
 
+    rs.user = new rs.User({
+
+    });
+
     rs.data = new rs.Data({
 
     });
-    rs.data.load();
 
     rs.editor = new rs.Editor({
         id: "editor",
@@ -36,6 +39,7 @@ var setup = function() {
     setupEditor();
     setupAbout();
     setupSetting();
+    setupUserSetting();
     setupShare();
 
     // support mobile
@@ -139,7 +143,56 @@ var setupSetting = function() {
         rs.data.setDetail( $('#input-detail').val() );
 
 		save();
+
+
+
+        // user data
+
+        // theme
+        var theme = $("#input-theme").val();
+        rs.editor.setTheme(theme);
+        rs.user.setTheme(theme);
+
+        // key binding
+        var keyBinding = $("#input-key-binding").val();
+        rs.editor.setKeyboardHandler(keyBinding);
+        rs.user.setKeyBinding(keyBinding);
+
+        rs.user.save();
 	});
+};
+
+var setupUserSetting = function() {
+    // theme
+    var elmTheme = $("#input-theme");
+
+    rs.Editor.themes.forEach(function(theme) {
+        var option = $('<option>');
+
+        option.html(theme.name);
+        option.val(theme.theme);
+        elmTheme.append(option);
+    });
+
+    var theme = rs.user.getTheme();
+    elmTheme.val(theme);
+    rs.editor.setTheme(theme);
+
+    // key binding
+    var elmKeyBinding = $("#input-key-binding");
+
+    ['ace(default)', 'vim', 'emacs'].forEach(function(name) {
+        var option = $('<option>');
+
+        option.html(name);
+        option.val(name.replace(/\(.*\)/g, ''));
+        elmKeyBinding.append(option);
+    });
+
+    var binding = rs.user.getKeyBinding();
+    elmKeyBinding.val(binding);
+    rs.editor.setKeyboardHandler(binding);
+
 };
 
 var setupShare = function() {
