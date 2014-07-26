@@ -48,7 +48,7 @@ body {
 
 #editor {
     float: right;
-    width: 50%;
+    width: 61.5%;
     height: 100%;
     border-left: 1px solid #aaa;
     box-shadow: 0px 0px 4px 0px #444;
@@ -59,7 +59,7 @@ body {
 
 #preview {
     float: left;
-    width: 50%;
+    width: 38.5%;
     height: 100%;
     border: 0px;
     box-shadow: 0px 0px 4px 0px #444;
@@ -133,7 +133,7 @@ var rs = {
 				d = encodeURI(d);
 
 				// location.hash = encodeURI(d);
-				history.pushState(null, 'runstant', '#' + encodeURI(d));
+				history.pushState(null, 'runstant', '#' + d);
 			}
 
 			// タイトル更新
@@ -144,12 +144,8 @@ var rs = {
 			var data = null;
 			// decode uri -> unzip -> json parse -> object
 		    if (location.hash) {
-		    	var d = location.hash.substr(1);
-		    	d = decodeURI(d);
-		    	d = unzip(d);
-		    	d = JSON.parse(d);
-
-		    	data = d;
+		    	var hash = location.hash.substr(1);
+		    	data = _decode(hash);
 		    }
 		    else {
 		    	data = {
@@ -178,6 +174,9 @@ var rs = {
 		    	};
 		    }
 		    this.data = data;
+
+		    // 一回キャッシュしておく
+		    this.cache = JSON.stringify(this.data);
 
 			// タイトル更新
 			document.title = this.getTitle() + " | runstant";
@@ -237,7 +236,82 @@ var rs = {
 	};
 
 })();</script>
-        <script>var zip = function(data) {
+        <script>;(function() {
+	var KEY = "user-setting-alpha";
+
+	rs.User = function(param) {
+		this.init(param);
+	};
+
+	rs.User.prototype = {
+		init: function(param) {
+			this.cache = null;
+			this.load();
+		},
+
+		load: function() {
+			var data = localStorage.getItem(KEY);
+
+			if (data == null) {
+				data = {
+					username: "runstant",
+					keyBinding: 'ace',
+					theme: "ace/theme/monokai",
+				};
+			}
+			else {
+				data = _decode(data);
+				console.dir(data);
+			}
+
+			this.data = data;
+
+			console.debug("user.load", this.data);
+		},
+
+		save: function() {
+			var dataStr = _encode(this.data);
+			localStorage.setItem(KEY, dataStr);
+
+			console.debug("user.save", this.data);
+		},
+
+		setTheme: function(v) {
+			this.data.theme = v;
+			return this;
+		},
+		getTheme: function() {
+			return this.data.theme;
+		},
+
+		setKeyBinding: function(v) {
+			this.data.keyBinding = v;
+			return this;
+		},
+		getKeyBinding: function() {
+			return this.data.keyBinding;
+		},
+	};
+
+})();</script>
+        <script>var _encode = function(data) {
+	data = JSON.stringify(data);
+	data = zip(data);
+	data = encodeURI(data);
+
+	return data;
+};
+
+var _decode = function(data) {
+	data = decodeURI(data);
+	data = unzip(data);
+	data = JSON.parse(data);
+
+	return data;
+};
+
+
+var zip = function(data) {
 	var zip = new JSZip();
 	zip.file('data', data);
 
@@ -338,6 +412,8 @@ var getShortURL = function(url, callback) {
 		        }
 		    };
 		    editor.commands.addCommand(command);
+
+		    // this.setKeyboardHandler('vim');
 		},
 
 		setValue: function(v) {
@@ -354,7 +430,75 @@ var getShortURL = function(url, callback) {
 			this.editor.getSession().setMode("ace/mode/" + type);
 			return this;
 		},
+
+		setTheme: function(theme) {
+			editor.setTheme(theme);
+		},
+
+		setKeyboardHandler: function(key) {
+			var keybindings = {
+				'ace': null,	// default
+				'vim': "ace/keyboard/vim",
+				'emacs': "ace/keyboard/emacs",
+			};
+			this.editor.setKeyboardHandler(keybindings[key]);
+
+			return this;
+		},
 	};
+
+	var themeData = [
+	    ["Chrome"         ],
+	    ["Clouds"         ],
+	    ["Crimson Editor" ],
+	    ["Dawn"           ],
+	    ["Dreamweaver"    ],
+	    ["Eclipse"        ],
+	    ["GitHub"         ],
+	    ["Solarized Light"],
+	    ["TextMate"       ],
+	    ["Tomorrow"       ],
+	    ["XCode"          ],
+	    ["Kuroir"],
+	    ["KatzenMilch"],
+	    ["Ambiance"             ,"ambiance"                ,  "dark"],
+	    ["Chaos"                ,"chaos"                   ,  "dark"],
+	    ["Clouds Midnight"      ,"clouds_midnight"         ,  "dark"],
+	    ["Cobalt"               ,"cobalt"                  ,  "dark"],
+	    ["idle Fingers"         ,"idle_fingers"            ,  "dark"],
+	    ["krTheme"              ,"kr_theme"                ,  "dark"],
+	    ["Merbivore"            ,"merbivore"               ,  "dark"],
+	    ["Merbivore Soft"       ,"merbivore_soft"          ,  "dark"],
+	    ["Mono Industrial"      ,"mono_industrial"         ,  "dark"],
+	    ["Monokai"              ,"monokai"                 ,  "dark"],
+	    ["Pastel on dark"       ,"pastel_on_dark"          ,  "dark"],
+	    ["Solarized Dark"       ,"solarized_dark"          ,  "dark"],
+	    ["Terminal"             ,"terminal"                ,  "dark"],
+	    ["Tomorrow Night"       ,"tomorrow_night"          ,  "dark"],
+	    ["Tomorrow Night Blue"  ,"tomorrow_night_blue"     ,  "dark"],
+	    ["Tomorrow Night Bright","tomorrow_night_bright"   ,  "dark"],
+	    ["Tomorrow Night 80s"   ,"tomorrow_night_eighties" ,  "dark"],
+	    ["Twilight"             ,"twilight"                ,  "dark"],
+	    ["Vibrant Ink"          ,"vibrant_ink"             ,  "dark"]
+	];
+
+
+	rs.Editor.themesByName = {};
+
+	/**
+	 * An array containing information about available themes.
+	 */
+	rs.Editor.themes = themeData.map(function(data) {
+	    var name = data[1] || data[0].replace(/ /g, "_").toLowerCase();
+	    var theme = {
+	        caption: data[0],
+	        theme: "ace/theme/" + name,
+	        isDark: data[2] == "dark",
+	        name: name
+	    };
+	    rs.Editor.themesByName[name] = theme;
+	    return theme;
+	});
 
 })();</script>
         <script>;(function() {
@@ -409,10 +553,13 @@ window.onload = function() {
 
 var setup = function() {
 
+    rs.user = new rs.User({
+
+    });
+
     rs.data = new rs.Data({
 
     });
-    rs.data.load();
 
     rs.editor = new rs.Editor({
         id: "editor",
@@ -434,6 +581,7 @@ var setup = function() {
     setupEditor();
     setupAbout();
     setupSetting();
+    setupUserSetting();
     setupShare();
 
     // support mobile
@@ -537,7 +685,60 @@ var setupSetting = function() {
         rs.data.setDetail( $('#input-detail').val() );
 
 		save();
+
+
+
+        // user data
+
+        // theme
+        var theme = $("#input-theme").val();
+        rs.editor.setTheme(theme);
+        rs.user.setTheme(theme);
+
+        // key binding
+        var keyBinding = $("#input-key-binding").val();
+        rs.editor.setKeyboardHandler(keyBinding);
+        rs.user.setKeyBinding(keyBinding);
+
+        rs.user.save();
 	});
+};
+
+var setupUserSetting = function() {
+    // theme
+    var elmTheme = $("#input-theme");
+
+    rs.Editor.themes.forEach(function(data) {
+        var option = $('<option>');
+        var name = data.name;
+        var theme = data.theme;
+
+        if (name == 'monokai') { name += '(default)'; }
+
+        option.html(name);
+        option.val(theme);
+        elmTheme.append(option);
+    });
+
+    var theme = rs.user.getTheme();
+    elmTheme.val(theme);
+    rs.editor.setTheme(theme);
+
+    // key binding
+    var elmKeyBinding = $("#input-key-binding");
+
+    ['ace(default)', 'vim', 'emacs'].forEach(function(name) {
+        var option = $('<option>');
+
+        option.html(name);
+        option.val(name.replace(/\(.*\)/g, ''));
+        elmKeyBinding.append(option);
+    });
+
+    var binding = rs.user.getKeyBinding();
+    elmKeyBinding.val(binding);
+    rs.editor.setKeyboardHandler(binding);
+
 };
 
 var setupShare = function() {
@@ -717,16 +918,56 @@ var setupShare = function() {
       </div>
 
       <div class="modal-body">
-		<form role="form">
-		  <div class="form-group">
-		    <label for="input-title">title</label>
-		    <input type="text" class="form-control" id="input-title" placeholder="title">
-		  </div>
-		  <div class="form-group">
-		    <label for="input-detail">detail</label>
-		    <textarea class="form-control" id="input-detail" rows=4 placeholder="detail"></textarea>
-		  </div>
-		</form>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active">
+                <a href="#setting-project" role="tab" data-toggle="tab">Project</a>
+            </li>
+            <li>
+                <a href="#setting-user" role="tab" data-toggle="tab">User</a>
+            </li>
+        </ul>
+        <br />
+
+        <div class="tab-content">
+            <!-- project -->
+            <div class="tab-pane active" id="setting-project">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="input-title">title</label>
+                    <input type="text" class="form-control" id="input-title" placeholder="title">
+                  </div>
+                  <div class="form-group">
+                    <label for="input-detail">detail</label>
+                    <textarea class="form-control" id="input-detail" rows=4 placeholder="detail"></textarea>
+                  </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="setting-user">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="input-username">user name</label>
+					<div class="input-group">
+	                    <span class="input-group-addon">@</span>
+	                    <input type="text" class="form-control" id="input-username" placeholder="username" value="runstant" onclick="this.select();" />
+					</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-theme">theme</label>
+					<select class="form-control" id="input-theme">
+					</select>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-key-binding">key binding</label>
+					<select class="form-control" id="input-key-binding">
+					</select>
+                  </div>
+                  <!--
+                  <button>to default</button>
+              -->
+                </form>
+            </div>
+        </div>
+
       </div>
 
       <div class="modal-footer">
