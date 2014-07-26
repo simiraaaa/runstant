@@ -109,7 +109,9 @@ var setupEditor = function() {
         run(); return false;
     });
     $('#btn-save').on('click', function() {
-        save(); return false;
+        save();
+        run();
+        return false;
     });
 };
 
