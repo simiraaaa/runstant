@@ -122,7 +122,7 @@ var rs = {
 	    	return data.code[data.current].type;
 	    },
 
-		toCode: function() {
+		toCode: function(debug) {
 			var data = this.data;
 			var setting = data.setting;
 			var code = data.code;
@@ -132,6 +132,11 @@ var rs = {
 		    	.replace("${style}", code.style.value)
 		    	.replace("${script}", code.script.value)
 		    	;
+
+
+	    	if (debug === true) {
+			    html = "<script>" + document.querySelector("#template-js-message").innerHTML + "</script>" + html;
+	    	}
 
 		    return html;
 		}

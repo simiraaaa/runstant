@@ -8,6 +8,30 @@ window.onload = function() {
 	run();
 };
 
+// console 対応
+window.onmessage = function(e) {
+    var args = e.data.arguments;
+    var arr = [];
+
+    for (var key in args) {
+        var d = args[key];
+        arr.push(d);
+    }
+
+    if (e.data.method == "log") {
+        rs.preview.log.apply(rs.preview, arr);
+    }
+    else if (e.data.method == "dir") {
+        rs.preview.dir(args[0]);
+    }
+
+
+    // arr.unshift("[to child]");
+    // console.log.apply(console, arr);
+};
+
+
+
 
 var setup = function() {
 
@@ -55,7 +79,7 @@ var setup = function() {
 };
 
 var run = function() {
-    rs.preview.run( rs.data.toCode() );
+    rs.preview.run( rs.data.toCode(true) );
 };
 
 var save = function() {
@@ -287,7 +311,7 @@ var setupShare = function() {
     });
 
 	$('#btn-fullscreen').on('click', function() {
-        var html = rs.data.toCode();
+        var html = rs.data.toCode(true);
 
 	    window.open("data:text/html;base64," + window.btoa( unescape(encodeURIComponent( html )) ));
 	});
@@ -299,7 +323,7 @@ var setupShare = function() {
             .replace(/\s/g, '_')
             ;
 
-        var text = rs.data.toCode();
+        var text = rs.data.toCode(false);
 
         var blob = new Blob([text]);
         var url = window.URL.createObjectURL(blob);

@@ -307,10 +307,27 @@ tm.main(function() {
 </script>
 
 
+<script type="text/template" id="template-js-message">
+
+console._log = console.log;
+console.log = function() {
+    console._log.apply(console, arguments);
+
+    window.parent.postMessage({
+        method: "log",
+        arguments: arguments,
+    }, '*');
+};
 
 
+console._dir = console.dir;
+console.dir = function() {
+    console._dir.apply(console, arguments);
 
+    window.parent.postMessage({
+        method: "dir",
+        arguments: arguments,
+    }, '*');
+};
 
-
-
-
+</script>

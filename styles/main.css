@@ -44,11 +44,35 @@ body {
 }
 
 #preview iframe {
+    display: block;
+    margin: 0;
+    padding: 0;
     border: 0px;
     width: 100%;
-    height: 100%;
+    height: 61.5%;
 }
 
+#preview pre {
+    display: block;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    padding: 5px 10px;
+    width: 100%;
+    height: 38.5%;
+    font-family: 'Consolas', 'Monaco', 'ＭＳ ゴシック';
+    border: 1px solid #888;
+    overflow-x: auto;
+}
+
+#preview pre span {
+    border-bottom: 1px solid #ccc;
+    display: block;
+}
+
+#preview pre span:last-child {
+    color: blue;
+}
 
 
 .btn-healing {
