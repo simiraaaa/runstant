@@ -67,11 +67,35 @@ body {
 }
 
 #preview iframe {
+    display: block;
+    margin: 0;
+    padding: 0;
     border: 0px;
     width: 100%;
-    height: 100%;
+    height: 61.5%;
 }
 
+#preview pre {
+    display: block;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    padding: 5px 10px;
+    width: 100%;
+    height: 38.5%;
+    font-family: 'Consolas', 'Monaco', 'ＭＳ ゴシック';
+    border: 1px solid #888;
+    overflow-x: auto;
+}
+
+#preview pre span {
+    border-bottom: 1px solid #ccc;
+    display: block;
+}
+
+#preview pre span:last-child {
+    color: blue;
+}
 
 
 .btn-healing {
@@ -220,7 +244,7 @@ var rs = {
 	    	return data.code[data.current].type;
 	    },
 
-		toCode: function() {
+		toCode: function(debug) {
 			var data = this.data;
 			var setting = data.setting;
 			var code = data.code;
@@ -230,6 +254,11 @@ var rs = {
 		    	.replace("${style}", code.style.value)
 		    	.replace("${script}", code.script.value)
 		    	;
+
+
+	    	if (debug === true) {
+			    html = "<script>" + document.querySelector("#template-js-message").innerHTML + "</script>" + html;
+	    	}
 
 		    return html;
 		}
@@ -366,6 +395,31 @@ var getShortURL = function(url, callback) {
 		    idoc.close();
 
 		    // console.log(code);
+
+		    var pre = document.createElement("pre");
+		    this.domElement.appendChild(pre);
+		    pre.id = "console";
+		},
+
+		log: function() {
+			var str = Array.prototype.join.call(arguments, ' ');
+			this.printConsole(str);
+		},
+
+		dir: function(obj) {
+			var str = JSON.stringify(obj, '', '  ');
+			this.printConsole(str);
+		},
+
+		printConsole: function(str) {
+			var consoleElement = document.querySelector("#console");
+			var span = '<span>' + str + '</span>';
+
+			consoleElement.innerHTML += span;
+
+			setTimeout(function() {
+				consoleElement.scrollTop = consoleElement.scrollHeight;
+			}, 100);
 		},
 	};
 
@@ -553,6 +607,30 @@ window.onload = function() {
 	run();
 };
 
+// console 対応
+window.onmessage = function(e) {
+    var args = e.data.arguments;
+    var arr = [];
+
+    for (var key in args) {
+        var d = args[key];
+        arr.push(d);
+    }
+
+    if (e.data.method == "log") {
+        rs.preview.log.apply(rs.preview, arr);
+    }
+    else if (e.data.method == "dir") {
+        rs.preview.dir(args[0]);
+    }
+
+
+    // arr.unshift("[to child]");
+    // console.log.apply(console, arr);
+};
+
+
+
 
 var setup = function() {
 
@@ -600,7 +678,7 @@ var setup = function() {
 };
 
 var run = function() {
-    rs.preview.run( rs.data.toCode() );
+    rs.preview.run( rs.data.toCode(true) );
 };
 
 var save = function() {
@@ -832,7 +910,7 @@ var setupShare = function() {
     });
 
 	$('#btn-fullscreen').on('click', function() {
-        var html = rs.data.toCode();
+        var html = rs.data.toCode(true);
 
 	    window.open("data:text/html;base64," + window.btoa( unescape(encodeURIComponent( html )) ));
 	});
@@ -844,7 +922,7 @@ var setupShare = function() {
             .replace(/\s/g, '_')
             ;
 
-        var text = rs.data.toCode();
+        var text = rs.data.toCode(false);
 
         var blob = new Blob([text]);
         var url = window.URL.createObjectURL(blob);
@@ -1132,10 +1210,42 @@ tm.main(function() {
 </script>
 
 
+<script type="text/template" id="template-js-message">
+
+console._log = console.log;
+console.log = function() {
+    console._log.apply(console, arguments);
+
+    window.parent.postMessage({
+        method: "log",
+        arguments: arguments,
+    }, '*');
+};
 
 
+console._dir = console.dir;
+console.dir = function(obj) {
+    console._dir.apply(console, arguments);
 
+    var temp = {};
 
+    for (var key in obj) {
+    	var value = obj[key];
+    	if (value && typeof value == "object") {
+    		temp[key] = value.toString();
+    	}
+    	else if (typeof value == "function") {
+    		temp[key] = "[function]";
+    	}
+    	else {
+	    	temp[key] = value;
+    	}
+    }
 
+    window.parent.postMessage({
+        method: "dir",
+        arguments: [temp],
+    }, '*');
+};
 
-
+</script>
