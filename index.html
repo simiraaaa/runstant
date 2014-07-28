@@ -321,12 +321,27 @@ console.log = function() {
 
 
 console._dir = console.dir;
-console.dir = function() {
+console.dir = function(obj) {
     console._dir.apply(console, arguments);
+
+    var temp = {};
+
+    for (var key in obj) {
+    	var value = obj[key];
+    	if (value && typeof value == "object") {
+    		temp[key] = value.toString();
+    	}
+    	else if (typeof value == "function") {
+    		temp[key] = "[function]";
+    	}
+    	else {
+	    	temp[key] = value;
+    	}
+    }
 
     window.parent.postMessage({
         method: "dir",
-        arguments: arguments,
+        arguments: [temp],
     }, '*');
 };
 
