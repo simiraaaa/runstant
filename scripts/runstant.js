@@ -135,7 +135,8 @@ var rs = {
 
 
 	    	if (debug === true) {
-			    html = "<script>" + document.querySelector("#template-js-message").innerHTML + "</script>" + html;
+	    		var tag = "script";
+			    html = "<"+tag+">" + document.querySelector("#template-js-message").innerHTML + "</"+tag+">" + html;
 	    	}
 
 		    return html;
