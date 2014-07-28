@@ -79,27 +79,32 @@ var setupEditor = function() {
         rs.data.setCurrentValue(value);
     });
 
+
     // ボタンの設定
     var buttons = document.querySelectorAll(".code-button");
     var each = Array.prototype.forEach;
 
+    var changeType = function(type) {
+        each.call(buttons, function(li) { li.classList.remove("active"); });
+
+        // active
+        var a = document.querySelector("a[data-type={type}]".replace("{type}", type));
+        a.parentNode.classList.add("active");
+
+        // 更新
+        rs.data.setCurrent(type);
+        
+        rs.editor.setValue(rs.data.getCurrentValue());
+        rs.editor.setMode(rs.data.getCurrentType());
+    };
+
+
     each.call(buttons, function(li) {
         var a = li.querySelector('a');
 
-        if (a.dataset.type === rs.data.getCurrent()) {
-            li.classList.add("active");
-        }
-
         a.onclick = function(e) {
-            each.call(buttons, function(li) { li.classList.remove("active"); });
-            a.parentNode.classList.add("active");
-
             var type = this.dataset.type;
-
-            rs.data.setCurrent(type);
-            
-            rs.editor.setValue(rs.data.getCurrentValue());
-            rs.editor.setMode(rs.data.getCurrentType());
+            changeType(type);
 
             return false;
         };
@@ -113,6 +118,29 @@ var setupEditor = function() {
         run();
         return false;
     });
+
+    // 今のカレントタイプに切り替えておく
+    changeType(rs.data.getCurrent());
+
+    // ショートカットキーを登録
+    var command = {
+        name: "html",
+        bindKey: { mac: "Alt-1", win: "Alt-1", },
+        exec: function() { changeType("html"); }
+    };
+    editor.commands.addCommand(command);
+    var command = {
+        name: "style",
+        bindKey: { mac: "Alt-2", win: "Alt-2", },
+        exec: function() { changeType("style"); }
+    };
+    editor.commands.addCommand(command);
+    var command = {
+        name: "script",
+        bindKey: { mac: "Alt-3", win: "Alt-3", },
+        exec: function() { changeType("script"); }
+    };
+    editor.commands.addCommand(command);
 };
 
 

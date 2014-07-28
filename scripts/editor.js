@@ -43,7 +43,10 @@
 		    };
 		    editor.commands.addCommand(command);
 
-		    // this.setKeyboardHandler('vim');
+		},
+
+		addCommand: function(command) {
+		    editor.commands.addCommand(command);
 		},
 
 		setValue: function(v) {
