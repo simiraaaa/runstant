@@ -15,6 +15,7 @@
 		    editor.setTheme("ace/theme/monokai");
 		    editor.getSession().setTabSize(4);
 		    editor.getSession().setUseSoftTabs(true);
+		    editor.setOption("enableEmmet", true);
 
 		    var command = {
 		        name: "run",
