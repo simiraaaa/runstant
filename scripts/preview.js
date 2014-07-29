@@ -38,9 +38,10 @@
 
 		printConsole: function(str) {
 			var consoleElement = document.querySelector("#console");
-			var span = '<span>' + str + '</span>';
+			var span = document.createElement("span");
+			span.textContent = str;
 
-			consoleElement.innerHTML += span;
+			consoleElement.appendChild(span);
 
 			setTimeout(function() {
 				consoleElement.scrollTop = consoleElement.scrollHeight;
