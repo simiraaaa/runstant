@@ -38,6 +38,10 @@ var setup = function() {
     rs.user = new rs.User({
 
     });
+    // phi_jp 以外はアクセス禁止
+    if (location.pathname == "/ranstant/" && rs.user.getUsername() != "phi_jp") {
+        location.pathname = "/runstant/release/alpha/";
+    }
 
     rs.data = new rs.Data({
 
@@ -202,6 +206,10 @@ var setupSetting = function() {
 
         // user data
 
+        // username
+        var username = $("#input-username").val();
+        rs.user.setUsername(username);
+
         // theme
         var theme = $("#input-theme").val();
         rs.editor.setTheme(theme);
@@ -217,6 +225,12 @@ var setupSetting = function() {
 };
 
 var setupUserSetting = function() {
+    // username
+    var elmUser = $("#input-username");
+
+    var username = rs.user.getUsername() || "runstant";
+    elmUser.val(username);
+
     // theme
     var elmTheme = $("#input-theme");
 

@@ -40,6 +40,14 @@
 			console.debug("user.save", this.data);
 		},
 
+		setUsername: function(v) {
+			this.data.username = v;
+			return this;
+		},
+		getUsername: function() {
+			return this.data.username;
+		},
+
 		setTheme: function(v) {
 			this.data.theme = v;
 			return this;
