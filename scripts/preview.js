@@ -20,6 +20,32 @@
 		    idoc.close();
 
 		    // console.log(code);
+
+		    var pre = document.createElement("pre");
+		    this.domElement.appendChild(pre);
+		    pre.id = "console";
+		},
+
+		log: function() {
+			var str = Array.prototype.join.call(arguments, ' ');
+			this.printConsole(str);
+		},
+
+		dir: function(obj) {
+			var str = JSON.stringify(obj, '', '  ');
+			this.printConsole(str);
+		},
+
+		printConsole: function(str) {
+			var consoleElement = document.querySelector("#console");
+			var span = document.createElement("span");
+			span.textContent = str;
+
+			consoleElement.appendChild(span);
+
+			setTimeout(function() {
+				consoleElement.scrollTop = consoleElement.scrollHeight;
+			}, 100);
 		},
 	};
 

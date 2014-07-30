@@ -35,7 +35,7 @@ var rs = {
 				d = encodeURI(d);
 
 				// location.hash = encodeURI(d);
-				history.pushState(null, 'runstant', '#' + encodeURI(d));
+				history.pushState(null, 'runstant', '#' + d);
 			}
 
 			// タイトル更新
@@ -46,12 +46,8 @@ var rs = {
 			var data = null;
 			// decode uri -> unzip -> json parse -> object
 		    if (location.hash) {
-		    	var d = location.hash.substr(1);
-		    	d = decodeURI(d);
-		    	d = unzip(d);
-		    	d = JSON.parse(d);
-
-		    	data = d;
+		    	var hash = location.hash.substr(1);
+		    	data = _decode(hash);
 		    }
 		    else {
 		    	data = {
@@ -59,7 +55,7 @@ var rs = {
 	    			current: "script",
 
 		    		setting: {
-		    			title: "tmlib.js template",
+		    			title: "template - tmlib.js",
 						detail: "tmlib.js 用公式エディタ. 色々と使えますよ♪",
 		    		},
 		    		code: {
@@ -80,6 +76,9 @@ var rs = {
 		    	};
 		    }
 		    this.data = data;
+
+		    // 一回キャッシュしておく
+		    this.cache = JSON.stringify(this.data);
 
 			// タイトル更新
 			document.title = this.getTitle() + " | runstant";
@@ -123,7 +122,7 @@ var rs = {
 	    	return data.code[data.current].type;
 	    },
 
-		toCode: function() {
+		toCode: function(debug) {
 			var data = this.data;
 			var setting = data.setting;
 			var code = data.code;
@@ -133,6 +132,12 @@ var rs = {
 		    	.replace("${style}", code.style.value)
 		    	.replace("${script}", code.script.value)
 		    	;
+
+
+	    	if (debug === true) {
+	    		var tag = "script";
+			    html = "<"+tag+">" + document.querySelector("#template-js-message").innerHTML + "</"+tag+">" + html;
+	    	}
 
 		    return html;
 		}

@@ -10,6 +10,9 @@
 
         <title>runstant</title>
 
+
+        <!-- jszip -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
         <!-- jquery -->
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <!-- bootstrap -->
@@ -17,6 +20,9 @@
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
         <!-- ace -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ext-emmet.js"></script>
+        <script src="http://rawgit.com/nightwing/emmet-core/master/emmet.js"></script>
+        
         <!-- jszip -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
         <!-- typescript -->
@@ -39,6 +45,7 @@
         <!-- mine -->
         <link rel="stylesheet" href="styles/main.css" inline="true">
         <script src="scripts/runstant.js" inline="true"></script>
+        <script src="scripts/user.js" inline="true"></script>
         <script src="scripts/util.js" inline="true"></script>
         <script src="scripts/preview.js" inline="true"></script>
         <script src="scripts/editor.js" inline="true"></script>
@@ -66,9 +73,9 @@
                         <li><a id="btn-about" href="#">about</a></li>
                     </ul>
                     <div class="navbar-right nav navbar-nav">
-                        <li><a class="code-button" href="#">html</a></li>
-                        <li><a class="code-button" href="#">style</a></li>
-                        <li><a class="code-button" href="#">script</a></li>
+                        <li class="code-button"><a href="#" data-type='html'>html</a></li>
+                        <li class="code-button"><a href="#" data-type='style'>style</a></li>
+                        <li class="code-button"><a href="#" data-type='script'>script</a></li>
                         <li><a>|</a></li>
                         <li><a class="setting" href="#">setting</a></li>
                         <li><a class="share" href="#">share</a></li>
@@ -141,16 +148,56 @@
       </div>
 
       <div class="modal-body">
-		<form role="form">
-		  <div class="form-group">
-		    <label for="input-title">title</label>
-		    <input type="text" class="form-control" id="input-title" placeholder="title">
-		  </div>
-		  <div class="form-group">
-		    <label for="input-detail">detail</label>
-		    <textarea class="form-control" id="input-detail" rows=4 placeholder="detail"></textarea>
-		  </div>
-		</form>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active">
+                <a href="#setting-project" role="tab" data-toggle="tab">Project</a>
+            </li>
+            <li>
+                <a href="#setting-user" role="tab" data-toggle="tab">User</a>
+            </li>
+        </ul>
+        <br />
+
+        <div class="tab-content">
+            <!-- project -->
+            <div class="tab-pane active" id="setting-project">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="input-title">title</label>
+                    <input type="text" class="form-control" id="input-title" placeholder="title">
+                  </div>
+                  <div class="form-group">
+                    <label for="input-detail">detail</label>
+                    <textarea class="form-control" id="input-detail" rows=4 placeholder="detail"></textarea>
+                  </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="setting-user">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="input-username">user name</label>
+					<div class="input-group">
+	                    <span class="input-group-addon">@</span>
+	                    <input type="text" class="form-control" id="input-username" placeholder="username" value="runstant" onclick="this.select();" />
+					</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-theme">theme</label>
+					<select class="form-control" id="input-theme">
+					</select>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-key-binding">key binding</label>
+					<select class="form-control" id="input-key-binding">
+					</select>
+                  </div>
+                  <!--
+                  <button>to default</button>
+              -->
+                </form>
+            </div>
+        </div>
+
       </div>
 
       <div class="modal-footer">
@@ -220,7 +267,7 @@
 
         <style>${style}</style>
 
-        <__script__ src="http://rawgithub.com/phi-jp/tmlib.js/b0e5c6f4cfcc6cb291da842602ec7e96db02f0d8/build/tmlib.js"></__script__>
+        <__script__ src="http://rawgithub.com/phi-jp/tmlib.js/613474643676ee5926e7ec9d5e32d28a5489b361/build/tmlib.js"></__script__>
 		<__script__>${script}</__script__>
     </head>
     <body>
@@ -232,7 +279,7 @@
 
 <script type="text/template" id="template-css">
 body {
-    background-color: "#eee";
+    background-color: #222;
 }
 </script>
 
@@ -282,10 +329,54 @@ tm.main(function() {
 </script>
 
 
+<script type="text/template" id="template-js-message">
+
+console._log = console.log;
+console.log = function() {
+    console._log.apply(console, arguments);
+
+    window.parent.postMessage({
+        method: "log",
+        arguments: arguments,
+    }, '*');
+};
 
 
+console._dir = console.dir;
+console.dir = function(obj) {
+    console._dir.apply(console, arguments);
+
+    var temp = {};
+
+    for (var key in obj) {
+    	var value = obj[key];
+    	if (value && typeof value == "object") {
+    		temp[key] = value.toString();
+    	}
+    	else if (typeof value == "function") {
+    		temp[key] = "[function]";
+    	}
+    	else {
+	    	temp[key] = value;
+    	}
+    }
+
+    window.parent.postMessage({
+        method: "dir",
+        arguments: [temp],
+    }, '*');
+};
+
+</script>
 
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-19424304-4', 'auto');
+  ga('send', 'pageview');
 
-
+</script>

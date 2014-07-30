@@ -8,13 +8,44 @@ window.onload = function() {
 	run();
 };
 
+// console 対応
+window.onmessage = function(e) {
+    var args = e.data.arguments;
+    var arr = [];
+
+    for (var key in args) {
+        var d = args[key];
+        arr.push(d);
+    }
+
+    if (e.data.method == "log") {
+        rs.preview.log.apply(rs.preview, arr);
+    }
+    else if (e.data.method == "dir") {
+        rs.preview.dir(args[0]);
+    }
+
+
+    // arr.unshift("[to child]");
+    // console.log.apply(console, arr);
+};
+
+
+
 
 var setup = function() {
+
+    rs.user = new rs.User({
+
+    });
+    // phi_jp 以外はアクセス禁止
+    if (location.pathname == "/runstant/" && rs.user.getUsername() != "phi_jp") {
+        location.pathname = "/runstant/release/alpha/";
+    }
 
     rs.data = new rs.Data({
 
     });
-    rs.data.load();
 
     rs.editor = new rs.Editor({
         id: "editor",
@@ -36,6 +67,7 @@ var setup = function() {
     setupEditor();
     setupAbout();
     setupSetting();
+    setupUserSetting();
     setupShare();
 
     // support mobile
@@ -51,7 +83,7 @@ var setup = function() {
 };
 
 var run = function() {
-    rs.preview.run( rs.data.toCode() );
+    rs.preview.run( rs.data.toCode(true) );
 };
 
 var save = function() {
@@ -75,18 +107,32 @@ var setupEditor = function() {
         rs.data.setCurrentValue(value);
     });
 
+
     // ボタンの設定
     var buttons = document.querySelectorAll(".code-button");
     var each = Array.prototype.forEach;
 
-    each.call(buttons, function(button) {
-        button.onclick = function(e) {
-            var key = this.innerHTML;
+    var changeType = function(type) {
+        each.call(buttons, function(li) { li.classList.remove("active"); });
 
-            rs.data.setCurrent(key);
-            
-            rs.editor.setValue(rs.data.getCurrentValue());
-            rs.editor.setMode(rs.data.getCurrentType());
+        // active
+        var a = document.querySelector("a[data-type={type}]".replace("{type}", type));
+        a.parentNode.classList.add("active");
+
+        // 更新
+        rs.data.setCurrent(type);
+        
+        rs.editor.setValue(rs.data.getCurrentValue());
+        rs.editor.setMode(rs.data.getCurrentType());
+    };
+
+
+    each.call(buttons, function(li) {
+        var a = li.querySelector('a');
+
+        a.onclick = function(e) {
+            var type = this.dataset.type;
+            changeType(type);
 
             return false;
         };
@@ -96,8 +142,33 @@ var setupEditor = function() {
         run(); return false;
     });
     $('#btn-save').on('click', function() {
-        save(); return false;
+        save();
+        run();
+        return false;
     });
+
+    // 今のカレントタイプに切り替えておく
+    changeType(rs.data.getCurrent());
+
+    // ショートカットキーを登録
+    var command = {
+        name: "html",
+        bindKey: { mac: "Alt-1", win: "Alt-1", },
+        exec: function() { changeType("html"); }
+    };
+    editor.commands.addCommand(command);
+    var command = {
+        name: "style",
+        bindKey: { mac: "Alt-2", win: "Alt-2", },
+        exec: function() { changeType("style"); }
+    };
+    editor.commands.addCommand(command);
+    var command = {
+        name: "script",
+        bindKey: { mac: "Alt-3", win: "Alt-3", },
+        exec: function() { changeType("script"); }
+    };
+    editor.commands.addCommand(command);
 };
 
 
@@ -130,7 +201,70 @@ var setupSetting = function() {
         rs.data.setDetail( $('#input-detail').val() );
 
 		save();
+
+
+
+        // user data
+
+        // username
+        var username = $("#input-username").val();
+        rs.user.setUsername(username);
+
+        // theme
+        var theme = $("#input-theme").val();
+        rs.editor.setTheme(theme);
+        rs.user.setTheme(theme);
+
+        // key binding
+        var keyBinding = $("#input-key-binding").val();
+        rs.editor.setKeyboardHandler(keyBinding);
+        rs.user.setKeyBinding(keyBinding);
+
+        rs.user.save();
 	});
+};
+
+var setupUserSetting = function() {
+    // username
+    var elmUser = $("#input-username");
+
+    var username = rs.user.getUsername() || "runstant";
+    elmUser.val(username);
+
+    // theme
+    var elmTheme = $("#input-theme");
+
+    rs.Editor.themes.forEach(function(data) {
+        var option = $('<option>');
+        var name = data.name;
+        var theme = data.theme;
+
+        if (name == 'monokai') { name += '(default)'; }
+
+        option.html(name);
+        option.val(theme);
+        elmTheme.append(option);
+    });
+
+    var theme = rs.user.getTheme();
+    elmTheme.val(theme);
+    rs.editor.setTheme(theme);
+
+    // key binding
+    var elmKeyBinding = $("#input-key-binding");
+
+    ['ace(default)', 'vim', 'emacs'].forEach(function(name) {
+        var option = $('<option>');
+
+        option.html(name);
+        option.val(name.replace(/\(.*\)/g, ''));
+        elmKeyBinding.append(option);
+    });
+
+    var binding = rs.user.getKeyBinding();
+    elmKeyBinding.val(binding);
+    rs.editor.setKeyboardHandler(binding);
+
 };
 
 var setupShare = function() {
@@ -191,7 +325,7 @@ var setupShare = function() {
     });
 
 	$('#btn-fullscreen').on('click', function() {
-        var html = rs.data.toCode();
+        var html = rs.data.toCode(true);
 
 	    window.open("data:text/html;base64," + window.btoa( unescape(encodeURIComponent( html )) ));
 	});
@@ -203,7 +337,7 @@ var setupShare = function() {
             .replace(/\s/g, '_')
             ;
 
-        var text = rs.data.toCode();
+        var text = rs.data.toCode(false);
 
         var blob = new Blob([text]);
         var url = window.URL.createObjectURL(blob);

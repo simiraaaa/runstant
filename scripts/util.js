@@ -1,5 +1,22 @@
 
 
+var _encode = function(data) {
+	data = JSON.stringify(data);
+	data = zip(data);
+	data = encodeURI(data);
+
+	return data;
+};
+
+var _decode = function(data) {
+	data = decodeURI(data);
+	data = unzip(data);
+	data = JSON.parse(data);
+
+	return data;
+};
+
+
 var zip = function(data) {
 	var zip = new JSZip();
 	zip.file('data', data);

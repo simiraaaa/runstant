@@ -10,6 +10,9 @@
 
         <title>runstant</title>
 
+
+        <!-- jszip -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
         <!-- jquery -->
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <!-- bootstrap -->
@@ -17,8 +20,9 @@
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
         <!-- ace -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
-        <!-- jszip -->
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ext-emmet.js"></script>
+        <!-- emmet -->
+        <script src="http://rawgit.com/nightwing/emmet-core/master/emmet.js"></script>
 
         <!-- mine -->
         <style>html {
@@ -48,7 +52,7 @@ body {
 
 #editor {
     float: right;
-    width: 50%;
+    width: 61.5%;
     height: 100%;
     border-left: 1px solid #aaa;
     box-shadow: 0px 0px 4px 0px #444;
@@ -59,7 +63,7 @@ body {
 
 #preview {
     float: left;
-    width: 50%;
+    width: 38.5%;
     height: 100%;
     border: 0px;
     box-shadow: 0px 0px 4px 0px #444;
@@ -67,11 +71,35 @@ body {
 }
 
 #preview iframe {
+    display: block;
+    margin: 0;
+    padding: 0;
     border: 0px;
     width: 100%;
-    height: 100%;
+    height: 61.5%;
 }
 
+#preview pre {
+    display: block;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    padding: 5px 10px;
+    width: 100%;
+    height: 38.5%;
+    font-family: 'Consolas', 'Monaco', 'ＭＳ ゴシック';
+    border: 1px solid #888;
+    overflow-x: auto;
+}
+
+#preview pre span {
+    border-bottom: 1px solid #ccc;
+    display: block;
+}
+
+#preview pre span:last-child {
+    color: blue;
+}
 
 
 .btn-healing {
@@ -133,7 +161,7 @@ var rs = {
 				d = encodeURI(d);
 
 				// location.hash = encodeURI(d);
-				history.pushState(null, 'runstant', '#' + encodeURI(d));
+				history.pushState(null, 'runstant', '#' + d);
 			}
 
 			// タイトル更新
@@ -144,12 +172,8 @@ var rs = {
 			var data = null;
 			// decode uri -> unzip -> json parse -> object
 		    if (location.hash) {
-		    	var d = location.hash.substr(1);
-		    	d = decodeURI(d);
-		    	d = unzip(d);
-		    	d = JSON.parse(d);
-
-		    	data = d;
+		    	var hash = location.hash.substr(1);
+		    	data = _decode(hash);
 		    }
 		    else {
 		    	data = {
@@ -157,7 +181,7 @@ var rs = {
 	    			current: "script",
 
 		    		setting: {
-		    			title: "tmlib.js template",
+		    			title: "template - tmlib.js",
 						detail: "tmlib.js 用公式エディタ. 色々と使えますよ♪",
 		    		},
 		    		code: {
@@ -178,6 +202,9 @@ var rs = {
 		    	};
 		    }
 		    this.data = data;
+
+		    // 一回キャッシュしておく
+		    this.cache = JSON.stringify(this.data);
 
 			// タイトル更新
 			document.title = this.getTitle() + " | runstant";
@@ -221,7 +248,7 @@ var rs = {
 	    	return data.code[data.current].type;
 	    },
 
-		toCode: function() {
+		toCode: function(debug) {
 			var data = this.data;
 			var setting = data.setting;
 			var code = data.code;
@@ -232,12 +259,101 @@ var rs = {
 		    	.replace("${script}", code.script.value)
 		    	;
 
+
+	    	if (debug === true) {
+	    		var tag = "script";
+			    html = "<"+tag+">" + document.querySelector("#template-js-message").innerHTML + "</"+tag+">" + html;
+	    	}
+
 		    return html;
 		}
 	};
 
 })();</script>
-        <script>var zip = function(data) {
+        <script>;(function() {
+	var KEY = "user-setting-alpha";
+
+	rs.User = function(param) {
+		this.init(param);
+	};
+
+	rs.User.prototype = {
+		init: function(param) {
+			this.cache = null;
+			this.load();
+		},
+
+		load: function() {
+			var data = localStorage.getItem(KEY);
+
+			if (data == null) {
+				data = {
+					username: "runstant",
+					keyBinding: 'ace',
+					theme: "ace/theme/monokai",
+				};
+			}
+			else {
+				data = _decode(data);
+				console.dir(data);
+			}
+
+			this.data = data;
+
+			console.debug("user.load", this.data);
+		},
+
+		save: function() {
+			var dataStr = _encode(this.data);
+			localStorage.setItem(KEY, dataStr);
+
+			console.debug("user.save", this.data);
+		},
+
+		setUsername: function(v) {
+			this.data.username = v;
+			return this;
+		},
+		getUsername: function() {
+			return this.data.username;
+		},
+
+		setTheme: function(v) {
+			this.data.theme = v;
+			return this;
+		},
+		getTheme: function() {
+			return this.data.theme;
+		},
+
+		setKeyBinding: function(v) {
+			this.data.keyBinding = v;
+			return this;
+		},
+		getKeyBinding: function() {
+			return this.data.keyBinding;
+		},
+	};
+
+})();</script>
+        <script>var _encode = function(data) {
+	data = JSON.stringify(data);
+	data = zip(data);
+	data = encodeURI(data);
+
+	return data;
+};
+
+var _decode = function(data) {
+	data = decodeURI(data);
+	data = unzip(data);
+	data = JSON.parse(data);
+
+	return data;
+};
+
+
+var zip = function(data) {
 	var zip = new JSZip();
 	zip.file('data', data);
 
@@ -292,6 +408,32 @@ var getShortURL = function(url, callback) {
 		    idoc.close();
 
 		    // console.log(code);
+
+		    var pre = document.createElement("pre");
+		    this.domElement.appendChild(pre);
+		    pre.id = "console";
+		},
+
+		log: function() {
+			var str = Array.prototype.join.call(arguments, ' ');
+			this.printConsole(str);
+		},
+
+		dir: function(obj) {
+			var str = JSON.stringify(obj, '', '  ');
+			this.printConsole(str);
+		},
+
+		printConsole: function(str) {
+			var consoleElement = document.querySelector("#console");
+			var span = document.createElement("span");
+			span.textContent = str;
+
+			consoleElement.appendChild(span);
+
+			setTimeout(function() {
+				consoleElement.scrollTop = consoleElement.scrollHeight;
+			}, 100);
 		},
 	};
 
@@ -311,6 +453,7 @@ var getShortURL = function(url, callback) {
 		    editor.setTheme("ace/theme/monokai");
 		    editor.getSession().setTabSize(4);
 		    editor.getSession().setUseSoftTabs(true);
+		    editor.setOption("enableEmmet", true);
 
 		    var command = {
 		        name: "run",
@@ -338,6 +481,11 @@ var getShortURL = function(url, callback) {
 		        }
 		    };
 		    editor.commands.addCommand(command);
+
+		},
+
+		addCommand: function(command) {
+		    editor.commands.addCommand(command);
 		},
 
 		setValue: function(v) {
@@ -354,7 +502,75 @@ var getShortURL = function(url, callback) {
 			this.editor.getSession().setMode("ace/mode/" + type);
 			return this;
 		},
+
+		setTheme: function(theme) {
+			editor.setTheme(theme);
+		},
+
+		setKeyboardHandler: function(key) {
+			var keybindings = {
+				'ace': null,	// default
+				'vim': "ace/keyboard/vim",
+				'emacs': "ace/keyboard/emacs",
+			};
+			this.editor.setKeyboardHandler(keybindings[key]);
+
+			return this;
+		},
 	};
+
+	var themeData = [
+	    ["Chrome"         ],
+	    ["Clouds"         ],
+	    ["Crimson Editor" ],
+	    ["Dawn"           ],
+	    ["Dreamweaver"    ],
+	    ["Eclipse"        ],
+	    ["GitHub"         ],
+	    ["Solarized Light"],
+	    ["TextMate"       ],
+	    ["Tomorrow"       ],
+	    ["XCode"          ],
+	    ["Kuroir"],
+	    ["KatzenMilch"],
+	    ["Ambiance"             ,"ambiance"                ,  "dark"],
+	    ["Chaos"                ,"chaos"                   ,  "dark"],
+	    ["Clouds Midnight"      ,"clouds_midnight"         ,  "dark"],
+	    ["Cobalt"               ,"cobalt"                  ,  "dark"],
+	    ["idle Fingers"         ,"idle_fingers"            ,  "dark"],
+	    ["krTheme"              ,"kr_theme"                ,  "dark"],
+	    ["Merbivore"            ,"merbivore"               ,  "dark"],
+	    ["Merbivore Soft"       ,"merbivore_soft"          ,  "dark"],
+	    ["Mono Industrial"      ,"mono_industrial"         ,  "dark"],
+	    ["Monokai"              ,"monokai"                 ,  "dark"],
+	    ["Pastel on dark"       ,"pastel_on_dark"          ,  "dark"],
+	    ["Solarized Dark"       ,"solarized_dark"          ,  "dark"],
+	    ["Terminal"             ,"terminal"                ,  "dark"],
+	    ["Tomorrow Night"       ,"tomorrow_night"          ,  "dark"],
+	    ["Tomorrow Night Blue"  ,"tomorrow_night_blue"     ,  "dark"],
+	    ["Tomorrow Night Bright","tomorrow_night_bright"   ,  "dark"],
+	    ["Tomorrow Night 80s"   ,"tomorrow_night_eighties" ,  "dark"],
+	    ["Twilight"             ,"twilight"                ,  "dark"],
+	    ["Vibrant Ink"          ,"vibrant_ink"             ,  "dark"]
+	];
+
+
+	rs.Editor.themesByName = {};
+
+	/**
+	 * An array containing information about available themes.
+	 */
+	rs.Editor.themes = themeData.map(function(data) {
+	    var name = data[1] || data[0].replace(/ /g, "_").toLowerCase();
+	    var theme = {
+	        caption: data[0],
+	        theme: "ace/theme/" + name,
+	        isDark: data[2] == "dark",
+	        name: name
+	    };
+	    rs.Editor.themesByName[name] = theme;
+	    return theme;
+	});
 
 })();</script>
         <script>;(function() {
@@ -406,13 +622,44 @@ window.onload = function() {
 	run();
 };
 
+// console 対応
+window.onmessage = function(e) {
+    var args = e.data.arguments;
+    var arr = [];
+
+    for (var key in args) {
+        var d = args[key];
+        arr.push(d);
+    }
+
+    if (e.data.method == "log") {
+        rs.preview.log.apply(rs.preview, arr);
+    }
+    else if (e.data.method == "dir") {
+        rs.preview.dir(args[0]);
+    }
+
+
+    // arr.unshift("[to child]");
+    // console.log.apply(console, arr);
+};
+
+
+
 
 var setup = function() {
+
+    rs.user = new rs.User({
+
+    });
+    // phi_jp 以外はアクセス禁止
+    if (location.pathname == "/runstant/" && rs.user.getUsername() != "phi_jp") {
+        location.pathname = "/runstant/release/alpha/";
+    }
 
     rs.data = new rs.Data({
 
     });
-    rs.data.load();
 
     rs.editor = new rs.Editor({
         id: "editor",
@@ -434,6 +681,7 @@ var setup = function() {
     setupEditor();
     setupAbout();
     setupSetting();
+    setupUserSetting();
     setupShare();
 
     // support mobile
@@ -449,7 +697,7 @@ var setup = function() {
 };
 
 var run = function() {
-    rs.preview.run( rs.data.toCode() );
+    rs.preview.run( rs.data.toCode(true) );
 };
 
 var save = function() {
@@ -473,18 +721,32 @@ var setupEditor = function() {
         rs.data.setCurrentValue(value);
     });
 
+
     // ボタンの設定
     var buttons = document.querySelectorAll(".code-button");
     var each = Array.prototype.forEach;
 
-    each.call(buttons, function(button) {
-        button.onclick = function(e) {
-            var key = this.innerHTML;
+    var changeType = function(type) {
+        each.call(buttons, function(li) { li.classList.remove("active"); });
 
-            rs.data.setCurrent(key);
-            
-            rs.editor.setValue(rs.data.getCurrentValue());
-            rs.editor.setMode(rs.data.getCurrentType());
+        // active
+        var a = document.querySelector("a[data-type={type}]".replace("{type}", type));
+        a.parentNode.classList.add("active");
+
+        // 更新
+        rs.data.setCurrent(type);
+        
+        rs.editor.setValue(rs.data.getCurrentValue());
+        rs.editor.setMode(rs.data.getCurrentType());
+    };
+
+
+    each.call(buttons, function(li) {
+        var a = li.querySelector('a');
+
+        a.onclick = function(e) {
+            var type = this.dataset.type;
+            changeType(type);
 
             return false;
         };
@@ -494,8 +756,33 @@ var setupEditor = function() {
         run(); return false;
     });
     $('#btn-save').on('click', function() {
-        save(); return false;
+        save();
+        run();
+        return false;
     });
+
+    // 今のカレントタイプに切り替えておく
+    changeType(rs.data.getCurrent());
+
+    // ショートカットキーを登録
+    var command = {
+        name: "html",
+        bindKey: { mac: "Alt-1", win: "Alt-1", },
+        exec: function() { changeType("html"); }
+    };
+    editor.commands.addCommand(command);
+    var command = {
+        name: "style",
+        bindKey: { mac: "Alt-2", win: "Alt-2", },
+        exec: function() { changeType("style"); }
+    };
+    editor.commands.addCommand(command);
+    var command = {
+        name: "script",
+        bindKey: { mac: "Alt-3", win: "Alt-3", },
+        exec: function() { changeType("script"); }
+    };
+    editor.commands.addCommand(command);
 };
 
 
@@ -528,7 +815,70 @@ var setupSetting = function() {
         rs.data.setDetail( $('#input-detail').val() );
 
 		save();
+
+
+
+        // user data
+
+        // username
+        var username = $("#input-username").val();
+        rs.user.setUsername(username);
+
+        // theme
+        var theme = $("#input-theme").val();
+        rs.editor.setTheme(theme);
+        rs.user.setTheme(theme);
+
+        // key binding
+        var keyBinding = $("#input-key-binding").val();
+        rs.editor.setKeyboardHandler(keyBinding);
+        rs.user.setKeyBinding(keyBinding);
+
+        rs.user.save();
 	});
+};
+
+var setupUserSetting = function() {
+    // username
+    var elmUser = $("#input-username");
+
+    var username = rs.user.getUsername() || "runstant";
+    elmUser.val(username);
+
+    // theme
+    var elmTheme = $("#input-theme");
+
+    rs.Editor.themes.forEach(function(data) {
+        var option = $('<option>');
+        var name = data.name;
+        var theme = data.theme;
+
+        if (name == 'monokai') { name += '(default)'; }
+
+        option.html(name);
+        option.val(theme);
+        elmTheme.append(option);
+    });
+
+    var theme = rs.user.getTheme();
+    elmTheme.val(theme);
+    rs.editor.setTheme(theme);
+
+    // key binding
+    var elmKeyBinding = $("#input-key-binding");
+
+    ['ace(default)', 'vim', 'emacs'].forEach(function(name) {
+        var option = $('<option>');
+
+        option.html(name);
+        option.val(name.replace(/\(.*\)/g, ''));
+        elmKeyBinding.append(option);
+    });
+
+    var binding = rs.user.getKeyBinding();
+    elmKeyBinding.val(binding);
+    rs.editor.setKeyboardHandler(binding);
+
 };
 
 var setupShare = function() {
@@ -589,7 +939,7 @@ var setupShare = function() {
     });
 
 	$('#btn-fullscreen').on('click', function() {
-        var html = rs.data.toCode();
+        var html = rs.data.toCode(true);
 
 	    window.open("data:text/html;base64," + window.btoa( unescape(encodeURIComponent( html )) ));
 	});
@@ -601,7 +951,7 @@ var setupShare = function() {
             .replace(/\s/g, '_')
             ;
 
-        var text = rs.data.toCode();
+        var text = rs.data.toCode(false);
 
         var blob = new Blob([text]);
         var url = window.URL.createObjectURL(blob);
@@ -633,9 +983,9 @@ var setupShare = function() {
                         <li><a id="btn-about" href="#">about</a></li>
                     </ul>
                     <div class="navbar-right nav navbar-nav">
-                        <li><a class="code-button" href="#">html</a></li>
-                        <li><a class="code-button" href="#">style</a></li>
-                        <li><a class="code-button" href="#">script</a></li>
+                        <li class="code-button"><a href="#" data-type='html'>html</a></li>
+                        <li class="code-button"><a href="#" data-type='style'>style</a></li>
+                        <li class="code-button"><a href="#" data-type='script'>script</a></li>
                         <li><a>|</a></li>
                         <li><a class="setting" href="#">setting</a></li>
                         <li><a class="share" href="#">share</a></li>
@@ -708,16 +1058,56 @@ var setupShare = function() {
       </div>
 
       <div class="modal-body">
-		<form role="form">
-		  <div class="form-group">
-		    <label for="input-title">title</label>
-		    <input type="text" class="form-control" id="input-title" placeholder="title">
-		  </div>
-		  <div class="form-group">
-		    <label for="input-detail">detail</label>
-		    <textarea class="form-control" id="input-detail" rows=4 placeholder="detail"></textarea>
-		  </div>
-		</form>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active">
+                <a href="#setting-project" role="tab" data-toggle="tab">Project</a>
+            </li>
+            <li>
+                <a href="#setting-user" role="tab" data-toggle="tab">User</a>
+            </li>
+        </ul>
+        <br />
+
+        <div class="tab-content">
+            <!-- project -->
+            <div class="tab-pane active" id="setting-project">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="input-title">title</label>
+                    <input type="text" class="form-control" id="input-title" placeholder="title">
+                  </div>
+                  <div class="form-group">
+                    <label for="input-detail">detail</label>
+                    <textarea class="form-control" id="input-detail" rows=4 placeholder="detail"></textarea>
+                  </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="setting-user">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="input-username">user name</label>
+					<div class="input-group">
+	                    <span class="input-group-addon">@</span>
+	                    <input type="text" class="form-control" id="input-username" placeholder="username" value="runstant" onclick="this.select();" />
+					</div>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-theme">theme</label>
+					<select class="form-control" id="input-theme">
+					</select>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-key-binding">key binding</label>
+					<select class="form-control" id="input-key-binding">
+					</select>
+                  </div>
+                  <!--
+                  <button>to default</button>
+              -->
+                </form>
+            </div>
+        </div>
+
       </div>
 
       <div class="modal-footer">
@@ -787,7 +1177,7 @@ var setupShare = function() {
 
         <style>${style}</style>
 
-        <__script__ src="http://rawgithub.com/phi-jp/tmlib.js/b0e5c6f4cfcc6cb291da842602ec7e96db02f0d8/build/tmlib.js"></__script__>
+        <__script__ src="http://rawgithub.com/phi-jp/tmlib.js/613474643676ee5926e7ec9d5e32d28a5489b361/build/tmlib.js"></__script__>
 		<__script__>${script}</__script__>
     </head>
     <body>
@@ -799,7 +1189,7 @@ var setupShare = function() {
 
 <script type="text/template" id="template-css">
 body {
-    background-color: "#eee";
+    background-color: #222;
 }
 </script>
 
@@ -849,10 +1239,54 @@ tm.main(function() {
 </script>
 
 
+<script type="text/template" id="template-js-message">
+
+console._log = console.log;
+console.log = function() {
+    console._log.apply(console, arguments);
+
+    window.parent.postMessage({
+        method: "log",
+        arguments: arguments,
+    }, '*');
+};
 
 
+console._dir = console.dir;
+console.dir = function(obj) {
+    console._dir.apply(console, arguments);
+
+    var temp = {};
+
+    for (var key in obj) {
+    	var value = obj[key];
+    	if (value && typeof value == "object") {
+    		temp[key] = value.toString();
+    	}
+    	else if (typeof value == "function") {
+    		temp[key] = "[function]";
+    	}
+    	else {
+	    	temp[key] = value;
+    	}
+    }
+
+    window.parent.postMessage({
+        method: "dir",
+        arguments: [temp],
+    }, '*');
+};
+
+</script>
 
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-19424304-4', 'auto');
+  ga('send', 'pageview');
 
-
+</script>
