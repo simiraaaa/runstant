@@ -24,13 +24,17 @@ window.onmessage = function(e) {
     else if (e.data.method == "dir") {
         rs.preview.dir(args[0]);
     }
-
-
-    // arr.unshift("[to child]");
-    // console.log.apply(console, arr);
 };
 
 
+document.onkeydown = function(e) {
+    if (e.ctrlKey == true || e.metaKey == true) {
+        if (e.keyCode == 83) {
+            alert("エラー出てるかも!!");
+            return false;
+        }
+    }
+};
 
 
 var setup = function() {

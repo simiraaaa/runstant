@@ -135,6 +135,16 @@ var rs = {
 			var prefix = '';
 			var suffix = '';
 
+			var htmlCode = (function() {
+				var value = code.html.value;
+
+				if (code.html.type == "jade") {
+					value = jade2html(value);
+				}
+
+				return value;
+			})();
+
 			var cssCode = (function() {
 				var value = code.style.value;
 
@@ -172,7 +182,7 @@ var rs = {
 				return value;
 			})();
 
-			var html = code.html.value
+			var finalCode = htmlCode
 		    	.replace("${title}", setting.title)
 		    	.replace("${description}", setting.detail)
 		    	.replace("${style}", cssCode)
@@ -180,15 +190,15 @@ var rs = {
 		    	;
 
 
-		    html = prefix + html + suffix;
+		    finalCode = prefix + finalCode + suffix;
 
 
 	    	if (debug === true) {
 	    		var tag = "script";
-			    html = "<"+tag+">" + document.querySelector("#template-js-message").innerHTML + "</"+tag+">" + html;
+			    finalCode = "<"+tag+">" + document.querySelector("#template-js-message").innerHTML + "</"+tag+">" + finalCode;
 	    	}
 
-		    return html;
+		    return finalCode;
 		}
 	};
 
