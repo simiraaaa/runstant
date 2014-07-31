@@ -98,4 +98,16 @@ body {
     margin-top: -5px;
 }
 
+.col-sm-4 {
+    padding: 5px;
+}
+.col-sm-4:first-child {
+    padding-left: 0px;
+}
+.col-sm-4:last-child {
+    padding-right: 0px;
+}
+
+
+
 

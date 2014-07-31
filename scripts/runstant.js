@@ -122,15 +122,50 @@ var rs = {
 	    	return data.code[data.current].type;
 	    },
 
+	    getCode: function(type) {
+	    	var data = this.data;
+	    	return data.code[type];
+	    },
+
 		toCode: function(debug) {
 			var data = this.data;
 			var setting = data.setting;
 			var code = data.code;
+
+
+			var cssCode = (function() {
+				var value = code.style.value;
+
+				if (code.style.type == "stylus") {
+					value = stylus2css(value);
+				}
+				else if (code.style.type == "less") {
+					value = less2css(value);
+					console.log(value);
+				}
+
+				return value;
+			})();
+
+			var jsCode = (function() {
+				var value = code.script.value;
+
+				if (code.script.type == "coffee") {
+					value = coffee2js(value);
+				}
+				else if (code.script.type == "typescript") {
+					value = typescript2js(value);
+					console.log(value);
+				}
+
+				return value;
+			})();
+
 			var html = code.html.value
 		    	.replace("${title}", setting.title)
 		    	.replace("${description}", setting.detail)
-		    	.replace("${style}", code.style.value)
-		    	.replace("${script}", code.script.value)
+		    	.replace("${style}", cssCode)
+		    	.replace("${script}", jsCode)
 		    	;
 
 

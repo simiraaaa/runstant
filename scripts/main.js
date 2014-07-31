@@ -130,6 +130,9 @@ var setupEditor = function() {
     each.call(buttons, function(li) {
         var a = li.querySelector('a');
 
+        var langType = rs.data.data.code[a.dataset.type].type;
+        a.innerHTML = langType;
+
         a.onclick = function(e) {
             var type = this.dataset.type;
             changeType(type);
@@ -187,6 +190,10 @@ var setupSetting = function() {
 		$('#input-title').val(rs.data.getTitle());
 		$('#input-detail').val(rs.data.getDetail());
 
+        $('#input-html').val(rs.data.getCode("html").type);
+        $('#input-style').val(rs.data.getCode("style").type);
+        $('#input-script').val(rs.data.getCode("script").type);
+
     	$('#settingModal').modal('show');
 
     	return false;
@@ -200,8 +207,16 @@ var setupSetting = function() {
         rs.data.setTitle( $('#input-title').val() );
         rs.data.setDetail( $('#input-detail').val() );
 
-		save();
+        rs.data.getCode("html").type = $('#input-html').val();
+        rs.data.getCode("style").type = $('#input-style').val();
+        rs.data.getCode("script").type = $('#input-script').val();
 
+        document.querySelector("a[data-type='html']").innerHTML = $('#input-html').val();
+        document.querySelector("a[data-type='style']").innerHTML = $('#input-style').val();
+        document.querySelector("a[data-type='script']").innerHTML = $('#input-script').val();
+
+
+		save();
 
 
         // user data

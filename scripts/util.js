@@ -63,14 +63,25 @@ var jade2html = function(code) {
 var code = jade2html('html\n  head\n  body');
 console.log(code);
 
-var coffeescript2js = function(code) {
+var coffee2js = function(code) {
 	var source = CoffeeScript.compile(code);
 
 	return '// Compiled CoffeeScript\n\n' + source;
 };
 // // test
-// var code = coffeescript2js('console.log "coffee だよ!"');
+// var code = coffee2js('console.log "coffee だよ!"');
 // console.log(code);
+
+var es62js = function(code) {
+    var compiler = new traceur.Compiler();
+    var result = compiler.stringToString(code);
+    var code = result.js.match(/"use strict";([\s\S]*)return/m)[1];
+
+	return '// Compiled ECMAScript 6\n\n' + code;
+};
+// test
+var code = es62js('console.log("ECMAScript 6 だよ!")');
+console.log(code);
 
 
 var less2css = function(code) {
@@ -83,7 +94,7 @@ var less2css = function(code) {
 		source = tree.toCSS();
 	});
 
-	return '// Compiled LESS\n\n' + source;
+	return '/* Compiled LESS */\n\n' + source;
 };
 // test
 var code = less2css('body { #hoge { background: "red"; } }');
@@ -98,7 +109,7 @@ var stylus2css = function(code) {
 		source = b;
 	});
 
-	return '// Compiled Stylus\n\n' + source;
+	return '/* Compiled Stylus */\n\n' + source;
 };
 // test
 var code = stylus2css('body\n  background: "red"');

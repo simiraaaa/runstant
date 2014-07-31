@@ -22,8 +22,9 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ext-emmet.js"></script>
         <script src="http://rawgit.com/nightwing/emmet-core/master/emmet.js"></script>
-        
+
         <!-- jszip -->
+
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
         <!-- typescript -->
         <script src="http://rawgit.com/niutech/typescript-compile/gh-pages/js/typescript.min.js"></script>
@@ -32,6 +33,8 @@
     -->
         <!-- coffeescript -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.7.1/coffee-script.min.js"></script>
+        <!-- ECMAScript 6 -->
+        <script src="http://rawgit.com/google/traceur-compiler/gh-pages/bin/traceur.js"></script>
 
         <!-- jade -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jade/1.3.1/jade.min.js"></script>
@@ -170,6 +173,32 @@
                     <label for="input-detail">detail</label>
                     <textarea class="form-control" id="input-detail" rows=4 placeholder="detail"></textarea>
                   </div>
+                    <div class="form-group">
+						<label for="input-lang">lang type</label>
+						<div class="form-group">
+							<div class="col-sm-4">
+								<select class="form-control" id="input-html">
+									<option>html</option>
+									<option>jade</option>
+								</select>
+							</div>
+							<div class="col-sm-4">
+								<select class="form-control" id="input-style">
+									<option>css</option>
+									<option>stylus</option>
+									<option>less</option>
+								</select>
+							</div>
+							<div class="col-sm-4">
+								<select class="form-control" id="input-script">
+									<option>javascript</option>
+									<option>typescript</option>
+									<option>coffee</option>
+									<option>ecmascript6</option>
+								</select>
+							</div>
+						</div>
+                    </div>
                 </form>
             </div>
             <div class="tab-pane" id="setting-user">
@@ -288,12 +317,6 @@ body {
  * # runstant
  * さぁ, 一緒にゲームプログラミングを始めよう!!
  * ってことで tmlib.js の公式エディタツール runstant です(tmlibのステマ)
- *
- * ログイン不要, サーバー通信不要, 世界で一番簡単に
- * プログラミングを体験, 始められるツールです(多分...)
- * 
- * ここにコードを書いて, 上の `save` ボタン(Command+S)を押すと
- * 画面左側でコードを実行 & 状態を URL に保存します. はっきり言って結構便利です!!
  */
 
 // main
