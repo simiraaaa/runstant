@@ -215,6 +215,7 @@ var setupSetting = function() {
         document.querySelector("a[data-type='style']").innerHTML = $('#input-style').val();
         document.querySelector("a[data-type='script']").innerHTML = $('#input-script').val();
 
+        rs.editor.setMode(rs.data.getCurrentType());
 
 		save();
 

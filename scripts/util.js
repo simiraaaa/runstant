@@ -59,9 +59,9 @@ var jade2html = function(code) {
 	});
 	return '<!-- Compiled Jade -->\n\n' + source();
 };
-// test
-var code = jade2html('html\n  head\n  body');
-console.log(code);
+// // test
+// var code = jade2html('html\n  head\n  body');
+// console.log(code);
 
 var coffee2js = function(code) {
 	var source = CoffeeScript.compile(code);
@@ -82,9 +82,9 @@ var es62js = function(code) {
 
 	return '// Compiled ECMAScript 6\n\n' + code;
 };
-// test
-var code = es62js('console.log("ECMAScript 6 だよ!")');
-console.log(code);
+// // test
+// var code = es62js('console.log("ECMAScript 6 だよ!")');
+// console.log(code);
 
 
 var ruby2js = function(code) {
@@ -105,9 +105,9 @@ var less2css = function(code) {
 
 //	return '/* Compiled LESS */\n\n' + source;
 };
-// test
-var code = less2css('body { #hoge { background: "red"; } }');
-console.log(code);
+// // test
+// var code = less2css('body { #hoge { background: "red"; } }');
+// console.log(code);
 
 
 var sass2css = function(code) {
