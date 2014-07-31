@@ -132,6 +132,8 @@ var rs = {
 			var setting = data.setting;
 			var code = data.code;
 
+			var prefix = '';
+			var suffix = '';
 
 			var cssCode = (function() {
 				var value = code.style.value;
@@ -155,7 +157,10 @@ var rs = {
 				}
 				else if (code.script.type == "typescript") {
 					value = typescript2js(value);
-					console.log(value);
+				}
+				else if (code.script.type == "ecmascript6") {
+					value = es62js(value);
+					prefix += '<script src="http://rawgit.com/google/traceur-compiler/gh-pages/bin/traceur-runtime.js"></script>';
 				}
 
 				return value;
@@ -167,6 +172,9 @@ var rs = {
 		    	.replace("${style}", cssCode)
 		    	.replace("${script}", jsCode)
 		    	;
+
+
+		    html = prefix + html + suffix;
 
 
 	    	if (debug === true) {

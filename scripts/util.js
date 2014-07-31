@@ -75,6 +75,7 @@ var coffee2js = function(code) {
 var es62js = function(code) {
     var compiler = new traceur.Compiler();
     var result = compiler.stringToString(code);
+    console.log(result.js);
     var code = result.js.match(/"use strict";([\s\S]*)return/m)[1];
 
 	return '// Compiled ECMAScript 6\n\n' + code;
