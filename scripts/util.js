@@ -78,6 +78,7 @@ var es62js = function(code) {
     });
     var result = compiler.stringToString(code);
     var code = result.js.match(/"use strict";([\s\S]*)return/m)[1];
+    console.log(code);
 
 	return '// Compiled ECMAScript 6\n\n' + code;
 };
@@ -85,6 +86,12 @@ var es62js = function(code) {
 var code = es62js('console.log("ECMAScript 6 だよ!")');
 console.log(code);
 
+
+var ruby2js = function(code) {
+	var result = Opal.compile(code);
+
+	return '// Compiled opal\n\n' + result;
+};
 
 var less2css = function(code) {
 	// console.dir(less.Parser());
@@ -96,12 +103,17 @@ var less2css = function(code) {
 		source = tree.toCSS();
 	});
 
-	return '/* Compiled LESS */\n\n' + source;
+//	return '/* Compiled LESS */\n\n' + source;
 };
 // test
 var code = less2css('body { #hoge { background: "red"; } }');
 console.log(code);
 
+
+var sass2css = function(code) {
+	var css = Sass.compile(code);
+	return '/* Compiled SASS */\n\n' + css;
+};
 
 var stylus2css = function(code) {
 	var source = '';

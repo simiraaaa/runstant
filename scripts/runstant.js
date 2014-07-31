@@ -143,7 +143,9 @@ var rs = {
 				}
 				else if (code.style.type == "less") {
 					value = less2css(value);
-					console.log(value);
+				}
+				else if (code.style.type == "sass") {
+					value = sass2css(value);
 				}
 
 				return value;
@@ -161,6 +163,10 @@ var rs = {
 				else if (code.script.type == "ecmascript6") {
 					value = es62js(value);
 					prefix += '<script src="http://rawgit.com/google/traceur-compiler/gh-pages/bin/traceur-runtime.js"></script>';
+				}
+				else if (code.script.type == "ruby") {
+					value = ruby2js(value);
+					prefix += '<script src="http://cdn.opalrb.org/opal/current/opal.min.js"></script>';
 				}
 
 				return value;
