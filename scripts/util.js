@@ -92,6 +92,8 @@ var ruby2js = function(code) {
 
 	return '// Compiled opal\n\n' + result;
 };
+var code = ruby2js('puts "Hello, world!"');
+console.log(code);
 
 var less2css = function(code) {
 	// console.dir(less.Parser());
