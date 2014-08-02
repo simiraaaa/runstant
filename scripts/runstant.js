@@ -11,6 +11,14 @@ var rs = {
 
 ;(function() {
 
+	// htmlmin 対応
+	var sandScriptTag = function(path) {
+		return '<${script} src="${path}"></${script}>'
+			.replace(/\$\{script\}/g, "script")
+			.replace(/\$\{path\}/, path)
+			;
+	};
+
 	rs.Data = function(param) {
 		this.init(param);
 	};
@@ -139,7 +147,7 @@ var rs = {
 				var value = code.html.value;
 
 				if (code.html.type == "jade") {
-					value = jade2html(value);
+					value = rs.compiler.jade2html(value);
 				}
 
 				return value;
@@ -149,13 +157,14 @@ var rs = {
 				var value = code.style.value;
 
 				if (code.style.type == "stylus") {
-					value = stylus2css(value);
+					value = rs.compiler.stylus2css(value);
 				}
 				else if (code.style.type == "less") {
-					value = less2css(value);
+					value = rs.compiler.less2css(value);
+					console.log(value);
 				}
 				else if (code.style.type == "sass") {
-					value = sass2css(value);
+					value = rs.compiler.sass2css(value);
 				}
 
 				return value;
@@ -165,18 +174,18 @@ var rs = {
 				var value = code.script.value;
 
 				if (code.script.type == "coffee") {
-					value = coffee2js(value);
+					value = rs.compiler.coffee2js(value);
 				}
 				else if (code.script.type == "typescript") {
-					value = typescript2js(value);
+					value = rs.compiler.typescript2js(value);
 				}
 				else if (code.script.type == "ecmascript6") {
-					value = es62js(value);
-					prefix += '<script src="http://rawgit.com/google/traceur-compiler/gh-pages/bin/traceur-runtime.js"></script>';
+					value = rs.compiler.es62js(value);
+					prefix += sandScriptTag("http://rawgit.com/google/traceur-compiler/gh-pages/bin/traceur-runtime.js");
 				}
 				else if (code.script.type == "ruby") {
-					value = ruby2js(value);
-					prefix += '<script src="http://cdn.opalrb.org/opal/current/opal.min.js"></script>';
+					value = rs.compiler.ruby2js(value);
+					prefix += sandScriptTag("http://cdn.opalrb.org/opal/current/opal.min.js");
 				}
 
 				return value;
@@ -191,7 +200,6 @@ var rs = {
 
 
 		    finalCode = prefix + finalCode + suffix;
-
 
 	    	if (debug === true) {
 	    		var tag = "script";

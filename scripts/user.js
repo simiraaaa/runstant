@@ -25,7 +25,6 @@
 			}
 			else {
 				data = _decode(data);
-				console.dir(data);
 			}
 
 			this.data = data;
