@@ -61,6 +61,12 @@
 		},
 
 		setMode: function(type) {
+			var map = {
+				"ecmascript6": "javascript",
+				"sass": "scss",
+			};
+			if (map[type]) type = map[type];
+
 			this.editor.getSession().setMode("ace/mode/" + type);
 			return this;
 		},

@@ -11,6 +11,14 @@ var rs = {
 
 ;(function() {
 
+	// htmlmin 対応
+	var sandScriptTag = function(path) {
+		return '<${script} src="${path}"></${script}>'
+			.replace(/\$\{script\}/g, "script")
+			.replace(/\$\{path\}/, path)
+			;
+	};
+
 	rs.Data = function(param) {
 		this.init(param);
 	};
@@ -122,24 +130,83 @@ var rs = {
 	    	return data.code[data.current].type;
 	    },
 
+	    getCode: function(type) {
+	    	var data = this.data;
+	    	return data.code[type];
+	    },
+
 		toCode: function(debug) {
 			var data = this.data;
 			var setting = data.setting;
 			var code = data.code;
-			var html = code.html.value
+
+			var prefix = '';
+			var suffix = '';
+
+			var htmlCode = (function() {
+				var value = code.html.value;
+
+				if (code.html.type == "jade") {
+					value = rs.compiler.jade2html(value);
+				}
+
+				return value;
+			})();
+
+			var cssCode = (function() {
+				var value = code.style.value;
+
+				if (code.style.type == "stylus") {
+					value = rs.compiler.stylus2css(value);
+				}
+				else if (code.style.type == "less") {
+					value = rs.compiler.less2css(value);
+					console.log(value);
+				}
+				else if (code.style.type == "sass") {
+					value = rs.compiler.sass2css(value);
+				}
+
+				return value;
+			})();
+
+			var jsCode = (function() {
+				var value = code.script.value;
+
+				if (code.script.type == "coffee") {
+					value = rs.compiler.coffee2js(value);
+				}
+				else if (code.script.type == "typescript") {
+					value = rs.compiler.typescript2js(value);
+				}
+				else if (code.script.type == "ecmascript6") {
+					value = rs.compiler.es62js(value);
+					prefix += sandScriptTag("http://rawgit.com/google/traceur-compiler/gh-pages/bin/traceur-runtime.js");
+				}
+				else if (code.script.type == "ruby") {
+					value = rs.compiler.ruby2js(value);
+					prefix += sandScriptTag("http://cdn.opalrb.org/opal/current/opal.min.js");
+				}
+
+				return value;
+			})();
+
+			var finalCode = htmlCode
 		    	.replace("${title}", setting.title)
 		    	.replace("${description}", setting.detail)
-		    	.replace("${style}", code.style.value)
-		    	.replace("${script}", code.script.value)
+		    	.replace("${style}", cssCode)
+		    	.replace("${script}", jsCode)
 		    	;
 
 
+		    finalCode = prefix + finalCode + suffix;
+
 	    	if (debug === true) {
 	    		var tag = "script";
-			    html = "<"+tag+">" + document.querySelector("#template-js-message").innerHTML + "</"+tag+">" + html;
+			    finalCode = "<"+tag+">" + document.querySelector("#template-js-message").innerHTML + "</"+tag+">" + finalCode;
 	    	}
 
-		    return html;
+		    return finalCode;
 		}
 	};
 
