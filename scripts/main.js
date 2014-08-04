@@ -242,12 +242,6 @@ var setupSetting = function() {
 
         rs.user.save();
 	});
-
-    // copy button
-    var clip = new ZeroClipboard(document.getElementById("btn-short-url-copy"));
-    clip.on("ready", function() {
-        console.log("hoge");
-    });
 };
 
 var setupUserSetting = function() {
@@ -371,6 +365,17 @@ var setupShare = function() {
         downloadButton.download = title;
         downloadButton.href = url;
     };
+
+
+    // copy button
+    var clip = new ZeroClipboard(document.getElementById("btn-short-url-copy"));
+    clip.on("ready", function() {
+        clip.on("beforecopy", function(event) {
+            var text = shortURL;
+            event.target.dataset.clipboardText = text;
+        });
+        console.log("copy '" + shortURL + "' to clipboard.");
+    });
 
 };
 
