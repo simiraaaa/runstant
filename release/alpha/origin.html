@@ -720,6 +720,67 @@ var getShortURL = function(url, callback) {
 		    };
 		    editor.commands.addCommand(command);
 
+		    // 左右移動
+		    var command = {
+		        name: "go to word right",
+		        bindKey: {
+		            mac: "Ctrl-Right",
+		            win: "Ctrl-Right",
+		        },
+		        exec: function() {
+		        	editor.navigateWordRight();
+		        }
+		    };
+		    editor.commands.addCommand(command);
+		    var command = {
+		        name: "go to word left",
+		        bindKey: {
+		            mac: "Ctrl-Left",
+		            win: "Ctrl-Left",
+		        },
+		        exec: function() {
+		        	editor.navigateWordLeft();
+		        }
+		    };
+		    editor.commands.addCommand(command);
+		    var command = {
+		        name: "selectwordright2",
+		        bindKey: {
+		            mac: "Ctrl-Shift-Right",
+		            win: "Ctrl-Shift-Right",
+		        },
+		        exec: function() {
+			    	editor.getSelection().selectWordRight();
+		        }
+		    };
+		    editor.commands.addCommand(command);
+		    var command = {
+		        name: "selectwordleft2",
+		        bindKey: {
+		            mac: "Ctrl-Shift-Left",
+		            win: "Ctrl-Shift-Left",
+		        },
+		        exec: function() {
+			    	editor.getSelection().selectWordLeft();
+		        }
+		    };
+		    editor.commands.addCommand(command);
+
+
+
+		    // ヘルプ
+		    var command = {
+		        name: "help",
+		        bindKey: {
+		            mac: "Ctrl-/",
+		            win: "Ctrl-/",
+		        },
+		        exec: function() {
+		        	window.open("https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts");
+		        }
+		    };
+		    editor.commands.addCommand(command);
+
 			editor.setOptions({
 				enableBasicAutocompletion: true,
 				enableSnippets: true,
