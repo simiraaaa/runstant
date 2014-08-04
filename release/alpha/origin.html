@@ -13,6 +13,9 @@
 
         <!-- jszip -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
+        <!-- zeroclipboard -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.min.js"></script>
+
         <!-- jquery -->
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <!-- bootstrap -->
@@ -20,6 +23,7 @@
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
         <!-- ace -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ext-language_tools.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ext-emmet.js"></script>
         <script src="http://rawgit.com/nightwing/emmet-core/master/emmet.js"></script>
 
@@ -716,6 +720,12 @@ var getShortURL = function(url, callback) {
 		    };
 		    editor.commands.addCommand(command);
 
+			editor.setOptions({
+				enableBasicAutocompletion: true,
+				enableSnippets: true,
+				enableLiveAutocompletion: false
+			});
+
 		},
 
 		addCommand: function(command) {
@@ -1220,6 +1230,17 @@ var setupShare = function() {
         downloadButton.href = url;
     };
 
+
+    // copy button
+    var clip = new ZeroClipboard(document.getElementById("btn-short-url-copy"));
+    clip.on("ready", function() {
+        clip.on("beforecopy", function(event) {
+            var text = shortURL;
+            event.target.dataset.clipboardText = text;
+        });
+        console.log("copy '" + shortURL + "' to clipboard.");
+    });
+
 };</script>
 	</head>
 	<body>
@@ -1419,7 +1440,12 @@ var setupShare = function() {
 		<form role="form">
 			<div class="form-group" style="text-align:center;">
 			    <label for="short-url">short url</label>
-			    <input type="text" class="form-control" id="short-url" placeholder="short url" onclick="this.select();" value="loading...">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="short-url" placeholder="short url" onclick="this.select();" value="loading...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" id="btn-short-url-copy" data-clipboard-text="short url">Copy</button>
+                    </span>
+                </div>
 			</div>
 			<div class="form-group" style="text-align:center;">
 			    <label for="#">social</label>
