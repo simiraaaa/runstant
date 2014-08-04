@@ -373,8 +373,8 @@ var setupShare = function() {
         clip.on("beforecopy", function(event) {
             var text = shortURL;
             event.target.dataset.clipboardText = text;
+            console.log("copy '" + shortURL + "' to clipboard.");
         });
-        console.log("copy '" + shortURL + "' to clipboard.");
     });
 
 };
