@@ -13,6 +13,9 @@
 
         <!-- jszip -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
+        <!-- zeroclipboard -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.5/ZeroClipboard.min.js"></script>
+
         <!-- jquery -->
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <!-- bootstrap -->
@@ -270,7 +273,12 @@
 		<form role="form">
 			<div class="form-group" style="text-align:center;">
 			    <label for="short-url">short url</label>
-			    <input type="text" class="form-control" id="short-url" placeholder="short url" onclick="this.select();" value="loading...">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="short-url" placeholder="short url" onclick="this.select();" value="loading...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" id="btn-short-url-copy" data-clipboard-text="short url">Copy</button>
+                    </span>
+                </div>
 			</div>
 			<div class="form-group" style="text-align:center;">
 			    <label for="#">social</label>

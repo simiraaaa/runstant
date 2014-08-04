@@ -242,6 +242,12 @@ var setupSetting = function() {
 
         rs.user.save();
 	});
+
+    // copy button
+    var clip = new ZeroClipboard(document.getElementById("btn-short-url-copy"));
+    clip.on("ready", function() {
+        console.log("hoge");
+    });
 };
 
 var setupUserSetting = function() {
