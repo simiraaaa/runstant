@@ -44,6 +44,12 @@
 		    };
 		    editor.commands.addCommand(command);
 
+			editor.setOptions({
+				enableBasicAutocompletion: true,
+				enableSnippets: true,
+				enableLiveAutocompletion: false
+			});
+
 		},
 
 		addCommand: function(command) {
