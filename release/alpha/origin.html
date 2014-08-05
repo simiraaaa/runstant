@@ -935,7 +935,8 @@ window.onload = function() {
 
 // console 対応
 window.onmessage = function(e) {
-    var args = e.data.arguments;
+    var data = JSON.parse(e.data);
+    var args = data.arguments;
     var arr = [];
 
     for (var key in args) {
@@ -943,10 +944,10 @@ window.onmessage = function(e) {
         arr.push(d);
     }
 
-    if (e.data.method == "log") {
+    if (data.method == "log") {
         rs.preview.log.apply(rs.preview, arr);
     }
-    else if (e.data.method == "dir") {
+    else if (data.method == "dir") {
         rs.preview.dir(args[0]);
     }
 };
@@ -1613,10 +1614,17 @@ console._log = console.log;
 console.log = function() {
     console._log.apply(console, arguments);
 
-    window.parent.postMessage({
+    // var arr = [];
+    // for (var i=0,len=arguments.length; i<len; ++i) {
+    // 	arr.push(arguments[i]);
+    // }
+
+    var messageObject = {
         method: "log",
         arguments: arguments,
-    }, '*');
+    };
+
+    window.parent.postMessage(JSON.stringify(messageObject), '*');
 };
 
 
@@ -1638,11 +1646,13 @@ console.dir = function(obj) {
 	    	temp[key] = value;
     	}
     }
-
-    window.parent.postMessage({
+    
+    var messageObject = {
         method: "dir",
         arguments: [temp],
-    }, '*');
+    };
+
+    window.parent.postMessage(JSON.stringify(messageObject), '*');
 };
 
 </script>
