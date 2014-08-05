@@ -10,7 +10,8 @@ window.onload = function() {
 
 // console 対応
 window.onmessage = function(e) {
-    var args = e.data.arguments;
+    var data = JSON.parse(e.data);
+    var args = data.arguments;
     var arr = [];
 
     for (var key in args) {
@@ -18,10 +19,10 @@ window.onmessage = function(e) {
         arr.push(d);
     }
 
-    if (e.data.method == "log") {
+    if (data.method == "log") {
         rs.preview.log.apply(rs.preview, arr);
     }
-    else if (e.data.method == "dir") {
+    else if (data.method == "dir") {
         rs.preview.dir(args[0]);
     }
 };

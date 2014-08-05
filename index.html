@@ -386,10 +386,17 @@ console._log = console.log;
 console.log = function() {
     console._log.apply(console, arguments);
 
-    window.parent.postMessage({
+    // var arr = [];
+    // for (var i=0,len=arguments.length; i<len; ++i) {
+    // 	arr.push(arguments[i]);
+    // }
+
+    var messageObject = {
         method: "log",
         arguments: arguments,
-    }, '*');
+    };
+
+    window.parent.postMessage(JSON.stringify(messageObject), '*');
 };
 
 
@@ -411,11 +418,13 @@ console.dir = function(obj) {
 	    	temp[key] = value;
     	}
     }
-
-    window.parent.postMessage({
+    
+    var messageObject = {
         method: "dir",
         arguments: [temp],
-    }, '*');
+    };
+
+    window.parent.postMessage(JSON.stringify(messageObject), '*');
 };
 
 </script>
