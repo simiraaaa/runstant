@@ -10,6 +10,25 @@
 			return '<!-- Compiled Jade -->\n\n' + source();
 		},
 
+		markdown2html: function(code) {
+			var source = markdown.toHTML(code);
+
+			var unescapeHTML = function(html) {
+				return html
+					.replace(/&amp;/g, '&')
+					.replace(/&lt;/g, '<')
+					.replace(/&gt;/g, '>')
+					.replace(/&quot;/g, '"')
+					.replace(/&#39;/g, "'")
+					;
+			};
+
+			// html(scriptタグやstyleタグ)も書けるようにする
+			var source = unescapeHTML(source);
+
+			return '<!-- Compiled Markdown -->\n\n' + unescapeHTML(source);
+		},
+
 		coffee2js: function(code) {
 			var source = CoffeeScript.compile(code);
 

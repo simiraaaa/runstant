@@ -149,6 +149,9 @@ var rs = {
 				if (code.html.type == "jade") {
 					value = rs.compiler.jade2html(value);
 				}
+				else if (code.html.type == "markdown") {
+					value = rs.compiler.markdown2html(value);
+				}
 
 				return value;
 			})();
