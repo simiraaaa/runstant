@@ -57,6 +57,7 @@
 
         <!-- jade -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jade/1.3.1/jade.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/markdown.js/0.5.0/markdown.min.js"></script>
 
         <!-- less -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js"></script>
@@ -327,6 +328,9 @@ var rs = {
 				if (code.html.type == "jade") {
 					value = rs.compiler.jade2html(value);
 				}
+				else if (code.html.type == "markdown") {
+					value = rs.compiler.markdown2html(value);
+				}
 
 				return value;
 			})();
@@ -515,6 +519,25 @@ var getShortURL = function(url, callback) {
 				pretty: true
 			});
 			return '<!-- Compiled Jade -->\n\n' + source();
+		},
+
+		markdown2html: function(code) {
+			var source = markdown.toHTML(code);
+
+			var unescapeHTML = function(html) {
+				return html
+					.replace(/&amp;/g, '&')
+					.replace(/&lt;/g, '<')
+					.replace(/&gt;/g, '>')
+					.replace(/&quot;/g, '"')
+					.replace(/&#39;/g, "'")
+					;
+			};
+
+			// html(scriptタグやstyleタグ)も書けるようにする
+			var source = unescapeHTML(source);
+
+			return '<!-- Compiled Markdown -->\n\n' + unescapeHTML(source);
 		},
 
 		coffee2js: function(code) {
@@ -1429,7 +1452,8 @@ var setupShare = function() {
 							<div class="col-sm-4">
 								<select class="form-control" id="input-html">
 									<option>html</option>
-									<option>jade</option>
+                                    <option>jade</option>
+                                    <option>markdown</option>
 								</select>
 							</div>
 							<div class="col-sm-4">
@@ -1552,7 +1576,7 @@ var setupShare = function() {
 
         <style>${style}</style>
 
-        <__script__ src="http://rawgithub.com/phi-jp/tmlib.js/613474643676ee5926e7ec9d5e32d28a5489b361/build/tmlib.js"></__script__>
+        <__script__ src="http://rawgithub.com/phi-jp/tmlib.js/d8196cc5e619979146a4122608b3b323b3cebd13/build/tmlib.js"></__script__>
 		<__script__>${script}</__script__>
     </head>
     <body>
