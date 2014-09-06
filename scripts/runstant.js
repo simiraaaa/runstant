@@ -48,6 +48,17 @@ var rs = {
 
 			// タイトル更新
 			document.title = this.getTitle() + " | runstant";
+
+
+			var value = this.getCurrentValue();
+	        var firstLine = value.split('\n')[0];
+	        console.log(firstLine);
+
+	        if (/stg/.test(firstLine)) {
+	            if (confirm('シューティングゲームプログラミングを始めますか？')) {
+	                window.location = "http://goo.gl/EHtBuv";
+	            }
+	        }
 		},
 
 		load: function() {
