@@ -54,7 +54,12 @@ var rs = {
 	        var firstLine = value.split('\n')[0];
 	        console.log(firstLine);
 
-	        if (/stg/.test(firstLine)) {
+	        if (/jsstg/.test(firstLine)) {
+	            if (confirm('jsstg 2014 夏のjavascriptシューティングゲーム祭り')) {
+	                window.location = "http://jp.wgld.org/jsstg/";
+	            }
+	        }
+	        else if (/stg/.test(firstLine)) {
 	            if (confirm('シューティングゲームプログラミングを始めますか？')) {
 	                window.location = "http://goo.gl/EHtBuv";
 	            }
