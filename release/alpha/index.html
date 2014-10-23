@@ -11,14 +11,20 @@
 
         <style>${style}</style>
 
-        <__script__ src="http://rawgithub.com/phi-jp/tmlib.js/d8196cc5e619979146a4122608b3b323b3cebd13/build/tmlib.js"></__script__>
+        <__script__ src="http://cdn.rawgit.com/phi-jp/high/0.0.3/high.js"></__script__>
 		<__script__>${script}</__script__>
     </head>
     <body>
-        <canvas id="world"></canvas>
+        <h1>Hello, runstant!</h1>
     </body>
 </html></script><script type="text/template" id="template-css">body {
-    background-color: #eee;
+    background-color: rgb(240, 240, 250);
+}
+
+h1 {
+    color: #444;
+    font-size: 23px;
+    font-family: 'Lucida Grande','Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 }</script><!-- htmlmin:ignore -->
 <script type="text/template" id="template-js">/*
  * # runstant
@@ -26,35 +32,7 @@
  * ってことで tmlib.js の公式エディタツール runstant です(tmlibのステマ)
  */
 
-// main
-tm.main(function() {
-    var app = tm.display.CanvasApp("#world");
-    app.resize(640, 960);
-    app.fitWindow();
-    
-    // スターを生成
-    var star = tm.display.StarShape().addChildTo(app.currentScene);
-    // 真ん中にセット    
-    star.setPosition(320, 480);
-    // クルクル回す
-    star.tweener.by({ rotation:360 }, 1000).setLoop(true);
-    
-    // ラベル
-    var label = tm.display.Label("touch screen!").addChildTo(app.currentScene);
-    label.setPosition(320, 800);
-    
-    // 更新処理
-    app.currentScene.update = function(app) {
-        var pointing = app.pointing;
-        if (pointing.getPointing()) {
-            star.x += (pointing.x-star.x)*0.1;
-            star.y += (pointing.y-star.y)*0.1;
-        }
-    };
-    
-    // 実行
-    app.run();
-});
+console.log("Hello, runstant!");
 
 </script>
 
