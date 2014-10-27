@@ -200,7 +200,7 @@ var rs = {
 				}
 				else if (code.script.type == "ecmascript6") {
 					value = rs.compiler.es62js(value);
-					prefix += sandScriptTag("http://rawgit.com/google/traceur-compiler/gh-pages/bin/traceur-runtime.js");
+					prefix += sandScriptTag("http://cdn.rawgit.com/google/traceur-compiler/519f5663415cb825ead961177c4165d52721c33f/bin/traceur-runtime.js");
 				}
 				else if (code.script.type == "ruby") {
 					value = rs.compiler.ruby2js(value);
