@@ -64,6 +64,11 @@ var rs = {
 	                window.location = "http://goo.gl/EHtBuv";
 	            }
 	        }
+	        else if (/es6/.test(firstLine)) {
+	            if (confirm("Let's es6 programming!")) {
+	                window.location = "http://goo.gl/thJLBw";
+	            }
+	        }
 		},
 
 		load: function() {
