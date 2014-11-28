@@ -1,6 +1,6 @@
 {
   "name": "runstant",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "run + instant",
   "main": "index.js",
   "scripts": {
