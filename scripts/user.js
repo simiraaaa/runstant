@@ -21,10 +21,12 @@
 					username: "runstant",
 					keyBinding: 'ace',
 					theme: "ace/theme/monokai",
+					tabSize: 4,
 				};
 			}
 			else {
 				data = _decode(data);
+				if (data.tabSize == null) data.tabSize = 4;
 			}
 
 			this.data = data;
@@ -61,6 +63,14 @@
 		},
 		getKeyBinding: function() {
 			return this.data.keyBinding;
+		},
+
+		setTabSize: function(v) {
+			this.data.tabSize = v;
+			return this;
+		},
+		getTabSize: function() {
+			return this.data.tabSize;
 		},
 	};
 

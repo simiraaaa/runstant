@@ -139,7 +139,12 @@
 		},
 
 		setTheme: function(theme) {
-			editor.setTheme(theme);
+			this.editor.setTheme(theme);
+		},
+
+		setTabSize: function(tabSize) {
+			tabSize = Number(tabSize);
+		    this.editor.getSession().setTabSize(tabSize);
 		},
 
 		setKeyboardHandler: function(key) {

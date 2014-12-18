@@ -435,10 +435,12 @@ var rs = {
 					username: "runstant",
 					keyBinding: 'ace',
 					theme: "ace/theme/monokai",
+					tabSize: 4,
 				};
 			}
 			else {
 				data = _decode(data);
+				if (data.tabSize == null) data.tabSize = 4;
 			}
 
 			this.data = data;
@@ -475,6 +477,14 @@ var rs = {
 		},
 		getKeyBinding: function() {
 			return this.data.keyBinding;
+		},
+
+		setTabSize: function(v) {
+			this.data.tabSize = v;
+			return this;
+		},
+		getTabSize: function() {
+			return this.data.tabSize;
 		},
 	};
 
@@ -859,7 +869,12 @@ var getShortURL = function(url, callback) {
 		},
 
 		setTheme: function(theme) {
-			editor.setTheme(theme);
+			this.editor.setTheme(theme);
+		},
+
+		setTabSize: function(tabSize) {
+			tabSize = Number(tabSize);
+		    this.editor.getSession().setTabSize(tabSize);
 		},
 
 		setKeyboardHandler: function(key) {
@@ -1210,6 +1225,12 @@ var setupSetting = function() {
         rs.editor.setKeyboardHandler(keyBinding);
         rs.user.setKeyBinding(keyBinding);
 
+        // tab size
+        var tabSize = $("#input-tabsize").val();
+        rs.editor.setTabSize(tabSize);
+        rs.user.setTabSize(tabSize);
+
+
         rs.user.save();
 	});
 };
@@ -1255,6 +1276,10 @@ var setupUserSetting = function() {
     elmKeyBinding.val(binding);
     rs.editor.setKeyboardHandler(binding);
 
+    // tab size
+    var elmTabSize = $("#input-tabsize");
+    elmTabSize.val(rs.user.getTabSize());
+    rs.editor.setTabSize(rs.user.getTabSize());
 };
 
 var setupShare = function() {
@@ -1515,6 +1540,10 @@ var setupShare = function() {
                     <label for="input-key-binding">key binding</label>
 					<select class="form-control" id="input-key-binding">
 					</select>
+                  </div>
+                  <div class="form-group">
+                    <label for="input-tabsize">tab size</label>
+                    <input type="number" class="form-control" id="input-tabsize" placeholder="tab size" value=4 onclick="this.select();" />
                   </div>
                   <!--
                   <button>to default</button>

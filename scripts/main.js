@@ -241,6 +241,12 @@ var setupSetting = function() {
         rs.editor.setKeyboardHandler(keyBinding);
         rs.user.setKeyBinding(keyBinding);
 
+        // tab size
+        var tabSize = $("#input-tabsize").val();
+        rs.editor.setTabSize(tabSize);
+        rs.user.setTabSize(tabSize);
+
+
         rs.user.save();
 	});
 };
@@ -286,6 +292,10 @@ var setupUserSetting = function() {
     elmKeyBinding.val(binding);
     rs.editor.setKeyboardHandler(binding);
 
+    // tab size
+    var elmTabSize = $("#input-tabsize");
+    elmTabSize.val(rs.user.getTabSize());
+    rs.editor.setTabSize(rs.user.getTabSize());
 };
 
 var setupShare = function() {
