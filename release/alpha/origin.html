@@ -1407,7 +1407,7 @@ var setupShare = function() {
 	    	getShortURL(location.href, function(url) {
 	    		shortURL = url;
 		    	$('#short-url').val(url);
-                $('#embed-code').val(embedCode.format({url:url}));
+                $('#embed-code').val(embedCode.replace('{url}', shortURL));
 		    	$('#shareModal').modal('show');
 	    	});
     	}
