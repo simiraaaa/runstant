@@ -2,6 +2,7 @@
 //var $ = function(q) { return document.querySelector(q) };
 var editor = null;
 var cache = null;
+var embedCode = "<div class=crunstant'><iframe src='{url}' width=100% height=460px style='border:0px;box-shadow:0px 0px 2px 0px #aaa'></iframe></div>";
 
 window.onload = function() {
 	setup();
@@ -313,11 +314,13 @@ var setupShare = function() {
     document.querySelector(".share").onclick = function() {
     	if (location.protocol == "file:") {
 	    	$('#shareModal').modal('show');
+            $('#embed-code').val(embedCode);
     	}
     	else {
 	    	getShortURL(location.href, function(url) {
 	    		shortURL = url;
 		    	$('#short-url').val(url);
+                $('#embed-code').val(embedCode.format({url:url}));
 		    	$('#shareModal').modal('show');
 	    	});
     	}
