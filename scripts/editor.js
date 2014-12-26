@@ -111,15 +111,110 @@
 				enableLiveAutocompletion: true
 			});
 
+
+			/*
+
+			this.addGutterDecoration(0,"highlight_line");
+			this.addGutterDecoration(5,"highlight_line");
+			this.addGutterDecoration(10,"highlight_line");
+			this.addGutterDecoration(15,"highlight_line");
+
+			this.editor.on("guttermousedown", function(e){ 
+				// var index = e.$pos.row;
+				var target = e.domEvent.target;
+				target.classList.toggle("highlight_line");
+
+				var row = e.getDocumentPosition().row;
+
+				// setAnnotations((+target.innerHTML)-1, "hogehoge");
+
+				e.stop();
+			});
+*/
+
+			/*
+			this.editor.on("guttermousemove", function(e){ 
+				var target = e.domEvent.target;
+				target.classList.toggle("highlight_line");
+
+				var row = e.getDocumentPosition().row;
+				console.log(row);
+
+				e.stop();
+			});
+*/
+
+			// ライン数要素取得
+			// editor.renderer.$gutterLayer.$cells;
+
+			// アノテーションの追加
+			/*
+			var setAnnotations = function(row, text, type) {
+				this.editor.session.setAnnotations([
+					{
+						row: row,
+						text: text,
+						type: type || "info",
+					}
+				]);
+			}.bind(this);
+			*/
+
+			/*
+editorsession.setAnnotations([{ 
+                  row: editorcursor.row, 
+                  column: editorcursor.column, 
+                  text: "Strange error", 
+                  type: "info" 
+                }]); 
+			*/
+
+			/*
+			this.editor.on("guttermousemove", function(e){ 
+				var target = e.domEvent.target;
+				target.classList.toggle("highlight_line");
+
+				var row = e.getDocumentPosition().row;
+				console.log(row);
+
+				e.stop();
+			});
+*/
 		},
 
 		addCommand: function(command) {
 		    editor.commands.addCommand(command);
+			return this;
+		},
+
+		addGutterDecoration: function(line, className) {
+			this.editor.getSession().addGutterDecoration(line, className);
+			return this;
 		},
 
 		setValue: function(v) {
 			this.editor.setValue(v, -1);
 			// this.editor.setValue(v, 1);
+
+			/* マーカつけるテスト
+			ace.require("ace/multi_select").MultiSelect(this.editor);
+
+			setTimeout(function() {
+				var Range = ace.require('ace/range').Range;
+				var range = new Range(1, 0, 2, 10);
+				
+				// var sel = this.editor.session.selection;
+				// sel.addRange(new Range(1, 0, 1, 9999));
+				// sel.addRange(new Range(3, 0, 3, 9999));
+
+				// var range = new Range(0, 0, 1, 1);
+				// this.editor.getSelection().setSelectionRange(range, false);
+
+				var marker = this.editor.getSession().addMarker(range,"ace_selected_word", "text");
+			}.bind(this), 1);
+*/
+
+
 			return this;
 		},
 
