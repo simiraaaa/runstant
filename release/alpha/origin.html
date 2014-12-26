@@ -1088,6 +1088,7 @@ editorsession.setAnnotations([{
         <script>//var $ = function(q) { return document.querySelector(q) };
 var editor = null;
 var cache = null;
+var embedCode = "<div class=crunstant'><iframe src='{url}' width=100% height=460px style='border:0px;box-shadow:0px 0px 2px 0px #aaa'></iframe></div>";
 
 window.onload = function() {
 	setup();
@@ -1399,11 +1400,13 @@ var setupShare = function() {
     document.querySelector(".share").onclick = function() {
     	if (location.protocol == "file:") {
 	    	$('#shareModal').modal('show');
+            $('#embed-code').val(embedCode);
     	}
     	else {
 	    	getShortURL(location.href, function(url) {
 	    		shortURL = url;
 		    	$('#short-url').val(url);
+                $('#embed-code').val(embedCode.format({url:url}));
 		    	$('#shareModal').modal('show');
 	    	});
     	}
@@ -1690,9 +1693,13 @@ var setupShare = function() {
                 <div class="input-group">
                     <input type="text" class="form-control" id="short-url" placeholder="short url" onclick="this.select();" value="loading...">
                     <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button" id="btn-short-url-copy" data-clipboard-text="short url">Copy</button>
+                        <button id="btn-short-url-copy" class="btn btn-primary btn-copy" type="button" data-clipboard-text="short url" data-target="#short-url">Copy</button>
                     </span>
                 </div>
+			</div>
+			<div class="form-group" style="text-align:center;">
+			    <label for="embed-code">embed code</label>
+                <input type="text" class="form-control" id="embed-code" placeholder="embed code" onclick="this.select();" value="loading...">
 			</div>
 			<div class="form-group" style="text-align:center;">
 			    <label for="#">social</label>
