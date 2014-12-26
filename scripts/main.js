@@ -75,6 +75,15 @@ var setup = function() {
     setupUserSetting();
     setupShare();
 
+    // setup title link
+    $(".navbar-brand").on("click", function(e) {
+        e.preventDefault();
+
+        // 自分と同じページを開く
+        window.open(location.href);
+    });
+    
+
     // support mobile
     var isMobile = (function() {
         var ua = navigator.userAgent;
