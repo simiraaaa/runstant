@@ -94,6 +94,13 @@ var setup = function() {
         document.getElementById("editor").style.display = "none";
         document.getElementById("preview").style.width = "100%";
     }
+
+    // support resize
+    var preview = document.querySelector("#preview");
+    console.dir(preview);
+    // setInterval(function() {
+    //     console.log(preview.width);
+    // }, 100);
 };
 
 var run = function() {
@@ -200,6 +207,31 @@ var setupAbout = function() {
 
 
 var setupSetting = function() {
+
+    $("#preview-header").text(rs.data.getTitle());
+
+    $("#preview-header").on("keydown", function(e) {
+        if (e.keyCode == 13) {
+            // save
+            rs.data.setTitle( $("#preview-header").text() );
+            save();
+            this.blur();
+            return false;
+        }
+        else if (e.keyCode == 27) {
+            // もとに戻す
+            $("#preview-header").text( rs.data.getTitle() );
+            this.blur();
+            return false;
+        }
+    });
+
+    $("#preview-header").on("blur", function() {
+        // save
+        rs.data.setTitle( $("#preview-header").text() );
+        save();
+    });
+
     document.querySelector(".setting").onclick = function() {
 		$('#input-title').val(rs.data.getTitle());
 		$('#input-detail').val(rs.data.getDetail());
@@ -219,6 +251,8 @@ var setupSetting = function() {
 
 	$('#btn-setting-save').on("click", function() {
         rs.data.setTitle( $('#input-title').val() );
+        $("#preview-header").text(rs.data.getTitle());
+
         rs.data.setDetail( $('#input-detail').val() );
 
         rs.data.getCode("html").type = $('#input-html').val();
