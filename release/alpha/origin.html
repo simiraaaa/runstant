@@ -100,16 +100,33 @@ body {
     border-left: 1px solid #aaa;
 }
 
-
-
-
-#preview {
+#preview-wrap {
     float: left;
     width: 38.5%;
     height: 100%;
     border: 0px;
     box-shadow: 0px 0px 4px 0px #444;
     background: #eef;
+    resize: both;
+}
+
+#preview-wrap h2 {
+    position: relative;
+    padding: 7px 5px;
+    font-size: 16px;
+    background: hsl(189, 100%, 50%);
+    color: white;
+    margin: 0;
+    height: 30px;
+    text-overflow: ellipsis;
+}
+
+#preview {
+    width: 100%;
+    height: 100%;
+    background: #eef;
+    margin-top: -30px;
+    padding-top: 30px;
 }
 
 #preview iframe {
@@ -143,6 +160,9 @@ body {
 
 #preview pre span:last-child {
     color: blue;
+}
+#preview pre span.error {
+    color: red;
 }
 
 
@@ -715,18 +735,24 @@ var getShortURL = function(url, callback) {
 
 		log: function() {
 			var str = Array.prototype.join.call(arguments, ' ');
-			this.printConsole(str);
+			this.printConsole(str, 'log');
 		},
 
 		dir: function(obj) {
 			var str = JSON.stringify(obj, '', '  ');
-			this.printConsole(str);
+			this.printConsole(str, 'dir');
 		},
 
-		printConsole: function(str) {
+		error: function(obj) {
+			var str = obj.join(' ');
+			this.printConsole(str, 'error');
+		},
+
+		printConsole: function(str, c) {
 			var consoleElement = document.querySelector("#console");
 			var span = document.createElement("span");
 			span.textContent = str;
+			span.classList.add(c);
 
 			consoleElement.appendChild(span);
 
@@ -1113,6 +1139,9 @@ window.onmessage = function(e) {
     else if (data.method == "dir") {
         rs.preview.dir(args[0]);
     }
+    else if (data.method == "error") {
+        rs.preview.error(args[0]);
+    }
 };
 
 
@@ -1182,6 +1211,13 @@ var setup = function() {
         document.getElementById("editor").style.display = "none";
         document.getElementById("preview").style.width = "100%";
     }
+
+    // support resize
+    var preview = document.querySelector("#preview");
+    console.dir(preview);
+    // setInterval(function() {
+    //     console.log(preview.width);
+    // }, 100);
 };
 
 var run = function() {
@@ -1288,6 +1324,31 @@ var setupAbout = function() {
 
 
 var setupSetting = function() {
+
+    $("#preview-header").text(rs.data.getTitle());
+
+    $("#preview-header").on("keydown", function(e) {
+        if (e.keyCode == 13) {
+            // save
+            rs.data.setTitle( $("#preview-header").text() );
+            save();
+            this.blur();
+            return false;
+        }
+        else if (e.keyCode == 27) {
+            // もとに戻す
+            $("#preview-header").text( rs.data.getTitle() );
+            this.blur();
+            return false;
+        }
+    });
+
+    $("#preview-header").on("blur", function() {
+        // save
+        rs.data.setTitle( $("#preview-header").text() );
+        save();
+    });
+
     document.querySelector(".setting").onclick = function() {
 		$('#input-title').val(rs.data.getTitle());
 		$('#input-detail').val(rs.data.getDetail());
@@ -1307,6 +1368,8 @@ var setupSetting = function() {
 
 	$('#btn-setting-save').on("click", function() {
         rs.data.setTitle( $('#input-title').val() );
+        $("#preview-header").text(rs.data.getTitle());
+
         rs.data.setDetail( $('#input-detail').val() );
 
         rs.data.getCode("html").type = $('#input-html').val();
@@ -1523,7 +1586,12 @@ var setupShare = function() {
         <div id="main">
         	<div id="main-content">
         		<div id="editor"></div>
-                <div id="preview"></div>
+        		<div id="preview-wrap">
+        			<h2 id="preview-header" contentEditable=true>hoge</h2>
+	                <div id="preview">
+	                	<h2>title</h2>
+	                </div>
+	            </div>
         	</div>
         </div>
 	</body>
@@ -1825,6 +1893,23 @@ console.dir = function(obj) {
 
     window.parent.postMessage(JSON.stringify(messageObject), '*');
 };
+
+console._error = console.error;
+console.error = function(message) {
+	console._error.apply(console, arguments);
+
+	var args = Array.prototype.slice.call(arguments);
+    var messageObject = {
+        method: "error",
+        arguments: [args],
+    };
+    window.parent.postMessage(JSON.stringify(messageObject), '*');
+};
+
+window.onerror = function(message, file, line, col, error) {
+    console.error(message + ' (line:' + line + ')');
+};
+
 
 </script>
 
