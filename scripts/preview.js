@@ -28,18 +28,24 @@
 
 		log: function() {
 			var str = Array.prototype.join.call(arguments, ' ');
-			this.printConsole(str);
+			this.printConsole(str, 'log');
 		},
 
 		dir: function(obj) {
 			var str = JSON.stringify(obj, '', '  ');
-			this.printConsole(str);
+			this.printConsole(str, 'dir');
 		},
 
-		printConsole: function(str) {
+		error: function(obj) {
+			var str = obj.join(' ');
+			this.printConsole(str, 'error');
+		},
+
+		printConsole: function(str, c) {
 			var consoleElement = document.querySelector("#console");
 			var span = document.createElement("span");
 			span.textContent = str;
+			span.classList.add(c);
 
 			consoleElement.appendChild(span);
 

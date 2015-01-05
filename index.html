@@ -420,6 +420,23 @@ console.dir = function(obj) {
     window.parent.postMessage(JSON.stringify(messageObject), '*');
 };
 
+console._error = console.error;
+console.error = function(message) {
+	console._error.apply(console, arguments);
+
+	var args = Array.prototype.slice.call(arguments);
+    var messageObject = {
+        method: "error",
+        arguments: [args],
+    };
+    window.parent.postMessage(JSON.stringify(messageObject), '*');
+};
+
+window.onerror = function(message, file, line, col, error) {
+    console.error(message + ' (line:' + line + ')');
+};
+
+
 </script>
 
 

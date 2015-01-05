@@ -90,6 +90,9 @@ body {
 #preview pre span:last-child {
     color: blue;
 }
+#preview pre span.error {
+    color: red;
+}
 
 
 .btn-healing {

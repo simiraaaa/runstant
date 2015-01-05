@@ -27,6 +27,9 @@ window.onmessage = function(e) {
     else if (data.method == "dir") {
         rs.preview.dir(args[0]);
     }
+    else if (data.method == "error") {
+        rs.preview.error(args[0]);
+    }
 };
 
 
