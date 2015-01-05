@@ -42,20 +42,21 @@ body {
 
 #preview-wrap h2 {
     position: relative;
-    padding: 15px 10px;
-    font-size: 22px;
+    padding: 7px 5px;
+    font-size: 16px;
     background: hsl(189, 100%, 50%);
     color: white;
     margin: 0;
-    height: 50px;
+    height: 30px;
+    text-overflow: ellipsis;
 }
 
 #preview {
     width: 100%;
     height: 100%;
     background: #eef;
-    margin-top: -50px;
-    padding-top: 50px;
+    margin-top: -30px;
+    padding-top: 30px;
 }
 
 #preview iframe {
