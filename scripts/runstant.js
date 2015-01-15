@@ -52,23 +52,35 @@ var rs = {
 
 			var value = this.getCurrentValue();
 	        var firstLine = value.split('\n')[0];
-	        console.log(firstLine);
 
-	        if (/jsstg/.test(firstLine)) {
-	            if (confirm('jsstg 2014 夏のjavascriptシューティングゲーム祭り')) {
-	                window.location = "http://jp.wgld.org/jsstg/";
-	            }
-	        }
-	        else if (/stg/.test(firstLine)) {
-	            if (confirm('シューティングゲームプログラミングを始めますか？')) {
-	                window.location = "http://goo.gl/EHtBuv";
-	            }
-	        }
-	        else if (/es6/.test(firstLine)) {
-	            if (confirm("Let's es6 programming!")) {
-	                window.location = "http://goo.gl/thJLBw";
-	            }
-	        }
+	        var templateMap = [
+	        	{
+	        		name: 'tmlib',
+	        		regexp: /tmlib/,
+	        		message: 'Let\'s tmlib programming!',
+	        		url: 'http://goo.gl/B2JcWF',
+	        	},
+	        	{
+	        		name: 'stg',
+	        		regexp: /stg/,
+	        		message: 'シューティングゲームプログラミングを始めますか？',
+	        		url: 'http://goo.gl/EHtBuv',
+	        	},
+	        	{
+	        		name: 'es6',
+	        		regexp: /es6/,
+	        		message: 'Let\'s es6 programming!',
+	        		url: "http://goo.gl/thJLBw",
+	        	}
+	        ];
+
+	        templateMap.forEach(function(data) {
+	        	if (data.regexp.test(firstLine)) {
+	        		if (confirm(data.message)) {
+	        			window.location.href = data.url;
+	        		}
+	        	}
+	        });
 		},
 
 		load: function() {

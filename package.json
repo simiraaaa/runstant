@@ -21,10 +21,10 @@
   "readmeFilename": "README.md",
   "phase": "alpha",
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-htmlmin": "^0.3.0",
     "grunt-contrib-watch": "~0.3.1",
-    "grunt-contrib-htmlmin": "~0.3.0",
-    "grunt-static-inline": "~0.1.2",
-    "grunt-shell": "~0.2.1"
+    "grunt-shell": "~0.2.1",
+    "grunt-static-inline": "~0.1.2"
   }
 }
