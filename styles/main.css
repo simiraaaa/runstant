@@ -40,15 +40,24 @@ body {
     resize: both;
 }
 
-#preview-wrap h2 {
+#preview-wrap .preview-header-wrap {
     position: relative;
-    padding: 7px 5px;
+    width: 100%;
+    padding: 5px 3px;
     font-size: 16px;
     background: hsl(189, 100%, 50%);
-    color: white;
     margin: 0;
-    height: 30px;
-    text-overflow: ellipsis;
+}
+
+#preview-wrap .preview-header-wrap #preview-header {
+    display: block;
+    width: 100%;
+    outline: 0px;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    color: white;
+    background: hsl(189, 100%, 50%);
 }
 
 #preview {

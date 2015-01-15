@@ -213,19 +213,19 @@ var setupAbout = function() {
 
 var setupSetting = function() {
 
-    $("#preview-header").text(rs.data.getTitle());
+    $("#preview-header").val(rs.data.getTitle());
 
     $("#preview-header").on("keydown", function(e) {
         if (e.keyCode == 13) {
             // save
-            rs.data.setTitle( $("#preview-header").text() );
+            rs.data.setTitle( $("#preview-header").val() );
             save();
             this.blur();
             return false;
         }
         else if (e.keyCode == 27) {
             // もとに戻す
-            $("#preview-header").text( rs.data.getTitle() );
+            $("#preview-header").val( rs.data.getTitle() );
             this.blur();
             return false;
         }
@@ -233,7 +233,7 @@ var setupSetting = function() {
 
     $("#preview-header").on("blur", function() {
         // save
-        rs.data.setTitle( $("#preview-header").text() );
+        rs.data.setTitle( $("#preview-header").val() );
         save();
     });
 
@@ -256,7 +256,7 @@ var setupSetting = function() {
 
 	$('#btn-setting-save').on("click", function() {
         rs.data.setTitle( $('#input-title').val() );
-        $("#preview-header").text(rs.data.getTitle());
+        $("#preview-header").val(rs.data.getTitle());
 
         rs.data.setDetail( $('#input-detail').val() );
 

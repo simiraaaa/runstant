@@ -110,15 +110,24 @@ body {
     resize: both;
 }
 
-#preview-wrap h2 {
+#preview-wrap .preview-header-wrap {
     position: relative;
-    padding: 7px 5px;
+    width: 100%;
+    padding: 5px 3px;
     font-size: 16px;
     background: hsl(189, 100%, 50%);
-    color: white;
     margin: 0;
-    height: 30px;
-    text-overflow: ellipsis;
+}
+
+#preview-wrap .preview-header-wrap #preview-header {
+    display: block;
+    width: 100%;
+    outline: 0px;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    color: white;
+    background: hsl(189, 100%, 50%);
 }
 
 #preview {
@@ -1325,19 +1334,19 @@ var setupAbout = function() {
 
 var setupSetting = function() {
 
-    $("#preview-header").text(rs.data.getTitle());
+    $("#preview-header").val(rs.data.getTitle());
 
     $("#preview-header").on("keydown", function(e) {
         if (e.keyCode == 13) {
             // save
-            rs.data.setTitle( $("#preview-header").text() );
+            rs.data.setTitle( $("#preview-header").val() );
             save();
             this.blur();
             return false;
         }
         else if (e.keyCode == 27) {
             // もとに戻す
-            $("#preview-header").text( rs.data.getTitle() );
+            $("#preview-header").val( rs.data.getTitle() );
             this.blur();
             return false;
         }
@@ -1345,7 +1354,7 @@ var setupSetting = function() {
 
     $("#preview-header").on("blur", function() {
         // save
-        rs.data.setTitle( $("#preview-header").text() );
+        rs.data.setTitle( $("#preview-header").val() );
         save();
     });
 
@@ -1368,7 +1377,7 @@ var setupSetting = function() {
 
 	$('#btn-setting-save').on("click", function() {
         rs.data.setTitle( $('#input-title').val() );
-        $("#preview-header").text(rs.data.getTitle());
+        $("#preview-header").val(rs.data.getTitle());
 
         rs.data.setDetail( $('#input-detail').val() );
 
@@ -1587,7 +1596,9 @@ var setupShare = function() {
         	<div id="main-content">
         		<div id="editor"></div>
         		<div id="preview-wrap">
-        			<h2 id="preview-header" contentEditable=true>hoge</h2>
+        			<div class='preview-header-wrap'>
+        				<input type="text" id="preview-header" />
+        			</div>
 	                <div id="preview">
 	                	<h2>title</h2>
 	                </div>
