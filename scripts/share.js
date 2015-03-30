@@ -33,7 +33,7 @@
             html = html.replace("{script}", data.js);
             html = html.replace("{style}", data.css);
 
-            window.open("data:text/html;base64," + window.btoa( unescape(encodeURIComponent( html )) ));
+            window.open("data:text/html;charset=utf8;base64," + window.btoa(unescape(encodeURIComponent(html))));
         },
     };
 
