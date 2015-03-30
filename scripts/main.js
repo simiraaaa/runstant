@@ -408,7 +408,7 @@ var setupShare = function() {
 	$('#btn-fullscreen').on('click', function() {
         var html = rs.data.toCode(true);
 
-	    window.open("data:text/html;base64," + window.btoa( unescape(encodeURIComponent( html )) ));
+	    window.open("data:text/html;charset=utf-8;base64," + window.btoa( unescape(encodeURIComponent( html )) ));
 	});
 
     var downloadButton = document.getElementById("btn-download");
