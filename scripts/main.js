@@ -7,7 +7,9 @@ embedCode = embedCode.replace(/\[/g, '<').replace(/\]/g, '>');
 
 window.onload = function() {
 	setup();
-	run();
+    loadScripts(function() {
+        run();
+    });
 };
 
 // console 対応
@@ -264,6 +266,9 @@ var setupSetting = function() {
         rs.data.getCode("style").type = $('#input-style').val();
         rs.data.getCode("script").type = $('#input-script').val();
 
+        // 対応するスクリプトを読み込む
+        loadScripts();
+
         document.querySelector("a[data-type='html']").innerHTML = $('#input-html').val();
         document.querySelector("a[data-type='style']").innerHTML = $('#input-style').val();
         document.querySelector("a[data-type='script']").innerHTML = $('#input-script').val();
@@ -438,5 +443,35 @@ var setupShare = function() {
         });
     });
 
+};
+
+
+var loadScripts = function(callback) {
+    var types = [
+        rs.data.getCode("html").type,
+        rs.data.getCode("style").type,
+        rs.data.getCode("script").type,
+    ];
+
+    var count = 0;
+    var counter = 0;
+
+    types.forEach(function(value) {
+        var path = LANG_SCRIPT_MAP[value];
+        if (path) {
+            count++;
+            loadScript(path, function() {
+                counter++;
+
+                if (counter >= count) {
+                    callback && callback();
+                }
+            });
+        }
+    });
+
+    if (count == 0) {
+        callback && callback();
+    }
 };
 

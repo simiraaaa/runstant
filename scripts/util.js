@@ -58,3 +58,16 @@ var getShortURL = function(url, callback) {
 	});
 };
 
+
+var loadScript = function(path, callback) {
+	if (loadScript.cache[path]) {
+		return ;
+	}
+
+	$.getScript(path, callback);
+	loadScript.cache[path] = true;
+};
+loadScript.cache = {};
+
+
+

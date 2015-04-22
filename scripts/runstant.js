@@ -9,6 +9,19 @@ var rs = {
 };
 
 
+var LANG_SCRIPT_MAP = {
+	'coffee': "http://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.7.1/coffee-script.min.js",
+	'ecmascript6': "http://cdn.rawgit.com/phi-jp/runstant/625e2c2e06bb409e92d05b1bc4e64584a9d1e434/plugins/traceur-compiler/traceur.js",
+	'typescript': "http://rawgit.com/niutech/typescript-compile/gh-pages/js/typescript.min.js",
+
+	'stylus': "http://cdnjs.cloudflare.com/ajax/libs/stylus/0.32.1/stylus.js",
+	'less': "http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js",
+	'sass': "http://cdnjs.cloudflare.com/ajax/libs/sass.js/0.4.0/sass.min.js",
+
+	'jade': "http://cdnjs.cloudflare.com/ajax/libs/jade/1.3.1/jade.min.js",
+	'markdown': "http://cdnjs.cloudflare.com/ajax/libs/markdown.js/0.5.0/markdown.min.js",
+};
+
 ;(function() {
 
 	// htmlmin 対応
@@ -100,7 +113,6 @@ var rs = {
 						detail: "tmlib.js 用公式エディタ. 色々と使えますよ♪",
 		    		},
 		    		code: {
-
 		    			html: {
 		    				type: "html",
 		    				value: document.querySelector("#template").innerHTML.replace(/__script__/g, 'script'),
