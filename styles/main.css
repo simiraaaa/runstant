@@ -49,15 +49,30 @@ body {
     margin: 0;
 }
 
-#preview-wrap .preview-header-wrap #preview-header {
+#preview-wrap .preview-header-wrap {
     display: block;
     width: 100%;
-    outline: 0px;
     margin: 0px;
     padding: 0px;
+    background: hsl(189, 100%, 50%);
+}
+
+#preview-header {
+    background: transparent;
+    outline: 0px;
     border: 0px;
     color: white;
-    background: hsl(189, 100%, 50%);
+    width: 100%;
+    margin: 5px 10px;
+}
+
+#fullscreen-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 10px;
+    color: white;
+    cursor: pointer;
 }
 
 #preview {
@@ -151,6 +166,19 @@ body {
     -webkit-filter: invert(100%);
     filter: invert(100%);
     background: #eee;
+}
+
+
+.fullscreen #console,
+.fullscreen #editor
+{
+    position: absolute;
+    left: -9999px;
+}
+
+.fullscreen  #preview-wrap {
+    display: block !important;
+    width: 100% !important;
 }
 
 

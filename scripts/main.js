@@ -302,6 +302,37 @@ var setupSetting = function() {
 
         rs.user.save();
 	});
+
+    // fullscreen setting
+    $("#fullscreen-btn").click(function() {
+        if (rs.data.getFullscreen() == false) {
+            rs.data.setFullscreen(true);
+        }
+        else {
+            rs.data.setFullscreen(false);
+        }
+
+        setFullscreen( rs.data.getFullscreen() );
+
+        save();
+    });
+
+    setFullscreen( rs.data.getFullscreen() );
+};
+
+var setFullscreen = function(flag) {
+    var fullscreenBtn = $("#fullscreen-btn");
+
+    if (flag) {
+        $('body').addClass('fullscreen');
+        fullscreenBtn.removeClass('glyphicon-fullscreen');
+        fullscreenBtn.addClass('glyphicon-resize-small');
+    }
+    else {
+        $('body').removeClass('fullscreen');
+        fullscreenBtn.addClass('glyphicon-fullscreen');
+        fullscreenBtn.removeClass('glyphicon-resize-small');
+    }
 };
 
 var setupUserSetting = function() {

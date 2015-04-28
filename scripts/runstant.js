@@ -111,6 +111,7 @@ var LANG_SCRIPT_MAP = {
 		    		setting: {
 		    			title: "template - tmlib.js",
 						detail: "tmlib.js 用公式エディタ. 色々と使えますよ♪",
+			    		fullscreen: false,
 		    		},
 		    		code: {
 		    			html: {
@@ -149,6 +150,14 @@ var LANG_SCRIPT_MAP = {
 		},
 		setDetail: function(v) {
 			this.data.setting.detail = v;
+		},
+		
+		getFullscreen: function() {
+			return this.data.setting.fullscreen;
+		},
+		setFullscreen: function(flag) {
+			this.data.setting.fullscreen = flag;
+			return this;
 		},
 
 		getCurrent: function() {
@@ -255,7 +264,8 @@ var LANG_SCRIPT_MAP = {
 	    	}
 
 		    return finalCode;
-		}
+		},
+
 	};
 
 })();
