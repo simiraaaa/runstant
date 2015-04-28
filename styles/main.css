@@ -180,5 +180,8 @@ body {
     display: block !important;
     width: 100% !important;
 }
+.fullscreen #preview iframe {
+    height: 100%;
+}
 
 

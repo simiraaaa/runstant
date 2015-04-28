@@ -228,6 +228,9 @@ body {
 .fullscreen  #preview-wrap {
     display: block !important;
     width: 100% !important;
+}
+.fullscreen #preview iframe {
+    height: 100%;
 }</style>
         <script>/*
  *
@@ -1492,7 +1495,7 @@ var setupSetting = function() {
 
     // fullscreen setting
     $("#fullscreen-btn").click(function() {
-        if (rs.data.getFullscreen() == false) {
+        if (rs.data.getFullscreen() != true) {
             rs.data.setFullscreen(true);
         }
         else {

@@ -305,7 +305,7 @@ var setupSetting = function() {
 
     // fullscreen setting
     $("#fullscreen-btn").click(function() {
-        if (rs.data.getFullscreen() == false) {
+        if (rs.data.getFullscreen() != true) {
             rs.data.setFullscreen(true);
         }
         else {
