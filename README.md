@@ -30,3 +30,10 @@
 
 
 http://phi-jp.github.io/runstant/release/alpha/
+
+
+## Command line
+
+```
+node bin/runstant.js examples/hello/runstant.json
+```
