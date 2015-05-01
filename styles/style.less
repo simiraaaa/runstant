@@ -1,0 +1,111 @@
+@headerHeight: 64px;
+@footerheight: 0px;
+
+* {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+         -o-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+body {
+  background: #eee;
+}
+
+
+.brand-logo:before {
+  content: 'logo';
+  color: transparent;
+  display: inline-block;
+  background-image: url("../images/logo.png");
+  background-size: cover;
+  transform: scale(0.75);
+}
+
+.content {
+  position: fixed;
+  top: @headerHeight;
+  bottom: @footerheight;
+  border-radius: 6px;
+
+  .inner {
+    border-radius: 6px;
+    box-shadow: 0px 0px 4px 0px #aaa;
+    width: 100%;
+    height: 100%;
+
+    .header {
+      width: 100%;
+      height: 36px;
+      border-top-left-radius: inherit;
+      border-top-right-radius: inherit;
+
+      div {
+        line-height: 36px;
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+.content-preview {
+  left: 0px;
+  width: 40%;
+  padding: 7px;
+
+  .inner {
+    background: white;
+
+    .header {
+      background-color: hsl(210, 100%, 92%);
+    }
+
+    .main {
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      width: 100%;
+      padding: 43px 14px 7px 0px;
+
+      .preview {
+        width: 100%;
+        height: 60%;
+      }
+      .console {
+        border-top: 1px solid #aaa;
+        width: 100%;
+        height: 40%;
+      }
+    }
+
+  }
+}
+
+.content-editor {
+  right: 0px;
+  width: 60%;
+  padding: 7px;
+  padding-left: 5px;
+
+  .inner {
+    background-color: #444;
+
+    .header {
+      background-color: #444;
+      color: white;
+    }
+
+    .editor {
+      position: absolute;
+      top: 44px;
+      bottom: 10px;
+      left: 6px;
+      right: 7px;
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
+    }
+  }
+}
+
+
