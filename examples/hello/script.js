@@ -1,0 +1,2 @@
+// ほげだよー
+console.log("hoge");
