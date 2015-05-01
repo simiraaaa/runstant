@@ -1,21 +1,21 @@
 
 var fs = require('fs');
+var path = require('path');
 var json5 = require('json5');
 var jszip = require('jszip');
-var spawn = require('child_process').spawn;
 var constant = require(__dirname + "/../scripts2/constant");
+var util = require(__dirname + "/../scripts2/util");
 
-var RUNSTANT_URL = "http://phi-jp.github.io/runstant/release/alpha/index.html";
-
-
-var open = function(url) {
-    spawn("open", [url]);
-};
-
+/*
+ * runstant.json から data を構築
+ */
 var filename = process.argv[2];
+if (/runstant\.json$/.test(filename) === false) {
+    filename = path.join(filename, 'runstant.json');
+}
+var dirname = path.dirname(filename);
 var text = fs.readFileSync(filename, 'utf-8');
 var data = json5.parse(text);
-
 
 if (!data.code.html.value) {
     data.code.html.value = constant.TEMPLATE_HTML;
@@ -25,25 +25,19 @@ if (!data.code.style.value) {
 }
 
 if (data.code.script.file) {
-    data.code.script.value = fs.readFileSync("examples/hello/" + data.code.script.file, 'utf-8');
+    var jsfile = path.join(dirname, data.code.script.file);
+    data.code.script.value = fs.readFileSync(jsfile, 'utf-8');
 }
 else if (!data.code.script.value) {
     data.code.script.value = constant.TEMPLATE_JS;
 }
 
 
-var json2hash = function(obj) {
-    var str = JSON.stringify(obj);
+var hash = util.json2hash(data);
+var url = constant.RUNSTANT_URL + "#" + hash;
 
-    var jsz = new jszip();
-    jsz.file("data", str);
-    var zipFile = jsz.generate();
+// util.open(url);
 
-    return encodeURI(zipFile);
-};
-
-var str = json2hash(data);
-var url = RUNSTANT_URL + "#" + str;
-
-open(url);
-
+util.shorten(url, function(url) {
+    console.log(url);
+});

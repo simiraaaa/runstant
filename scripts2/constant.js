@@ -1,6 +1,8 @@
 
 (function (exports) {
 
+	exports.RUNSTANT_URL = "http://phi-jp.github.io/runstant/release/alpha/index.html";
+
 	exports.TEMPLATE_HTML = "\<!DOCTYPE html\>\n\
  \n\
 \<html\>\n\
