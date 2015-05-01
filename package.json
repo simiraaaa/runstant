@@ -26,5 +26,9 @@
     "grunt-contrib-watch": "~0.3.1",
     "grunt-shell": "~0.2.1",
     "grunt-static-inline": "~0.1.2"
+  },
+  "dependencies": {
+    "json5": "^0.4.0",
+    "jszip": "^2.5.0"
   }
 }
