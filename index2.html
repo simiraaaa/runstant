@@ -21,8 +21,8 @@
     <!-- jquery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <!-- bootstrap -->
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.1/css/materialize.min.css' />
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.1/js/materialize.min.js'></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js'></script>
     <!-- ace -->
     <script src="http://cdn.jsdelivr.net/ace/1.1.5/min/ace.js"></script>
     <script src="http://cdn.jsdelivr.net/ace/1.1.5/min/ext-language_tools.js"></script>
@@ -32,40 +32,62 @@
     <!-- jszip -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
   </head>
-  <body>
+  <body class='main-editor'>
     <nav class="blue-grey darken-3 header" role="navigation">
       <div class="nav-wrapper container">
 
         <a href="#" class="brand-logo">
           Runstant
         </a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="#">Navbar Link</a></li>
+        <ul class="right hide-on-small-and-down">
+          <li class="tooltipped" data-tooltip="play">
+            <a href="#" class="" id="play">
+              <i class="mdi-av-play-arrow"></i>
+            </a>
+          </li>
+          <li class="tooltipped" data-tooltip="share">
+            <a href="#modal-detail" class="modal-trigger">
+              <i class="mdi-social-share"></i>
+            </a>
+          </li>
+          <li class="tooltipped" data-tooltip="setting">
+            <a href="#modal-detail" class="modal-trigger">
+              <i class="mdi-action-settings"></i>
+            </a>
+          </li>
         </ul>
 
         <ul id="nav-mobile" class="side-nav" style="left: -250px;">
-          <li><a href="#">Navbar Link</a></li>
+          <li><a href="#">Share</a></li>
         </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
       </div>
     </nav>
 
     <div class='main'>
-      <div class='content content-editor'>
+      <div class='dialog editor'>
         <div class='inner'>
           <div class='header'>
-            <div>editor</div>
+            <ul class="tabs">
+              <li class="tab col s3"><a href="#editor-html">html</a></li>
+              <li class="tab col s3"><a href="#editor-style">style</a></li>
+              <li class="tab col s3"><a class="active" href="#editor-script">script</a></li>
+            </ul>
           </div>
-          <div id='editor' class='editor'></div>
+          <div class='content'>
+            <div id='editor-html' class='editor-unit'>html</div>
+            <div id='editor-style' class='editor-unit'>style</div>
+            <div id='editor-script' class='editor-unit'>script</div>
+          </div>
         </div>
       </div>
 
-      <div class='content content-preview'>
+      <div class='dialog preview'>
         <div class='inner'>
           <div class='header'>
             <div>tmlib.js 入門</div>
           </div>
-          <div class='main'>
+          <div class='content'>
             <div class='preview'>
               aaa
             </div>
@@ -81,11 +103,160 @@
   </body>
 </html>
 
-<script>
-$(".button-collapse").sideNav();
 
-var editor = ace.edit("editor");
-editor.setTheme("ace/theme/monokai");
-editor.getSession().setMode("ace/mode/javascript");
+<!-- Modal Structure -->
+<div id="modal-detail" class="modal bottom-sheet">
+  <div class="modal-content">
+    <h4>Setting</h4>
+    <div class="row">
+
+      <div class='col s6'>
+        <h5>Project</h5>
+        <div class='row'>
+          <div class="input-field col s12">
+            <input value="untitled" id="project-name" type="text" class="validate">
+            <label class="active" for="project-name">Project Name</label>
+          </div>
+          <div class="input-field col s12">
+            <textarea id="description" class="materialize-textarea"></textarea>
+            <label for="textarea1">Description</label>
+          </div>
+
+          <div class="input-field col s12">
+
+              <label>Language</label>
+
+              <br /><br />
+
+              <div class="row">
+
+                <div class="input-field col s4">
+                  <select id="html">
+                    <option value="html">html</option>
+                  </select>
+                  <label>html</label>
+                </div>
+
+                <div class="input-field col s4">
+                  <select id="style">
+                    <option value="html">css</option>
+                  </select>
+                  <label>style</label>
+                </div>
+
+                <div class="input-field col s4">
+                  <select id="script">
+                    <option value="html">javascript</option>
+                  </select>
+                  <label>script</label>
+                </div>
+
+              </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class='col s6'>
+        <h5>User</h5>
+        <div class='row'>
+
+          <div class="input-field col s12">
+            <input value="runstant" id="user-name" type="text" class="validate">
+            <label class="active" for="user-name">User Name</label>
+          </div>
+
+          <div class="input-field col s12">
+            <select id="theme">
+              <option value="xcode">XCode</option>
+              <option value="chrome">Chrome</option>
+              <option value="github">GitHub</option>
+            </select>
+            <label>Theme (monokai)</label>
+          </div>
+
+          <div class="input-field col s12">
+            <p class="range-field">
+              <input id="font-size" type="range" id="test5" min="6" max="128" />
+            </p>
+            <label>font size (12)</label>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
+    <br /><br /><br /><br /><br />
+  </div>
+
+</div>
+
+
+<script>
+
+$(document).ready(function(){
+  $('select').material_select();
+  $('.button-collapse').sideNav();
+  $('.modal-trigger').leanModal();
+  $('.tooltipped').tooltip({delay: 50});
+  $('ul.tabs').tabs();
+
+  var editor = ace.edit("editor-html");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/javascript");
+
+  var editor = ace.edit("editor-style");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/javascript");
+
+  var editor = ace.edit("editor-script");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/javascript");
+
+  $("#play").click(function() {
+    Materialize.toast('play', 1000, 'rounded')
+  });
+
+  // $('#modal-detail').openModal();
+
+  $("#theme").change(function() {
+    var theme = $(this).val();
+
+    editor.setTheme("ace/theme/" + theme);
+  })
+
+  $("#font-size").change(function() {
+    var size = $(this).val();
+    editor.setFontSize(+size);
+  });
+});
+
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
