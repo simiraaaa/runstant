@@ -18,8 +18,9 @@ var runstant = runstant || {};
             editor.setTheme("ace/theme/monokai");
 
             defaults.commands.forEach(function(command) {
+                command.exec = command.exec.bind(this);
                 editor.commands.addCommand(command);
-            });
+            }, this);
 
             this.editors[key] = editor;
 
@@ -52,6 +53,10 @@ var runstant = runstant || {};
         addCommand: function() {
             // TODO 
         },
+
+        onsave: function() {
+
+        },
     };
 
 
@@ -61,7 +66,7 @@ var runstant = runstant || {};
                 name: "save",
                 bindKey: { mac: "Command-S", win: "Ctrl-S", },
                 exec: function() {
-                    Materialize.toast('save & play', 1000, "rounded");
+                    this.onsave && this.onsave();
                 }
             },
             // 左右移動

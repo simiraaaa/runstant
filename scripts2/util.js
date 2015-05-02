@@ -6,7 +6,7 @@
 (function (exports) {
 
 	var isNode = (typeof process !== "undefined" && typeof require !== "undefined");
-	var JSZip = (isNode) ? require('request') : JSZip;
+	var JSZip = (isNode) ? require('request') : window.JSZip;
 	var request = (isNode) ? require('request') : null;
 
 	exports.zip = function(data) {
@@ -33,7 +33,7 @@
 
 	exports.hash2json = function(data) {
 		data = decodeURI(data);
-		data = this.unzip(str);
+		data = this.unzip(data);
 		data = JSON.parse(data);
 		return data;
 	};

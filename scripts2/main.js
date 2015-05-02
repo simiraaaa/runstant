@@ -9,12 +9,25 @@ $(document).ready(function() {
     $('.button-collapse').sideNav();
     $('.modal-trigger').leanModal();
     $('.tooltipped').tooltip({delay: 50});
-    $('ul.tabs').tabs();
+    $('ul.tabs').tabs({
+        select: function() {
+            debugger;
+        },
+        beforeActivate: function( event, ui ) {
+            debugger;
+        },
+    });
 
-    runstant.currentProject = new runstant.Project();
+    // project
+    var project = runstant.currentProject = new runstant.Project();
+    // タブに反映
+    $('ul.tabs').tabs('select_tab', 'editor-' + project.data.current);
 
+    // preview
+    var preview = jframe("#preview");
+
+    // editor
     var editor = new runstant.Editor();
-
     var code = runstant.currentProject.data.code;
 
     editor.register('html', 'editor-html', code.html.type);
@@ -23,6 +36,19 @@ $(document).ready(function() {
     editor.setValue('style', code.style.value);
     editor.register('script', 'editor-script', code.script.type);
     editor.setValue('script', code.script.value);
+
+    editor.onsave = function() {
+        var current = $('ul.tabs').find("a.active").html();
+
+        project.data.current = current;
+        project.data.code[current].value = this.getValue(current);
+
+        project.save();
+
+        var code = project.toCode();
+        preview.load(code);
+        Materialize.toast('save & play', 1000, "rounded");
+    };
 
 
     // var editor = ace.edit("editor-html");

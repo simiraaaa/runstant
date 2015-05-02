@@ -20,7 +20,7 @@ var runstant = runstant || {};
 
             if (location.hash) {
                 var hash = location.hash.substr(1);
-                data = util.hash2json();
+                data = util.hash2json(hash);
             }
             else {
                 data = constant.TEMPLATE_DATA;
@@ -34,11 +34,44 @@ var runstant = runstant || {};
             document.title = this.getTitle() + " | runstant";
         },
 
+        save: function() {
+        	var dataString = JSON.stringify(this.data);
+
+        	if (this.cache !== dataString) {
+        		this.cache = dataString;
+
+        		var hash = util.json2hash(this.data);
+        		history.pushState(null, 'runstant', '#' + hash);
+
+				// タイトル更新
+				document.title = this.getTitle() + " | runstant";
+        	}
+        },
+
         getTitle: function() {
             return this.data.setting.title;
         },
         setTitle: function(v) {
             this.data.setting.title = v;
+        },
+
+        toCode: function() {
+			var data = this.data;
+			var setting = data.setting;
+			var code = data.code;
+
+        	var htmlCode = code.html.value;
+        	var cssCode = code.style.value;
+        	var jsCode = code.script.value;
+
+			var finalCode = htmlCode
+		    	.replace("${title}", setting.title)
+		    	.replace("${description}", setting.detail)
+		    	.replace("${style}", cssCode)
+		    	.replace("${script}", jsCode)
+		    	;
+
+		    return finalCode;
         },
     };
 
