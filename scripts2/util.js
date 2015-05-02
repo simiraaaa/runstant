@@ -6,7 +6,7 @@
 (function (exports) {
 
 	var isNode = (typeof process !== "undefined" && typeof require !== "undefined");
-	var JSZip = JSZip || require('jszip');
+	var JSZip = (isNode) ? require('request') : JSZip;
 	var request = (isNode) ? require('request') : null;
 
 	exports.zip = function(data) {

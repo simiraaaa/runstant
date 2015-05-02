@@ -31,6 +31,12 @@
 
     <!-- jszip -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
+
+    <!-- mine -->
+    <script src="scripts2/constant.js"></script>
+    <script src="scripts2/util.js"></script>
+    <script src="scripts2/editor.js"></script>
+    <script src="scripts2/main.js"></script>
   </head>
   <body class='main-editor'>
     <nav class="blue-grey darken-3 header" role="navigation">
@@ -193,52 +199,6 @@
   </div>
 
 </div>
-
-
-<script>
-
-$(document).ready(function(){
-  $('select').material_select();
-  $('.button-collapse').sideNav();
-  $('.modal-trigger').leanModal();
-  $('.tooltipped').tooltip({delay: 50});
-  $('ul.tabs').tabs();
-
-  var editor = ace.edit("editor-html");
-  editor.setTheme("ace/theme/monokai");
-  editor.getSession().setMode("ace/mode/javascript");
-
-  var editor = ace.edit("editor-style");
-  editor.setTheme("ace/theme/monokai");
-  editor.getSession().setMode("ace/mode/javascript");
-
-  var editor = ace.edit("editor-script");
-  editor.setTheme("ace/theme/monokai");
-  editor.getSession().setMode("ace/mode/javascript");
-
-  $("#play").click(function() {
-    Materialize.toast('play', 1000, 'rounded')
-  });
-
-  // $('#modal-detail').openModal();
-
-  $("#theme").change(function() {
-    var theme = $(this).val();
-
-    editor.setTheme("ace/theme/" + theme);
-  })
-
-  $("#font-size").change(function() {
-    var size = $(this).val();
-    editor.setFontSize(+size);
-  });
-});
-
-</script>
-
-
-
-
 
 
 
