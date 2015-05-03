@@ -20,6 +20,8 @@ $(document).ready(function() {
 
     // project
     var project = runstant.currentProject = new runstant.Project();
+    // タイトルを反映
+    $('#project-title').text(project.getTitle());
     // タブに反映
     $('ul.tabs').tabs('select_tab', 'editor-' + project.data.current);
 
@@ -56,6 +58,7 @@ $(document).ready(function() {
 
     setting.onchange = function(e) {
         if (e.id === 'setting-project-title') {
+            $('#project-title').text(e.value);
             project.setTitle(e.value);
         }
         else if (e.id === 'setting-project-description') {
