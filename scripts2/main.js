@@ -51,6 +51,32 @@ $(document).ready(function() {
     };
 
 
+    // setting
+    var setting = new runstant.Setting({project:project});
+
+    setting.onchange = function(e) {
+        if (e.id === 'project-title') {
+            project.setTitle(e.value);
+        }
+        else if (e.id === 'project-description') {
+            project.setDescription(e.value);
+        }
+        else if (e.id === 'project-html') {
+            this.project.getCode('html').type = e.value;
+            editor.setMode('html', e.value);
+        }
+        else if (e.id === 'project-style') {
+            this.project.getCode('style').type = e.value;
+            editor.setMode('style', e.value);
+        }
+        else if (e.id === 'project-script') {
+            this.project.getCode('script').type = e.value;
+            editor.setMode('script', e.value);
+        }
+
+        project.save();
+    };
+
     // var editor = ace.edit("editor-html");
 
     // var editor = ace.edit("editor-style");

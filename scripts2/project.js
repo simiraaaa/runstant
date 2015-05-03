@@ -26,6 +26,11 @@ var runstant = runstant || {};
                 data = constant.TEMPLATE_DATA;
             }
 
+            // 後方互換
+            if (data.setting.detail && !data.setting.description) {
+                data.setting.description = data.setting.detail;
+            }
+
             this.data = data;
 
             // キャッシュしておく
@@ -55,6 +60,17 @@ var runstant = runstant || {};
             this.data.setting.title = v;
         },
 
+        getDescription: function() {
+            return this.data.setting.description;
+        },
+        setDescription: function(v) {
+            this.data.setting.description = v;
+        },
+
+        getCode: function(lang) {
+            return this.data.code[lang];
+        },
+
         toCode: function() {
 			var data = this.data;
 			var setting = data.setting;
@@ -66,7 +82,7 @@ var runstant = runstant || {};
 
 			var finalCode = htmlCode
 		    	.replace("${title}", setting.title)
-		    	.replace("${description}", setting.detail)
+		    	.replace("${description}", setting.description)
 		    	.replace("${style}", cssCode)
 		    	.replace("${script}", jsCode)
 		    	;

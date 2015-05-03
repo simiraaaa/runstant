@@ -41,7 +41,7 @@ h1 {\n\
 
 	    setting: {
 	        title: "template - tmlib.js",
-	        detail: "tmlib.js 用公式エディタ. 色々と使えますよ♪",
+	        description: "tmlib.js 用公式エディタ. 色々と使えますよ♪", // もと detail
 	        fullscreen: false,
 	    },
 	    code: {

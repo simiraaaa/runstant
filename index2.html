@@ -41,6 +41,7 @@
     <script src="scripts2/project.js"></script>
     <script src="scripts2/editor.js"></script>
     <script src="scripts2/preview.js"></script>
+    <script src="scripts2/setting.js"></script>
     <script src="scripts2/main.js"></script>
   </head>
   <body class='main-editor'>
@@ -124,12 +125,12 @@
         <h5>Project</h5>
         <div class='row'>
           <div class="input-field col s12">
-            <input value="untitled" id="project-name" type="text" class="validate">
-            <label class="active" for="project-name">Project Name</label>
+            <input value="untitled" id="project-title" type="text" class="validate">
+            <label class="active" for="project-title">Project Title</label>
           </div>
           <div class="input-field col s12">
-            <textarea id="description" class="materialize-textarea"></textarea>
-            <label for="textarea1">Description</label>
+            <textarea id="project-description" class="materialize-textarea"></textarea>
+            <label for="project-description">Description</label>
           </div>
 
           <div class="input-field col s12">
@@ -141,22 +142,30 @@
               <div class="row">
 
                 <div class="input-field col s4">
-                  <select id="html">
+                  <select id="project-html">
                     <option value="html">html</option>
+                    <option value="jade">jade</option>
+                    <option value="markdown">markdown</option>
                   </select>
                   <label>html</label>
                 </div>
 
                 <div class="input-field col s4">
-                  <select id="style">
-                    <option value="html">css</option>
+                  <select id="project-style">
+					<option>css</option>
+					<option>stylus</option>
+                    <option>less</option>
+                    <option>sass</option>
                   </select>
                   <label>style</label>
                 </div>
 
                 <div class="input-field col s4">
-                  <select id="script">
-                    <option value="html">javascript</option>
+                  <select id="project-script">
+					<option>javascript</option>
+					<option>typescript</option>
+					<option>coffee</option>
+                    <option>ecmascript6</option>
                   </select>
                   <label>script</label>
                 </div>
@@ -199,7 +208,6 @@
 
     </div>
 
-    <br /><br /><br /><br /><br />
   </div>
 
 </div>
