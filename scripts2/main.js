@@ -80,6 +80,21 @@ $(document).ready(function() {
         project.save();
     };
 
+    // fullscreen
+    $("#preview-btn-fullscreen").click(function() {
+        var $icon = $(this).find('i');
+        if ($(".preview").hasClass('fullscreen')) {
+            $(".preview").removeClass('fullscreen');
+            $icon.addClass("mdi-navigation-fullscreen");
+            $icon.removeClass("mdi-navigation-fullscreen-exit");
+        }
+        else {
+            $(".preview").addClass('fullscreen');
+            $icon.removeClass("mdi-navigation-fullscreen");
+            $icon.addClass("mdi-navigation-fullscreen-exit");
+        }
+    });
+
     // var editor = ace.edit("editor-html");
 
     // var editor = ace.edit("editor-style");

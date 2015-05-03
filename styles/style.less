@@ -67,7 +67,18 @@ nav .button-collapse i {
       height: 36px;
       border-top-left-radius: inherit;
       border-top-right-radius: inherit;
+      position: relative;
     }
+  }
+
+  .btn-fullscreen {
+    position: absolute;
+    top: 11px;
+    right: 4px;
+    line-height: 14px;
+    cursor: pointer;
+    font-size: 2rem;
+    z-index: 32;
   }
 
   &.fullscreen {
@@ -86,7 +97,7 @@ nav .button-collapse i {
 
     .header {
       background-color: hsl(210, 100%, 92%);
-      div {
+      .title {
         line-height: 36px;
         margin-left: 10px;
       }

@@ -54,7 +54,7 @@ runstant = runstant || {};
     		});
 
 
-    		$('#modal-detail').openModal();
+    		// $('#modal-detail').openModal();
     	},
 
     	fireChange: function(elm) {
