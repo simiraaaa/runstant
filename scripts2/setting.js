@@ -15,25 +15,25 @@ runstant = runstant || {};
 
     		var data = [
     			{
-    				query: '#project-title',
+    				query: '#setting-project-title',
     				value: this.project.getTitle(),
     			},
     			{
-    				query: '#project-description',
+    				query: '#setting-project-description',
     				value: this.project.getDescription(),
     			},
     			{
-    				query: '#project-html',
+    				query: '#setting-project-html',
     				value: this.project.getCode('html').type,
     				type: 'select',
     			},
     			{
-    				query: '#project-style',
+    				query: '#setting-project-style',
     				value: this.project.getCode('style').type,
     				type: 'select',
     			},
     			{
-    				query: '#project-script',
+    				query: '#setting-project-script',
     				value: this.project.getCode('script').type,
     				type: 'select',
     			},

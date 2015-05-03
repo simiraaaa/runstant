@@ -55,21 +55,21 @@ $(document).ready(function() {
     var setting = new runstant.Setting({project:project});
 
     setting.onchange = function(e) {
-        if (e.id === 'project-title') {
+        if (e.id === 'setting-project-title') {
             project.setTitle(e.value);
         }
-        else if (e.id === 'project-description') {
+        else if (e.id === 'setting-project-description') {
             project.setDescription(e.value);
         }
-        else if (e.id === 'project-html') {
+        else if (e.id === 'setting-project-html') {
             this.project.getCode('html').type = e.value;
             editor.setMode('html', e.value);
         }
-        else if (e.id === 'project-style') {
+        else if (e.id === 'setting-project-style') {
             this.project.getCode('style').type = e.value;
             editor.setMode('style', e.value);
         }
-        else if (e.id === 'project-script') {
+        else if (e.id === 'setting-project-script') {
             this.project.getCode('script').type = e.value;
             editor.setMode('script', e.value);
         }
