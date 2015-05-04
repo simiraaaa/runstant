@@ -38,6 +38,43 @@
 		return data;
 	};
 
+	exports.jade2html = function(code) {
+		var source = jade.compile(code, {
+			pretty: true
+		});
+		return '<!-- Compiled Jade -->\n\n' + source();
+	};
+
+	exports.markdown2html = function(code) {
+		var source = markdown.toHTML(code);
+
+		var unescapeHTML = function(html) {
+			return html
+				.replace(/&amp;/g, '&')
+				.replace(/&lt;/g, '<')
+				.replace(/&gt;/g, '>')
+				.replace(/&quot;/g, '"')
+				.replace(/&#39;/g, "'")
+				;
+		};
+
+		// html(scriptタグやstyleタグ)も書けるようにする
+		var source = unescapeHTML(source);
+
+		return '<!-- Compiled Markdown -->\n\n' + unescapeHTML(source);
+	};
+
+	// 動的にスクリプトをロードする
+	exports.loadScript = function(path, callback) {
+		if (exports.loadScript.cache[path]) {
+			return ;
+		}
+
+		$.getScript(path, callback);
+		exports.loadScript.cache[path] = true;
+	};
+	exports.loadScript.cache = {};
+
 	exports.shorten = function(url, callback) {
 		if (isNode) {
 			var key = "AIzaSyCfmMcmHwD_YN8vXQjJwojUP-4xKHHdaoI";

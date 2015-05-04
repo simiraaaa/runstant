@@ -40,7 +40,7 @@ $(document).ready(function() {
     editor.setValue('script', code.script.value);
 
     editor.onsave = function() {
-        var current = $('ul.tabs').find("a.active").html();
+        var current = $('ul.tabs').find("a.active").data('type');
 
         project.data.current = current;
         project.data.code[current].value = this.getValue(current);
@@ -96,6 +96,9 @@ $(document).ready(function() {
         return false;
     });
 
+    // 関連スクリプトをロードする
+    loadScripts();
+
     // var editor = ace.edit("editor-html");
 
     // var editor = ace.edit("editor-style");
@@ -127,4 +130,33 @@ $(document).ready(function() {
 
 
 
+var loadScripts = function(callback) {
+    var code = runstant.currentProject.data.code;
 
+    var types = [
+        code.html.type,
+        code.style.type,
+        code.script.type,
+    ];
+
+    var count = 0;
+    var counter = 0;
+
+    types.forEach(function(value) {
+        var path = constant.LANG_SCRIPT_MAP[value];
+        if (path) {
+            count++;
+            util.loadScript(path, function() {
+                counter++;
+
+                if (counter >= count) {
+                    callback && callback();
+                }
+            });
+        }
+    });
+
+    if (count == 0) {
+        callback && callback();
+    }
+};

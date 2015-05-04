@@ -77,6 +77,9 @@ var runstant = runstant || {};
 			var code = data.code;
 
         	var htmlCode = code.html.value;
+            if (runstant.compiler[code.html.type]) {
+                htmlCode = runstant.compiler[code.html.type].func(htmlCode);
+            }
         	var cssCode = code.style.value;
         	var jsCode = code.script.value;
 
@@ -93,6 +96,16 @@ var runstant = runstant || {};
 
 
     runstant.Project = Project;
+
+
+    runstant.compiler = {
+        'jade': {
+            func: util.jade2html,
+        },
+        'markdown': {
+            func: util.markdown2html,
+        },
+    };
 
 })();
 
