@@ -93,6 +93,7 @@ $(document).ready(function() {
             $icon.removeClass("mdi-navigation-fullscreen");
             $icon.addClass("mdi-navigation-fullscreen-exit");
         }
+        return false;
     });
 
     // var editor = ace.edit("editor-html");

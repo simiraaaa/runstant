@@ -77,41 +77,62 @@
     </nav>
 
     <div class='main'>
-      <div class='dialog editor'>
-        <div class='inner'>
-          <div class='header'>
-            <ul class="tabs">
-              <li class="tab col s3"><a href="#editor-html">html</a></li>
-              <li class="tab col s3"><a href="#editor-style">style</a></li>
-              <li class="tab col s3"><a class="active" href="#editor-script">script</a></li>
-            </ul>
-          </div>
-          <div class='content'>
-            <div id='editor-html' class='editor-unit'>html</div>
-            <div id='editor-style' class='editor-unit'>style</div>
-            <div id='editor-script' class='editor-unit'>script</div>
+
+      <div class='content-right'>
+        
+        <div class='dialog editor'>
+          <div class='inner'>
+            <div class='header'>
+              <ul class="tabs">
+                <li class="tab col s3"><a href="#editor-html">html</a></li>
+                <li class="tab col s3"><a href="#editor-style">style</a></li>
+                <li class="tab col s3"><a class="active" href="#editor-script">script</a></li>
+              </ul>
+            </div>
+            <div class='content'>
+              <div id='editor-html' class='editor-unit'>html</div>
+              <div id='editor-style' class='editor-unit'>style</div>
+              <div id='editor-script' class='editor-unit'>script</div>
+            </div>
           </div>
         </div>
+
       </div>
 
-      <div class='dialog preview'>
-        <div class='inner'>
-          <div class='header'>
-            <div id="project-title" class='title'>tmlib.js 入門</div>
-            <div class="btn-fullscreen" id="preview-btn-fullscreen">
-              <a href="#" id="play">
-                <i class="mdi-navigation-fullscreen"></i>
-              </a>
+      <div class="content-left">
+
+        <div class='dialog preview'>
+          <div class='inner'>
+            <div class='header'>
+              <div id="project-title" class='title'>tmlib.js 入門</div>
+              <div class="btn-fullscreen" id="preview-btn-fullscreen">
+                <a href="#" id="play">
+                  <i class="mdi-navigation-fullscreen"></i>
+                </a>
+              </div>
             </div>
-          </div>
-          <div class='content'>
-            <div class='frame' id="preview">
-            </div>
-            <div class='console'>
-              aaa
+            <div class='content'>
+              <div class='frame' id="preview">
+              </div>
             </div>
           </div>
         </div>
+
+        <div class='dialog console'>
+          <div class='inner'>
+            <div class='header'>
+              <div class='title'>console</div>
+              <div class="btn-fullscreen" id="preview-btn-fullscreen">
+                <a href="#" id="play">
+                  <i class="mdi-navigation-fullscreen"></i>
+                </a>
+              </div>
+            </div>
+            <div class='content'>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>

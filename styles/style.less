@@ -1,6 +1,6 @@
 @headerHeight: 64px;
 @headerHeightSP: 56px;
-@footerheight: 0px;
+@footerHeight: 50px;
 
 
 body {
@@ -44,23 +44,48 @@ nav .button-collapse i {
   font-size: 2rem !important;
 }
 
+.content-left {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 40%;
+  height: 100%;
+  padding-top: @headerHeight;
+  @media only screen and (min-width: 601px) {
+    padding-top: @headerHeight;
+  }
+
+  padding-bottom: @footerHeight;
+}
+
+.content-right {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  width: 60%;
+  height: 100%;
+  padding-top: @headerHeight;
+  @media only screen and (min-width: 601px) {
+    padding-top: @headerHeight;
+  }
+  padding-bottom: @footerHeight;
+}
+
 
 .dialog {
-  position: fixed;
-  top: @headerHeightSP;
-  bottom: @footerheight;
+  position: relative;
   border-radius: 6px;
   transition: 500ms;
-
-  @media only screen and (min-width: 601px) {
-    top: @headerHeight;
-  }
+  width: 100%;
+  height: 100%;
 
   .inner {
     border-radius: 6px;
     box-shadow: 0px 0px 4px 0px #aaa;
     width: 100%;
     height: 100%;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
 
     .header {
       width: 100%;
@@ -82,15 +107,35 @@ nav .button-collapse i {
   }
 
   &.fullscreen {
+    position: fixed;
     width: 100%;
+    height: 100%;
     z-index: 512;
+    left: 0px;
+    /*
+    position: relative;
+    left: 0px;
+    width: 250%;
+    height: 100%;
+    z-index: 512;
+    */
+
+    /*
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 512;
+    padding: 0px;
+    border-radius: 0px;
+    */
   }
 }
 
 .preview {
-  left: 0px;
-  width: 40%;
   padding: 7px;
+  height: 60%;
 
   .inner {
     background: white;
@@ -104,15 +149,13 @@ nav .button-collapse i {
     }
 
     .content {
-      position: absolute;
-      top: 0px;
-      bottom: 0px;
       width: 100%;
-      padding: 43px 14px 7px 0px;
+      height: 100%;
+      padding-bottom: 36px;
 
       .frame {
         width: 100%;
-        height: 60%;
+        height: 100%;
 
         iframe {
           width: 100%;
@@ -120,51 +163,74 @@ nav .button-collapse i {
           border: none;
         }
       }
-      .console {
-        border-top: 1px solid rgba(100, 100, 100, 0.5);
-        width: 100%;
-        height: 40%;
-      }
     }
 
   }
 }
 
+.console {
+  left: 0px;
+  padding: 7px;
+  height: 40%;
+
+  .inner {
+    background: white;
+
+    .header {
+      background-color: hsl(210, 100%, 92%);
+      .title {
+        line-height: 36px;
+        margin-left: 10px;
+      }
+    }
+
+    .content {
+    }
+
+  }
+}
+
+
+
 .editor {
-  right: 0px;
-  width: 60%;
+  @headerHeight: 36px;
+
   padding: 7px;
   padding-left: 5px;
 
   .inner {
+    width: 100%;
+    height: 100%;
     background-color: #444;
 
     .header {
       background-color: #444;
       color: white;
 
-      @height: 36px;
 
       .tabs {
         background: transparent;
         padding-top: 1px;
-        height: @height;
+        height: @headerHeight;
 
         li.tab {
           background: transparent;
-          height: @height;
-          line-height: @height;
+          height: @headerHeight;
+          line-height: @headerHeight;
         }
       }
     }
 
     .content {
+      width: 100%;
+      height: 100%;
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
+      padding-bottom: @headerHeight;
+
       .editor-unit {
-        position: absolute;
-        top: 45px;
-        bottom: 10px;
-        left: 6px;
-        right: 8px;
+        width: 100%;
+        height: 100%;
         border-bottom-left-radius: inherit;
         border-bottom-right-radius: inherit;
       }
