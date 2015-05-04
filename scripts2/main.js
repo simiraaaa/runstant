@@ -18,6 +18,9 @@ $(document).ready(function() {
     // タブに反映
     $('ul.tabs').tabs('select_tab', 'editor-' + project.data.current);
 
+    // user
+    var user = new runstant.User();
+
     // preview
     var preview = jframe("#preview");
 
@@ -49,7 +52,10 @@ $(document).ready(function() {
 
 
     // setting
-    var setting = new runstant.Setting({project:project});
+    var setting = new runstant.Setting({
+        project:project,
+        user:user,
+    });
 
     setting.onchange = function(e) {
         if (e.id === 'setting-project-title') {
@@ -70,6 +76,14 @@ $(document).ready(function() {
         else if (e.id === 'setting-project-script') {
             this.project.getCode('script').type = e.value;
             editor.setMode('script', e.value);
+        }
+        else if (e.id === 'setting-user-name') {
+            user.data.username = e.value;
+            user.save();
+        }
+        else if (e.id === 'setting-user-theme') {
+            user.data.theme = e.value;
+            user.save();
         }
 
         loadScripts();

@@ -39,6 +39,7 @@
     <script src="scripts2/constant.js"></script>
     <script src="scripts2/util.js"></script>
     <script src="scripts2/project.js"></script>
+    <script src="scripts2/user.js"></script>
     <script src="scripts2/editor.js"></script>
     <script src="scripts2/preview.js"></script>
     <script src="scripts2/setting.js"></script>
@@ -202,24 +203,33 @@
         <div class='row'>
 
           <div class="input-field col s12">
-            <input value="runstant" id="user-name" type="text" class="validate">
-            <label class="active" for="user-name">User Name</label>
+            <!--
+            <i class="mdi-action-account-circle prefix"></i>
+            -->
+            <input value="runstant" id="setting-user-name" type="text" class="validate">
+            <label for="setting-user-name">User Name</label>
           </div>
 
           <div class="input-field col s12">
-            <select id="theme">
-              <option value="xcode">XCode</option>
-              <option value="chrome">Chrome</option>
-              <option value="github">GitHub</option>
+            <!--
+            <i class="mdi-image-color-lens prefix"></i>
+            -->
+
+            <select id="setting-user-theme">
             </select>
             <label>Theme (monokai)</label>
           </div>
 
           <div class="input-field col s12">
+            <!--
+            <i class="mdi-content-text-format prefix"></i>
+            -->
+            
+            <label for="font-size">font size (12)</label>
+            <br />
             <p class="range-field">
-              <input id="font-size" type="range" id="test5" min="6" max="128" />
+              <input id="font-size" type="range" id="test5" value=12 min="6" max="128" />
             </p>
-            <label>font size (12)</label>
           </div>
 
         </div>

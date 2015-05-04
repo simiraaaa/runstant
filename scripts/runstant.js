@@ -84,7 +84,7 @@ var LANG_SCRIPT_MAP = {
 	        		regexp: /es6/,
 	        		message: 'Let\'s es6 programming!',
 	        		url: "http://goo.gl/thJLBw",
-	        	}
+	        	},
 	        ];
 
 	        templateMap.forEach(function(data) {
