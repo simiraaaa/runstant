@@ -110,6 +110,8 @@ $(document).ready(function() {
             var $icon = $target.find('.btn-fullscreen i');
             $icon.removeClass("mdi-navigation-fullscreen");
             $icon.addClass("mdi-navigation-fullscreen-exit");
+
+            $('.dialog').not('.fullscreen').css('opacity', '0.0');
         }
         else {
             var $target = $('.fullscreen');
@@ -118,6 +120,8 @@ $(document).ready(function() {
             var $icon = $target.find('.btn-fullscreen i');
             $icon.addClass("mdi-navigation-fullscreen");
             $icon.removeClass("mdi-navigation-fullscreen-exit");
+
+            $('.dialog').css('opacity', '1.0');
         }
 
         // タブを元に戻す
@@ -153,22 +157,25 @@ $(document).ready(function() {
         Materialize.toast('save & play', 1000, "rounded");
     });
 
-    // var editor = ace.edit("editor-html");
+    // setting
+    $("#btn-setting").click(function() {
+        $("#setting-project-title").select();
+    });
 
-    // var editor = ace.edit("editor-style");
-    // editor.setTheme("ace/theme/monokai");
-    // editor.getSession().setMode("ace/mode/javascript");
+    $("#project-title").click(function() {
+        $('#modal-detail').openModal();
+        $("#setting-project-title").select();
+    });
 
-    // var editor = ace.edit("editor-script");
-    // editor.setTheme("ace/theme/monokai");
-    // editor.getSession().setMode("ace/mode/javascript");
-    // editor.setValue(runstant.currentProject.data.code.script.value);
+    // console
+    $("#btn-description").click(function() {
+        var $prev = $("#console .content > *").not('.active');
+        var $next = $("#console .content").find('.active');
 
-    // $("#play").click(function() {
-    //     Materialize.toast('play', 1000, 'rounded')
-    // });
+        $prev.addClass('active');
+        $next.removeClass('active');
+    });
 
-    // // $('#modal-detail').openModal();
 
     // $("#theme").change(function() {
     //     var theme = $(this).val();

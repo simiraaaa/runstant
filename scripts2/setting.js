@@ -88,9 +88,6 @@ runstant = runstant || {};
 	    			$elm.material_select();
 	    		}
     		});
-
-
-    		$('#modal-detail').openModal();
     	},
 
     	fireChange: function(elm) {

@@ -64,7 +64,7 @@
             </a>
           </li>
           <li class="tooltipped" data-tooltip="setting">
-            <a href="#modal-detail" class="modal-trigger">
+            <a id='btn-setting' href="#modal-detail" class="modal-trigger">
               <i class="mdi-action-settings"></i>
             </a>
           </li>
@@ -87,14 +87,14 @@
               <li class="tab col s3"><a data-type="style" href="#editor-style">style<small>(css)</small></a></li>
               <li class="tab col s3"><a data-type="script" class="active" href="#editor-script">script<small>(javascript)</small></a></li>
             </ul>
-            <div class="btn-fullscreen" data-type='editor'>
-              <a href="#"><i class="mdi-navigation-fullscreen"></i></a>
-            </div>
           </div>
           <div class='content'>
             <div id='editor-html' class='editor-unit'>html</div>
             <div id='editor-style' class='editor-unit'>style</div>
             <div id='editor-script' class='editor-unit'>script</div>
+          </div>
+          <div class="btn-fullscreen" data-type='editor'>
+            <a href="#"><i class="mdi-navigation-fullscreen"></i></a>
           </div>
         </div>
       </div>
@@ -103,26 +103,30 @@
         <div class='inner'>
           <div class='header'>
             <div id="project-title" class='title'>tmlib.js 入門</div>
-            <div class="btn-fullscreen" data-type='preview'>
-              <a href="#"><i class="mdi-navigation-fullscreen"></i></a>
-            </div>
           </div>
           <div class='content'>
-            <div class='frame' id="preview">
-            </div>
+            <div class='frame' id="preview"></div>
+          </div>
+          <div class="btn-fullscreen" data-type='preview'>
+            <a href="#"><i class="mdi-navigation-fullscreen"></i></a>
           </div>
         </div>
       </div>
 
-      <div class='dialog console'>
+      <div class='dialog console' id='console'>
         <div class='inner'>
           <div class='header'>
             <div class='title'>console</div>
-            <div class="btn-fullscreen" data-type='console'>
-              <a href="#"><i class="mdi-navigation-fullscreen"></i></a>
+            <div class="btn-description" id="btn-description">
+              <a href="#"><i class="mdi-action-description"></i></a>
             </div>
           </div>
           <div class='content'>
+            <div class='content-console active'>console</div>
+            <div class='content-description'>preview</div>
+          </div>
+          <div class="btn-fullscreen" data-type='console'>
+            <a href="#"><i class="mdi-navigation-fullscreen"></i></a>
           </div>
         </div>
       </div>

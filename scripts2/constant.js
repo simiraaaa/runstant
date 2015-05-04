@@ -72,7 +72,7 @@ h1 {\n\
 		'sass': "http://cdnjs.cloudflare.com/ajax/libs/sass.js/0.4.0/sass.min.js",
 
 		'jade': "http://cdnjs.cloudflare.com/ajax/libs/jade/1.3.1/jade.min.js",
-		'markdown': "http://cdnjs.cloudflare.com/ajax/libs/markdown.js/0.5.0/markdown.min.js",
+		'markdown': "http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js",
 	};
 
 })(typeof exports === 'undefined' ? this.constant = {} : exports);
