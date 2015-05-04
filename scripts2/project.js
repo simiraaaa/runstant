@@ -81,7 +81,13 @@ var runstant = runstant || {};
                 htmlCode = runstant.compiler[code.html.type].func(htmlCode);
             }
         	var cssCode = code.style.value;
+            if (runstant.compiler[code.style.type]) {
+                cssCode = runstant.compiler[code.style.type].func(cssCode);
+            }
         	var jsCode = code.script.value;
+            if (runstant.compiler[code.script.type]) {
+                jsCode = runstant.compiler[code.script.type].func(jsCode);
+            }
 
 			var finalCode = htmlCode
 		    	.replace("${title}", setting.title)
@@ -104,6 +110,15 @@ var runstant = runstant || {};
         },
         'markdown': {
             func: util.markdown2html,
+        },
+        'stylus': {
+            func: util.stylus2css,
+        },
+        'less': {
+            func: util.less2css,
+        },
+        'sass': {
+            func: util.sass2css,
         },
     };
 

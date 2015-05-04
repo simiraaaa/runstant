@@ -64,6 +64,35 @@
 		return '<!-- Compiled Markdown -->\n\n' + unescapeHTML(source);
 	};
 
+	exports.less2css = function(code) {
+		// console.dir(less.Parser());
+		var source = '';
+		less.Parser().parse(code, function(err, tree) {
+			if (err) {
+				return console.error(err)
+			}
+			source = tree.toCSS();
+		});
+
+		return '/* Compiled LESS */\n\n' + source;
+	};
+
+	exports.sass2css = function(code) {
+		var css = Sass.compile(code);
+		return '/* Compiled SASS */\n\n' + css;
+	};
+
+	exports.stylus2css = function(code) {
+		var source = '';
+		var renderer = stylus(code);
+
+		renderer.render(function(a, b) {
+			source = b;
+		});
+
+		return '/* Compiled Stylus */\n\n' + source;
+	};
+
 	// 動的にスクリプトをロードする
 	exports.loadScript = function(path, callback) {
 		if (exports.loadScript.cache[path]) {

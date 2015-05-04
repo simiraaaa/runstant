@@ -77,27 +77,57 @@ $(document).ready(function() {
             editor.setMode('script', e.value);
         }
 
+        loadScripts();
         project.save();
     };
 
-    // fullscreen
-    $("#preview-btn-fullscreen").click(function() {
-        var $icon = $(this).find('i');
-        if ($(".preview").hasClass('fullscreen')) {
-            $(".preview").removeClass('fullscreen');
-            $icon.addClass("mdi-navigation-fullscreen");
-            $icon.removeClass("mdi-navigation-fullscreen-exit");
-        }
-        else {
-            $(".preview").addClass('fullscreen');
+    var fullscreen = function() {
+        if (project.data.fullscreen) {
+            var className = project.data.fullscreen;
+            var $target = $('.' + className);
+
+            $target.addClass('fullscreen');
+
+            var $icon = $target.find('.btn-fullscreen i');
             $icon.removeClass("mdi-navigation-fullscreen");
             $icon.addClass("mdi-navigation-fullscreen-exit");
         }
+        else {
+            var $target = $('.fullscreen');
+
+            $target.removeClass('fullscreen');
+            var $icon = $target.find('.btn-fullscreen i');
+            $icon.addClass("mdi-navigation-fullscreen");
+            $icon.removeClass("mdi-navigation-fullscreen-exit");
+        }
+    };
+
+    fullscreen();
+
+    // fullscreen
+    $(".btn-fullscreen").click(function() {
+        var $this = $(this);
+        var type = $this.data('type');
+
+        if (project.data.fullscreen === type) {
+            project.data.fullscreen = null;
+        }
+        else {
+            project.data.fullscreen = type;
+        }
+
+        project.save();
+        fullscreen();
+
         return false;
     });
 
     // 関連スクリプトをロードする
-    loadScripts();
+    loadScripts(function() {
+        var code = project.toCode();
+        preview.load(code);
+        Materialize.toast('save & play', 1000, "rounded");
+    });
 
     // var editor = ace.edit("editor-html");
 
