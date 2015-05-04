@@ -36,7 +36,9 @@ $(document).ready(function() {
         var current = $('ul.tabs').find("a.active").data('type');
 
         project.data.current = current;
-        project.data.code[current].value = this.getValue(current);
+        project.data.code['html'].value = this.getValue('html');
+        project.data.code['style'].value = this.getValue('style');
+        project.data.code['script'].value = this.getValue('script');
 
         project.save();
 
