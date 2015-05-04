@@ -50,6 +50,20 @@ var runstant = runstant || {};
             return this;
         },
 
+        setTheme: function(theme) {
+            Object.keys(this.editors).forEach(function(key) {
+                var editor = this.editors[key];
+                editor.setTheme(theme);
+            }, this);
+        },
+
+        setFontSize: function(size) {
+            Object.keys(this.editors).forEach(function(key) {
+                var editor = this.editors[key];
+                editor.setFontSize(+size);
+            }, this);
+        },
+
         addCommand: function() {
             // TODO 
         },

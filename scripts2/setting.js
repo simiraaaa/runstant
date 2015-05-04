@@ -63,7 +63,11 @@ runstant = runstant || {};
     				query: "#setting-user-theme",
     				value: user.data.theme,
     				type: 'select',
-    			}
+    			},
+    			{
+    				query: "#setting-user-font-size",
+    				value: user.data.fontSize,
+    			},
 			];
 
 

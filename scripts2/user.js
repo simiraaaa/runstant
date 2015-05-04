@@ -20,6 +20,7 @@ runstant = runstant || {};
                     username: 'runstant',
                     keyBinding: 'ace',
                     theme: 'monokai',
+                    fontSize: 12,
                     tabSize: 4,
                 };
                 this.save();

@@ -27,13 +27,17 @@ $(document).ready(function() {
     // editor
     var editor = new runstant.Editor();
     var code = runstant.currentProject.data.code;
-
+    // type and data
     editor.register('html', 'editor-html', code.html.type);
     editor.setValue('html', code.html.value);
     editor.register('style', 'editor-style', code.style.type);
     editor.setValue('style', code.style.value);
     editor.register('script', 'editor-script', code.script.type);
     editor.setValue('script', code.script.value);
+    // theme
+    editor.setTheme(user.data.theme);
+    // fontSize
+    editor.setFontSize(user.data.fontSize);
 
     editor.onsave = function() {
         var current = $('ul.tabs').find("a.active").data('type');
@@ -84,6 +88,12 @@ $(document).ready(function() {
         else if (e.id === 'setting-user-theme') {
             user.data.theme = e.value;
             user.save();
+            editor.setTheme(user.data.theme);
+        }
+        else if (e.id === 'setting-user-font-size') {
+            user.data.fontSize = e.value;
+            user.save();
+            editor.setFontSize(user.data.fontSize);
         }
 
         loadScripts();
