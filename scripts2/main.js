@@ -9,14 +9,7 @@ $(document).ready(function() {
     $('.button-collapse').sideNav();
     $('.modal-trigger').leanModal();
     $('.tooltipped').tooltip({delay: 50});
-    $('ul.tabs').tabs({
-        select: function() {
-            debugger;
-        },
-        beforeActivate: function( event, ui ) {
-            debugger;
-        },
-    });
+    $('ul.tabs').tabs();
 
     // project
     var project = runstant.currentProject = new runstant.Project();
@@ -100,6 +93,11 @@ $(document).ready(function() {
             $icon.addClass("mdi-navigation-fullscreen");
             $icon.removeClass("mdi-navigation-fullscreen-exit");
         }
+
+        // タブを元に戻す
+        setTimeout(function() {
+            $('ul.tabs').tabs('select_tab', $('ul.tabs').find(".active").attr('href').substr(1));
+        }, 500);
     };
 
     fullscreen();
