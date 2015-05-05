@@ -195,16 +195,6 @@ nav .button-collapse i {
         line-height: 36px;
         margin-left: 10px;
       }
-      .btn-description {
-        position: absolute;
-        top: 11px;
-        right: 3px;
-        line-height: 14px;
-        cursor: pointer;
-        font-size: 2rem;
-        z-index: 32;
-
-      }
     }
 
     .content {
@@ -214,83 +204,6 @@ nav .button-collapse i {
       padding-bottom: 36px;
     }
 
-  }
-
-
-  &.fullscreen {
-    .btn-description {
-      display: none;
-    }
-  }
-
-}
-
-
-.description {
-  bottom: 0px;
-  left: 0px;
-  width: 40%;
-  height: 40%;
-
-  .inner {
-    background: white;
-
-    .header {
-      background-color: hsl(210, 100%, 92%);
-      .title {
-        line-height: 36px;
-        margin-left: 10px;
-      }
-      .btn-console {
-        position: absolute;
-        top: 11px;
-        right: 3px;
-        line-height: 14px;
-        cursor: pointer;
-        font-size: 2rem;
-        z-index: 32;
-      }
-    }
-
-    .content {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      padding-bottom: 36px;
-
-      .frame {
-        width: 100%;
-        height: 100%;
-
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
-        overflow-scrolling: touch;
-
-        border-bottom-left-radius: inherit;
-        border-bottom-right-radius: inherit;
-
-        iframe {
-          width: 100%;
-          height: 100%;
-          border: none;
-        }
-      }
-
-    }
-  }
-
-  &.fullscreen {
-    .btn-console {
-      display: none;
-    }
-  }
-}
-
-.console, .description {
-
-  &:not(.active) {
-    left: -500px;
-    opacity: 0.0;
   }
 
 }

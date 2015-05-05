@@ -167,22 +167,6 @@ $(document).ready(function() {
         $("#setting-project-title").select();
     });
 
-    // console
-    $("#btn-description").click(function() {
-        $("#console").removeClass("active");
-        $("#description").addClass("active");
-    });
-
-    // description
-    var description = jframe("#frame-description");
-    description.load(util.markdown2html(project.data.setting.description));
-
-    $("#btn-console").click(function() {
-        $("#description").removeClass("active");
-        $("#console").addClass("active");
-    });
-
-
     // $("#theme").change(function() {
     //     var theme = $(this).val();
 
