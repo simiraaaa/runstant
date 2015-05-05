@@ -169,11 +169,17 @@ $(document).ready(function() {
 
     // console
     $("#btn-description").click(function() {
-        var $prev = $("#console .content > *").not('.active');
-        var $next = $("#console .content").find('.active');
+        $("#console").removeClass("active");
+        $("#description").addClass("active");
+    });
 
-        $prev.addClass('active');
-        $next.removeClass('active');
+    // description
+    var description = jframe("#frame-description");
+    description.load(util.markdown2html(project.data.setting.description));
+
+    $("#btn-console").click(function() {
+        $("#description").removeClass("active");
+        $("#console").addClass("active");
     });
 
 

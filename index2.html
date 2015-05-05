@@ -32,6 +32,9 @@
     <!-- jszip -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jszip/2.3.0/jszip.min.js"></script>
 
+    <!-- marked -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+
     <!-- jframe -->
     <script src="http://cdn.rawgit.com/phi-jp/jframe/0.0.1/jframe.js"></script>
 
@@ -122,10 +125,27 @@
             </div>
           </div>
           <div class='content'>
-            <div class='content-console active'>console</div>
-            <div class='content-description'>preview</div>
+            <div class='content-console'>console</div>
           </div>
           <div class="btn-fullscreen" data-type='console'>
+            <a href="#"><i class="mdi-navigation-fullscreen"></i></a>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class='dialog description active' id='description'>
+        <div class='inner'>
+          <div class='header'>
+            <div class='title'>description</div>
+            <div class="btn-console" id="btn-console">
+              <a href="#"><i class="mdi-hardware-memory"></i></a>
+            </div>
+          </div>
+          <div class='content'>
+            <div class='frame' id="frame-description"></div>
+          </div>
+          <div class="btn-fullscreen" data-type='description'>
             <a href="#"><i class="mdi-navigation-fullscreen"></i></a>
           </div>
         </div>
