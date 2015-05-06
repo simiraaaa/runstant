@@ -162,6 +162,13 @@
 			post('log', args);
 		};
 
+		var _dir = console.dir;
+		console.dir = function() {
+			_dir.apply(console, arguments);
+			var args = Array.prototype.slice.call(arguments);
+			post('dir', args);
+		};
+
 		var _error = console.error;
 		console.error = function() {
 			_error.apply(console, arguments);

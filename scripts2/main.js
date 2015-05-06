@@ -210,6 +210,9 @@ window.onmessage = function(e) {
     if (data.method == 'log') {
         printConsole(args.join(' '), 'log');
     }
+    else if (data.method == 'dir') {
+        printConsole(JSON.stringify(args[0], null, 2), 'dir');
+    }
     else if (data.method === 'output') {
         printConsole(args.join(' '), 'output');
     }
