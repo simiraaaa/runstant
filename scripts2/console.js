@@ -3,14 +3,30 @@ var runstant = runstant || {};
 
 ;(function() {
 
-	var Console = {
-		stack: [],
+    var Console = function(param) {
+        this.init(param);
+    };
+
+    Console.prototype = {
+    	$console: null,
+    	$input: null,
+    	preview: null,
+		stack: null,
 		stackIndex: null,
 
-		init: function(preview) {
-		    var stack = [];
+		init: function(param) {
+			this.$console = $(".console");
+			this.$input = $("#console-input");
+			this.preview = param.preview;
+			this.stack = [];
 
-		    $("#console-input").keypress(function(e) {
+			var self = this;
+			var preview = this.preview;
+			var stack = this.stack;
+
+			var $input = this.$input;
+
+		    $input.keypress(function(e) {
 		        if (e.which === 13 && e.shiftKey === false) {
 		            var v = $(this).text();
 		            if (v === '') return false;
@@ -19,14 +35,14 @@ var runstant = runstant || {};
 		            var frame = preview.domElement.querySelector('iframe');
 		            var win = frame.contentWindow;
 
-		            runstant.Console.print(v, 'input');
+		            self.print(v, 'input');
 		            win.postMessage(v, '*');
 		            stack.push(v);
 
 		            return false;
 		        }
 		    });
-		    $("#console-input").keydown(function(e) {
+		    $input.keydown(function(e) {
 		        if (e.which === 38) {
 		            if (stack.length > 0) {
 		                $(this).text(stack[stack.length-1]);
@@ -38,8 +54,8 @@ var runstant = runstant || {};
 		        }
 		    });
 
-		    $(".console").click(function() {
-		        $("#console-input").focus();
+		    this.$console.click(function() {
+		        $input.focus();
 		        document.execCommand('selectAll',false,null);
 		    });
 

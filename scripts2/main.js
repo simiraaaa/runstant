@@ -169,32 +169,35 @@ $(document).ready(function() {
 
 
     // console
-    runstant.Console.init(preview);
+    var csl = new runstant.Console({
+        preview: preview,
+    });
+
+    // console 対応
+    window.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        var method = data.method;
+        var args = data.arguments;
+
+        if (method == 'log') {
+            csl.print(args.join(' '), 'log');
+        }
+        else if (method == 'dir') {
+            csl.print(JSON.stringify(args[0], null, 2), 'dir');
+        }
+        else if (method === 'output') {
+            csl.print(args.join(' '), 'output');
+        }
+        else if (method == 'error') {
+            csl.print(args.join(' '), 'error');
+        }
+        else if (method == 'clear') {
+            csl.clear();
+        }
+    };
+
 });
 
-
-// console 対応
-window.onmessage = function(e) {
-    var data = JSON.parse(e.data);
-    var method = data.method;
-    var args = data.arguments;
-
-    if (method == 'log') {
-        runstant.Console.print(args.join(' '), 'log');
-    }
-    else if (method == 'dir') {
-        runstant.Console.print(JSON.stringify(args[0], null, 2), 'dir');
-    }
-    else if (method === 'output') {
-        runstant.Console.print(args.join(' '), 'output');
-    }
-    else if (method == 'error') {
-        runstant.Console.print(args.join(' '), 'error');
-    }
-    else if (method == 'clear') {
-        runstant.Console.clear();
-    }
-};
 
 var loadScripts = function(callback) {
     var code = runstant.currentProject.data.code;
