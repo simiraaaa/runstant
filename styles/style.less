@@ -2,6 +2,10 @@
 @footerHeight: 30px;
 @transitionSpeed: 500ms;
 
+@editorWidth: 61.5%;
+@previewWidth: 100% - @editorWidth;
+@consoleWidth: 100% - @editorWidth;
+
 
 body {
   background: #eee;
@@ -136,7 +140,7 @@ nav.header {
 .preview {
   top: 0px;
   left: 0px;
-  width: 40%;
+  width: @previewWidth;
   height: 60%;
 
   .inner {
@@ -191,7 +195,7 @@ nav.header {
 .console {
   bottom: 0px;
   left: 0px;
-  width: 40%;
+  width: @consoleWidth;
   height: 40%;
 
   .inner {
@@ -228,6 +232,7 @@ nav.header {
           color: hsl(220, 100%, 50%);
           font-size: 13px;
           white-space: pre;
+          word-wrap: break-word;
 
           &.input {
             outline: 0;
@@ -271,7 +276,7 @@ nav.header {
 
   top: 0px;
   right: 0px;
-  width: 60%;
+  width: @editorWidth;
   height: 100%;
   padding-left: 5px;
 

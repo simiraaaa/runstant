@@ -190,7 +190,7 @@ $(document).ready(function() {
             var frame = preview.domElement.querySelector('iframe');
             var win = frame.contentWindow;
 
-            printConsole(v, 'input');
+            runstant.Console.print(v, 'input');
             win.postMessage(v, '*');
             stack.push(v);
 
@@ -219,51 +219,25 @@ $(document).ready(function() {
 // console 対応
 window.onmessage = function(e) {
     var data = JSON.parse(e.data);
+    var method = data.method;
     var args = data.arguments;
 
-    if (data.method == 'log') {
-        printConsole(args.join(' '), 'log');
+    if (method == 'log') {
+        runstant.Console.print(args.join(' '), 'log');
     }
-    else if (data.method == 'dir') {
-        printConsole(JSON.stringify(args[0], null, 2), 'dir');
+    else if (method == 'dir') {
+        runstant.Console.print(JSON.stringify(args[0], null, 2), 'dir');
     }
-    else if (data.method === 'output') {
-        printConsole(args.join(' '), 'output');
+    else if (method === 'output') {
+        runstant.Console.print(args.join(' '), 'output');
     }
-    else if (data.method == 'error') {
-        printConsole(args.join(' '), 'error');
+    else if (method == 'error') {
+        runstant.Console.print(args.join(' '), 'error');
     }
-    else if (data.method == 'clear') {
-        clearConsole();
+    else if (method == 'clear') {
+        runstant.Console.clear();
     }
-    // else if (data.method == "dir") {
-    //     rs.preview.dir(args[0]);
-    // }
-    // else if (data.method == "error") {
-    //     rs.preview.error(args[0]);
-    // }
 };
-
-
-var printConsole = function(str, cls) {
-    var $console = $('.content-console');
-    var $span = $('<span>');
-
-    $span.text(str);
-    $span.addClass(cls);
-
-    $("#console-input").before($span);
-
-    // $console.append($span);
-
-    setTimeout(function() {
-        $console[0].scrollTop = $console[0].scrollHeight;
-    })
-};
-
-var clearConsole = function() {
-    $('.content-console span').not(':last-child').remove();
-}
 
 var loadScripts = function(callback) {
     var code = runstant.currentProject.data.code;

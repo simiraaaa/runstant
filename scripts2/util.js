@@ -183,6 +183,12 @@
 		};
 
 		// 
+		var log = console.log;
+		var dir = console.dir;
+		var error = console.error;
+		var clear = console.clear;
+
+		// 
 		window.onmessage = function(e) {
 			var result = eval(e.data);
 			if (!result) result = result + '';
