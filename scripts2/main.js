@@ -167,52 +167,9 @@ $(document).ready(function() {
         $("#setting-project-title").select();
     });
 
-    // $("#theme").change(function() {
-    //     var theme = $(this).val();
-
-    //     editor.setTheme("ace/theme/" + theme);
-    // });
-
-    // $("#font-size").change(function() {
-    //     var size = $(this).val();
-    //     editor.setFontSize(+size);
-    // });
-
 
     // console
-    var stack = [];
-    $("#console-input").keypress(function(e) {
-        if (e.which === 13 && e.shiftKey === false) {
-            var v = $(this).text();
-            if (v === '') return false;
-
-            $(this).text('');
-            var frame = preview.domElement.querySelector('iframe');
-            var win = frame.contentWindow;
-
-            runstant.Console.print(v, 'input');
-            win.postMessage(v, '*');
-            stack.push(v);
-
-            return false;
-        }
-    });
-    $("#console-input").keydown(function(e) {
-        if (e.which === 38) {
-            if (stack.length > 0) {
-                $(this).text(stack[stack.length-1]);
-                stack.pop();
-            }
-            else {
-                $(this).text('');
-            }
-        }
-    });
-
-    $(".console").click(function() {
-        $("#console-input").focus();
-        document.execCommand('selectAll',false,null);
-    });
+    runstant.Console.init(preview);
 });
 
 
