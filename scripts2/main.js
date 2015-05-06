@@ -180,6 +180,7 @@ $(document).ready(function() {
 
 
     // console
+    var stack = [];
     $("#console-input").keypress(function(e) {
         if (e.which === 13 && e.shiftKey === false) {
             var v = $(this).text();
@@ -191,7 +192,20 @@ $(document).ready(function() {
 
             printConsole(v, 'input');
             win.postMessage(v, '*');
+            stack.push(v);
+
             return false;
+        }
+    });
+    $("#console-input").keydown(function(e) {
+        if (e.which === 38) {
+            if (stack.length > 0) {
+                $(this).text(stack[stack.length-1]);
+                stack.pop();
+            }
+            else {
+                $(this).text('');
+            }
         }
     });
 
