@@ -146,29 +146,45 @@
 
 	// extend console
 	util.ConsoleExtention = function() {
-		var _log = console.log;
-
-		console.log = function() {
-			_log.apply(console, arguments);
-
-			var arguments = Array.prototype.slice.call(arguments);
+		var post = function(method, args) {
 			var message = {
-				method: "log",
-				arguments: arguments
+				method: method,
+				arguments: args || [],
 			};
 
 			window.parent.postMessage(JSON.stringify(message), "*");
 		};
 
+		var _log = console.log;
+		console.log = function() {
+			_log.apply(console, arguments);
+			var args = Array.prototype.slice.call(arguments);
+			post('log', args);
+		};
+
+		var _error = console.error;
+		console.error = function() {
+			_error.apply(console, arguments);
+			var args = Array.prototype.slice.call(arguments);
+			post('error', args);
+		};
+
+		var _clear = console.clear;
+		console.clear = function() {
+			_clear.apply(console, arguments);
+			post('clear');
+		};
+
+		// 
 		window.onmessage = function(e) {
 			var result = eval(e.data);
 			if (!result) result = result + '';
 
-			var message = {
-				method: "output",
-				arguments: [result],
-			};
-			window.parent.postMessage(JSON.stringify(message), "*");
+			post('output', [result]);
+		};
+		// 
+		window.onerror = function(message, file, line, col, error) {
+		    console.error(message + ' (line:' + line + ')');
 		};
 	};
 

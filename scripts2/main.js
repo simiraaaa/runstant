@@ -182,13 +182,22 @@ $(document).ready(function() {
     // console
     $("#console-input").keypress(function(e) {
         if (e.which === 13 && e.shiftKey === false) {
-            var v = $(this).html();
+            var v = $(this).text();
+            if (v === '') return false;
+
+            $(this).text('');
             var frame = preview.domElement.querySelector('iframe');
             var win = frame.contentWindow;
 
+            printConsole(v, 'input');
             win.postMessage(v, '*');
             return false;
         }
+    });
+
+    $(".console").click(function() {
+        $("#console-input").focus();
+        document.execCommand('selectAll',false,null);
     });
 });
 
@@ -203,6 +212,12 @@ window.onmessage = function(e) {
     }
     else if (data.method === 'output') {
         printConsole(args.join(' '), 'output');
+    }
+    else if (data.method == 'error') {
+        printConsole(args.join(' '), 'error');
+    }
+    else if (data.method == 'clear') {
+        clearConsole();
     }
     // else if (data.method == "dir") {
     //     rs.preview.dir(args[0]);
@@ -228,6 +243,10 @@ var printConsole = function(str, cls) {
         $console[0].scrollTop = $console[0].scrollHeight;
     })
 };
+
+var clearConsole = function() {
+    $('.content-console span').not(':last-child').remove();
+}
 
 var loadScripts = function(callback) {
     var code = runstant.currentProject.data.code;
