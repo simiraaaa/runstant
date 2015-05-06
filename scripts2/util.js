@@ -144,6 +144,35 @@
 	};
 
 
+	// extend console
+	util.ConsoleExtention = function() {
+		var _log = console.log;
+
+		console.log = function() {
+			_log.apply(console, arguments);
+
+			var arguments = Array.prototype.slice.call(arguments);
+			var message = {
+				method: "log",
+				arguments: arguments
+			};
+
+			window.parent.postMessage(JSON.stringify(message), "*");
+		};
+
+		window.onmessage = function(e) {
+			var result = eval(e.data);
+			if (!result) result = result + '';
+
+			var message = {
+				method: "output",
+				arguments: [result],
+			};
+			window.parent.postMessage(JSON.stringify(message), "*");
+		};
+	};
+
+
 	// for node
 	if (!isNode) return ;
 

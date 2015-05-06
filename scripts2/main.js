@@ -49,7 +49,7 @@ $(document).ready(function() {
 
         project.save();
 
-        var code = project.toCode();
+        var code = project.toCode(true);
         preview.load(code);
         Materialize.toast('save & play', 1000, "rounded");
     };
@@ -152,7 +152,7 @@ $(document).ready(function() {
 
     // 関連スクリプトをロードする
     loadScripts(function() {
-        var code = project.toCode();
+        var code = project.toCode(true);
         preview.load(code);
         Materialize.toast('save & play', 1000, "rounded");
     });
@@ -177,9 +177,57 @@ $(document).ready(function() {
     //     var size = $(this).val();
     //     editor.setFontSize(+size);
     // });
+
+
+    // console
+    $("#console-input").keypress(function(e) {
+        if (e.which === 13 && e.shiftKey === false) {
+            var v = $(this).html();
+            var frame = preview.domElement.querySelector('iframe');
+            var win = frame.contentWindow;
+
+            win.postMessage(v, '*');
+            return false;
+        }
+    });
 });
 
 
+// console 対応
+window.onmessage = function(e) {
+    var data = JSON.parse(e.data);
+    var args = data.arguments;
+
+    if (data.method == 'log') {
+        printConsole(args.join(' '), 'log');
+    }
+    else if (data.method === 'output') {
+        printConsole(args.join(' '), 'output');
+    }
+    // else if (data.method == "dir") {
+    //     rs.preview.dir(args[0]);
+    // }
+    // else if (data.method == "error") {
+    //     rs.preview.error(args[0]);
+    // }
+};
+
+
+var printConsole = function(str, cls) {
+    var $console = $('.content-console');
+    var $span = $('<span>');
+
+    $span.text(str);
+    $span.addClass(cls);
+
+    $("#console-input").before($span);
+
+    // $console.append($span);
+
+    setTimeout(function() {
+        $console[0].scrollTop = $console[0].scrollHeight;
+    })
+};
 
 var loadScripts = function(callback) {
     var code = runstant.currentProject.data.code;

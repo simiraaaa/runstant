@@ -202,6 +202,44 @@ nav .button-collapse i {
       width: 100%;
       height: 100%;
       padding-bottom: 36px;
+
+      .content-console {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 5px 20px;
+        font-family: Consolas,Monaco,'ＭＳ ゴシック';
+        overflow-x: auto;
+        span {
+          border-bottom: 1px solid #ddd;
+          display: block;
+          line-height: 1em;
+          margin-top: 4px;
+
+          &[contenteditable] {
+            outline: 0;
+
+            &:before {
+              position: absolute;
+              left: 7px;
+              font-weight: bold;
+              content: '>';
+              color: hsl(200, 80%, 60%);
+            }
+          }
+          &.output {
+            outline: 0;
+
+            &:before {
+              position: absolute;
+              left: 7px;
+              font-weight: bold;
+              content: '<';
+              color: hsl(200, 80%, 60%);
+            }
+          }
+        }
+      }
     }
 
   }

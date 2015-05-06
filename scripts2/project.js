@@ -71,7 +71,7 @@ var runstant = runstant || {};
             return this.data.code[lang];
         },
 
-        toCode: function() {
+        toCode: function(debug) {
 			var data = this.data;
 			var setting = data.setting;
 			var code = data.code;
@@ -95,6 +95,12 @@ var runstant = runstant || {};
 		    	.replace("${style}", cssCode)
 		    	.replace("${script}", jsCode)
 		    	;
+
+            if (debug === true) {
+                var tag = 'script';
+                var script = '(' + util.ConsoleExtention.toString() + ')()';
+                finalCode = "<"+tag+">" + script + "</"+tag+">" + finalCode;
+            }
 
 		    return finalCode;
         },
