@@ -1,6 +1,5 @@
-@headerHeight: 64px;
-@headerHeightSP: 56px;
-@footerHeight: 0px;
+@headerHeight: 52px;
+@footerHeight: 30px;
 @transitionSpeed: 500ms;
 
 
@@ -45,13 +44,22 @@ nav .button-collapse i {
   font-size: 2rem !important;
 }
 
+nav.header {
+  height: @headerHeight;
+  line-height: @headerHeight;
+
+  a, i {
+    line-height: @headerHeight !important;
+  }
+}
+
 
 .main {
   position: fixed;
   left: 0px;
   width: 100%;
 
-  top: @headerHeightSP;
+  top: @headerHeight;
   @media only screen and (min-width: 601px) {
     top: @headerHeight;
   }
