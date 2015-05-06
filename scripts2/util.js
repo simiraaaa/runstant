@@ -80,6 +80,52 @@
 		return '/* Compiled Stylus */\n\n' + source;
 	};
 
+	// 
+	exports.coffee2js = function(code) {
+		var source = CoffeeScript.compile(code);
+		return '// Compiled CoffeeScript\n\n' + source;
+	};
+	// 
+	exports.es62js = function(code) {
+	    var compiler = new traceur.Compiler({
+	    	experimental: true,
+	    });
+	    var result = compiler.stringToString(code);
+	    var code = result.js.match(/"use strict";([\s\S]*)return/m)[1];
+
+		return '// Compiled ECMAScript 6\n\n' + code;
+	};
+	// 
+	exports.typescript2js = function(code) {
+		var outfile = {
+			source: '',
+			Write: function(s) {
+				this.source += s;
+			},
+			WriteLine: function(s) {
+				this.source += s + '\n';
+			},
+			Close: function() {
+
+			},
+		};
+		var outerror = {
+			source: '',
+			Write: function(s) { },
+			WriteLine: function(s) { },
+			Close: function() { },
+		};
+
+		var compiler = new TypeScript.TypeScriptCompiler(outfile, outerror);
+
+		compiler.addUnit(code, '');
+		compiler.emit(false, function createFile(fileName) {
+		    return outfile;
+		});
+
+		return '// Compiled TypeScript\n\n' + outfile.source;
+	};
+
 	// 動的にスクリプトをロードする
 	exports.loadScript = function(path, callback) {
 		if (exports.loadScript.cache[path]) {

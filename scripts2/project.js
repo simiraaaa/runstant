@@ -7,6 +7,18 @@ var runstant = runstant || {};
         this.init();
     };
 
+    var wrapTag = function(text, tag) {
+        return '<' + tag + '>' + text + '</' + tag + '>';
+    };
+
+
+    var script2tag = function(path) {
+        return '<${script} src="${path}"></${script}>'
+            .replace(/\$\{script\}/g, "script")
+            .replace(/\$\{path\}/, path)
+            ;
+    };
+
     Project.prototype = {
         data: null,
         cache: null,
@@ -97,9 +109,8 @@ var runstant = runstant || {};
 		    	;
 
             if (debug === true) {
-                var tag = 'script';
-                var script = '(' + util.ConsoleExtention.toString() + ')()';
-                finalCode = "<"+tag+">" + script + "</"+tag+">" + finalCode;
+                var debugCode = '(' + util.ConsoleExtention.toString() + ')()';
+                finalCode = wrapTag(debugCode, 'script') + finalCode;
             }
 
 		    return finalCode;
@@ -111,12 +122,14 @@ var runstant = runstant || {};
 
 
     runstant.compiler = {
+        // html
         'jade': {
             func: util.jade2html,
         },
         'markdown': {
             func: util.markdown2html,
         },
+        // style
         'stylus': {
             func: util.stylus2css,
         },
@@ -125,6 +138,17 @@ var runstant = runstant || {};
         },
         'sass': {
             func: util.sass2css,
+        },
+        // script
+        'coffee': {
+            func: util.coffee2js,
+        },
+        'ecmascript6': {
+            func: util.es62js,
+            prefix: script2tag("http://cdn.rawgit.com/google/traceur-compiler/519f5663415cb825ead961177c4165d52721c33f/bin/traceur-runtime.js"),
+        },
+        'typescript': {
+            func: util.typescript2js,
         },
     };
 
