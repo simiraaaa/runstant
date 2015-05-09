@@ -69,5 +69,43 @@ var loadScript = function(path, callback) {
 };
 loadScript.cache = {};
 
+/**
+ * 短縮URLにアクセス可能か確認
+ * @param url 短縮URL
+ * @param success アクセスできたときに実行される関数
+ * @param error アクセスできなかったときに実行される関数
+ * 
+ * {
+ *  url:url,
+ *  success:success,
+ *  error:error,
+ * }
+ * という形式でもOK
+ */
+var tryAccess = function (url, success, error) {
+    if (typeof url !== 'string') {
+        url = url.url;
+        success = url.success;
+        error = url.error;
+    }
 
+    success = success || function () { };
+    error = error || function () { };
+    var frame = document.createElement('iframe');
+
+    frame.src = url;
+    frame.style.display = 'none';
+    frame.onload = function () {
+        try {
+            this.contentDocument;
+            success();
+        } catch (e) {
+            error(e);
+        } finally {
+            this.parentNode.removeChild(this);
+        }
+    };
+
+    document.body.appendChild(frame);
+};
 

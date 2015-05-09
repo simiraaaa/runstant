@@ -391,7 +391,16 @@ var setupShare = function() {
             $('#embed-code').val(embedCode);
     	}
     	else {
-	    	getShortURL(location.href, function(url) {
+    	    getShortURL(location.href, function (url) {
+    	        tryAccess({
+    	            url: url,
+    	            success: function () {
+    	                console.log('URL is accessible.');
+    	            },
+    	            error: function () {
+    	                alert('コード長いよ！\n短縮URLでのアクセスに失敗しました。');
+    	            }
+    	        });
 	    		shortURL = url;
 		    	$('#short-url').val(url);
                 $('#embed-code').val(embedCode.replace('{url}', shortURL));
